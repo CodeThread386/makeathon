@@ -353,8 +353,8 @@ button:hover{filter:brightness(1.08)}
 <p style="margin: 22px 0px 0px; max-width: 540px; font-size: 24px; line-height: 1.42; color: #C1CBC6">Get an email the moment tracks, dates and registrations for Makeathon 2027 are announced.</p>
 <sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
 <label for="k-email" class="k-mono" style="display: block; margin-top: 28px; font-size: 13px; letter-spacing: 0.16em; color: #9BACA4">EMAIL ADDRESS</label>
-<div class="k-field {{shk}}" style="display: flex; margin-top: 8px; width: 584px">
-<input id="k-email" class="k-in {{inCls}}" type="email" inputmode="email" autocomplete="email" spellcheck="false" placeholder="you@college.edu" value="{{email}}" onChange="{{onEmail}}" onKeyDown="{{onKey}}" onFocus="{{suFocus}}" aria-invalid="{{errInv}}" aria-describedby="k-email-msg" style="flex-grow: 1; height: 58px; box-sizing: border-box; padding: 0px 18px; background-color: rgba(23,38,31,0.35); border: 1px solid rgba(237,241,239,0.7); border-right: none; color: #EDF1EF; font-family: 'DM Mono', monospace; font-size: 16px; outline: none">
+<div class="k-field {{shk}}" style="display: flex; gap: 8px; margin-top: 8px; width: 584px">
+<input id="k-email" class="k-in {{inCls}}" type="email" inputmode="email" autocomplete="email" spellcheck="false" placeholder="you@college.edu" value="{{email}}" onChange="{{onEmail}}" onKeyDown="{{onKey}}" onFocus="{{suFocus}}" aria-invalid="{{errInv}}" aria-describedby="k-email-msg" style="flex-grow: 1; height: 58px; box-sizing: border-box; padding: 0px 18px; background-color: rgba(23,38,31,0.35); border: 1px solid rgba(237,241,239,0.7); color: #EDF1EF; font-family: 'DM Mono', monospace; font-size: 16px; outline: none">
 <button ref="{{qMagB}}" type="button" class="k-btn" onClick="{{onSend}}" onFocus="{{suFocus}}" aria-busy="{{busy}}" style="display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 172px; height: 58px; padding: 0px 26px; background-color: #F2B84B; color: #17261F; border: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: 0.12em; cursor: pointer">
 <sc-if value="{{sending}}" hint-placeholder-val="{{ false }}"><span class="k-ph3" aria-hidden="true"><i></i><i></i><i></i></span>SENDING</sc-if>
 <sc-if value="{{idle}}" hint-placeholder-val="{{ true }}">NOTIFY ME <span class="k-arr" aria-hidden="true">→</span></sc-if>
@@ -597,7 +597,7 @@ const r = el.getBoundingClientRect();
 const cx = r.left + r.width / 2 - m.tx * kk, cy = r.top + r.height / 2 - m.ty * kk;
 const dx = p.x - cx, dy = p.y - cy;
 const R = Math.max(r.width, r.height) * 0.6 + 36;
-const pull = key === 'a' ? 0.15 : (key === 'c' ? 0.4 : 1), RR = key === 'a' ? R * 0.6 : (key === 'c' ? R * 0.8 : R);
+const pull = key === 'a' ? 0.15 : (key === 'b' ? 0.2 : (key === 'c' ? 0.4 : 0.2)), RR = key === 'a' ? R * 0.6 : (key === 'b' ? R * 0.5 : (key === 'c' ? R * 0.8 : R * 0.5));
 if (r.width > 0 && Math.abs(dx) < RR && Math.abs(dy) < RR * 0.9) { gx = dx * 0.28 * pull / kk; gy = dy * 0.36 * pull / kk; }
 }
 const mk = A(0.16);
