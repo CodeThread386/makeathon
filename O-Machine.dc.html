@@ -22,9 +22,9 @@ a{color:#EDF1EF;text-decoration:none}a:hover{color:#F2B84B}
 .k-bootB{background-position:center 60px}
 .k-spot{position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;opacity:0;background-image:linear-gradient(rgba(237,241,239,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(237,241,239,.07) 1px,transparent 1px),linear-gradient(rgba(242,184,75,.34) 1px,transparent 1px),linear-gradient(90deg,rgba(242,184,75,.34) 1px,transparent 1px);background-size:24px 24px,24px 24px,120px 120px,120px 120px;background-position:center center;-webkit-mask-image:radial-gradient(240px circle at var(--mx,-999px) var(--my,-999px),#000 0%,rgba(0,0,0,.4) 50%,transparent 100%);mask-image:radial-gradient(240px circle at var(--mx,-999px) var(--my,-999px),#000 0%,rgba(0,0,0,.4) 50%,transparent 100%)}
 .k-cur{position:fixed;left:0;top:0;width:0;height:0;z-index:100;pointer-events:none}
-.k-rp,.k-dp{position:absolute;left:0;top:0;will-change:transform}
-.k-rs{position:absolute;left:-20px;top:-20px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(237,241,239,.7);box-sizing:border-box;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.6);transition:transform .4s cubic-bezier(.2,.7,.2,1),opacity .3s ease,background-color .3s ease,border-color .3s ease}
-.k-ds{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background-color:#F2B84B;opacity:0;transition:opacity .2s ease,transform .25s ease}
+.k-rp,.k-dp{position:absolute;left:0;top:0;will-change:transform;transition:none!important}
+.k-rs{position:absolute;left:-20px;top:-20px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(237,241,239,.7);box-sizing:border-box;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.6);transition:transform .18s cubic-bezier(.16,1,.3,1),opacity .18s ease,background-color .2s ease,border-color .2s ease}
+.k-ds{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background-color:#F2B84B;opacity:0;transition:opacity .15s ease,transform .18s ease}
 .k-rl{font-family:'DM Mono',monospace;font-size:6px;letter-spacing:.14em;color:#17261F;opacity:0;transition:opacity .2s ease}
 .k-cur[data-state~="on"] .k-rs{opacity:1;transform:scale(1)}
 .k-cur[data-state~="on"] .k-ds{opacity:1}
@@ -481,6 +481,7 @@ qMagC = (el) => { this.qMagEl.c = el; };
 qOnScroll = (ev) => {
 const el = ev.currentTarget;
 this.qTarget = el.clientHeight > 0 ? el.scrollTop / el.clientHeight : 0;
+['a', 'b', 'c'].forEach((k) => { if (this.qMagEl && this.qMagEl[k]) this.qMagEl[k]._r = null; });
 this.qWake();
 };
 componentDidMount() {
@@ -533,6 +534,7 @@ this.qPf = f;
 }
 qMeasure() {
 if (this.qEl) this.setState({ w: this.qEl.clientWidth, h: this.qEl.clientHeight });
+['a', 'b', 'c'].forEach((k) => { if (this.qMagEl && this.qMagEl[k]) this.qMagEl[k]._r = null; });
 this.qResize();
 this.qWake();
 }
@@ -547,6 +549,8 @@ qOnMove(e) {
 const p = this.qPtr;
 if (e.pointerType === 'touch') { this.qPointerMove(e, true); return; }
 p.x = e.clientX; p.y = e.clientY; p.in = true; p.t = performance.now();
+if (this.qRing.x < -500) { this.qRing.x = p.x; this.qRing.y = p.y; }
+if (this.qDotEl) this.qDotEl.style.transform = 'translate3d(' + p.x + 'px,' + p.y + 'px,0)';
 let mode = '';
 const t = e.target;
 if (t && t.closest) {
@@ -556,6 +560,11 @@ else if (t.closest('a, button, label')) mode = 'link';
 else if (t.closest('input')) mode = 'text';
 }
 p.mode = mode; p.tgt = t;
+if (this.qCurEl) {
+const live = p.in && this.qFine;
+const want = (live ? 'on' : 'off') + ' ' + (this.qCursorMode(p) || 'none') + (p.down ? ' down' : '');
+if (this.qCurEl.getAttribute('data-state') !== want) this.qCurEl.setAttribute('data-state', want);
+}
 this.qPointerMove(e, false);
 this.qWake();
 }
@@ -578,9 +587,9 @@ const has = this.qEl.getAttribute('data-cur') === 'on';
 if (live && !has) this.qEl.setAttribute('data-cur', 'on');
 else if (!live && has) this.qEl.removeAttribute('data-cur');
 }
-const rk = A(0.22);
+const rk = A(0.5);
 this.qRing.x += (p.x - this.qRing.x) * rk; this.qRing.y += (p.y - this.qRing.y) * rk;
-if (this.qRingEl) this.qRingEl.style.transform = 'translate3d(' + this.qRing.x.toFixed(1) + 'px,' + this.qRing.y.toFixed(1) + 'px,0)';
+if (this.qRingEl) this.qRingEl.style.transform = 'translate3d(' + this.qRing.x.toFixed(2) + 'px,' + this.qRing.y.toFixed(2) + 'px,0)';
 if (this.qDotEl) this.qDotEl.style.transform = 'translate3d(' + p.x + 'px,' + p.y + 'px,0)';
 if (this.qCurEl) {
 const want = (live ? 'on' : 'off') + ' ' + (this.qCursorMode(p) || 'none') + (p.down ? ' down' : '');
@@ -593,7 +602,12 @@ if (!el) { m.tx = 0; m.ty = 0; return; }
 let gx = 0, gy = 0;
 // measure only while the pointer is actually moving (or a button is still displaced): no layout reads during plain scrolling
 if (live && (now - p.t < 900 || m.tx !== 0 || m.ty !== 0)) {
-const r = el.getBoundingClientRect();
+if (!el._r || now - (el._rT || 0) > 400 || el._rSp !== st.sp) {
+el._r = el.getBoundingClientRect();
+el._rT = now;
+el._rSp = st.sp;
+}
+const r = el._r;
 const cx = r.left + r.width / 2 - m.tx * kk, cy = r.top + r.height / 2 - m.ty * kk;
 const dx = p.x - cx, dy = p.y - cy;
 const R = Math.max(r.width, r.height) * 0.6 + 36;
