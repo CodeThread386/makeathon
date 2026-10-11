@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 311 304">
+<defs>
+<linearGradient id="a" x1="0" y1="0" x2="1" y2="0.35">
+<stop offset="0" stop-color="#5d6461"/>
+<stop offset=".5" stop-color="#22272a"/>
+<stop offset="1" stop-color="#0d1010"/>
+</linearGradient>
+<linearGradient id="b" x1="1" y1="0" x2="0" y2="0.35">
+<stop offset="0" stop-color="#5d6461"/>
+<stop offset=".5" stop-color="#22272a"/>
+<stop offset="1" stop-color="#0d1010"/>
+</linearGradient>
+<linearGradient id="s" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#fbfcfb"/>
+<stop offset=".6" stop-color="#c4cac7"/>
+<stop offset="1" stop-color="#8a918e"/>
+</linearGradient>
+<linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#2f9a52"/>
+<stop offset="1" stop-color="#0d4a24"/>
+</linearGradient>
+</defs>
+<polygon points="5,4 56.5,52 58,106 4.5,54.5" fill="url(#a)" stroke="rgba(225,235,230,0.38)" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="302,4 250.5,52 249,106 302.5,54.5" fill="url(#b)" stroke="rgba(225,235,230,0.38)" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="4.5,67 57,119 58.5,235 79,258 81,299 4,209" fill="url(#a)" stroke="rgba(225,235,230,0.38)" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="302.5,67 250,119 248.5,235 228,258 226,299 303,209" fill="url(#b)" stroke="rgba(225,235,230,0.38)" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="70,92 152.5,169 152.5,224.5 70,147" fill="url(#a)" stroke="rgba(225,235,230,0.38)" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="237,92 154.5,169 154.5,224.5 237,147" fill="url(#b)" stroke="rgba(225,235,230,0.38)" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="70,56 153.5,135 237,56 237,92 153.5,170 70,92" fill="url(#s)"/>
+<polygon points="36.5,113 53.5,130 53.5,226 50,231 36,213" fill="url(#g)"/>
+<polygon points="270.5,113 253.5,130 253.5,226 257,231 271,213" fill="url(#g)"/>
+</svg>
