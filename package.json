@@ -1,0 +1,12 @@
+{
+  "name": "makeathon-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file=.env server.js",
+    "db:setup": "node --env-file=.env scripts/setup-db.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  }
+}
