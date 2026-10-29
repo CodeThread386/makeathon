@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Makeathon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Makeathon 2027 · VIT Vellore Hardware Hackathon</title>
+<meta name="description" content="Makeathon 2027 — the flagship 36-hour hardware hackathon by SELECT, VIT Vellore. 19–20 Jan 2027 · Anna Auditorium · ₹1,00,000 prize pool.">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="preload" href="./fonts/barlow-condensed-600-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="./fonts/barlow-condensed-400-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -30,6 +32,908 @@ x-dc{display:none!important}
 @keyframes mk-in{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
 @keyframes mk-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.9);opacity:.5}}
 @keyframes mk-ring{0%{transform:scale(.5);opacity:.9}100%{transform:scale(1.2);opacity:0}}
+</style>
+<style>
+/* ============================================================
+   MOBILE RESPONSIVE LAYER — Makeathon 2027
+   All overrides for screens ≤ 768px width
+   ============================================================ */
+
+/* Mobile: show the native mobile UI, hide the scaled desktop canvas sections */
+@media (max-width: 1023px) {
+  /* The ticker bar, canvas layers stay but we need to override the
+     1440-wide absolute-positioned inner divs */
+
+  /* Make the root scrollable in a natural way on mobile */
+  .k-root { overflow-y: auto !important; }
+
+  /* Hide the desktop custom cursor on touch */
+  .k-cur { display: none !important; }
+
+  /* Hide the canvas layers glow effects on mobile — too heavy */
+  .k-spark, .k-ph, .k-pv { display: none !important; }
+
+  /* The main scroll-theater wrapper: the giant 2380vh sticky section */
+  /* We collapse it so mobile shows the mobile layout below */
+  .mk-desktop-theater { display: none !important; }
+
+  /* Show the mobile layout */
+  .mk-mobile { display: block !important; }
+
+  /* ── TICKER BAR ── */
+  .mk-ticker {
+    position: relative !important;
+    left: 0 !important; right: 0 !important; top: 0 !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    border-bottom: 1px solid rgba(237,241,239,0.12) !important;
+    overflow: hidden !important;
+    background: #17261F !important;
+    padding: 0 !important;
+  }
+}
+
+/* ── MOBILE LAYOUT STYLES ── */
+.mk-mobile {
+  display: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  color: #EDF1EF;
+  background-color: #17261F;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile nav */
+.mk-mnav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 60px;
+  background: rgba(23,38,31,0.95);
+  border-bottom: 1px solid rgba(237,241,239,0.12);
+}
+.mk-mnav-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  color: #EDF1EF;
+}
+.mk-mnav-logo span { color: #F2B84B; }
+.mk-mham {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 10px;
+}
+.mk-mham span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: #EDF1EF;
+  transition: transform 0.35s cubic-bezier(.2,.7,.2,1), opacity 0.25s ease;
+  transform-origin: center;
+}
+.mk-mham.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.mk-mham.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.mk-mham.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* Mobile drawer */
+.mk-drawer {
+  position: fixed;
+  top: 60px;
+  left: 0; right: 0; bottom: 0;
+  background: rgba(23,38,31,0.98);
+  z-index: 199;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 24px;
+  gap: 4px;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
+  overflow-y: auto;
+}
+.mk-drawer.is-open { transform: none; }
+.mk-drawer a {
+  display: block;
+  padding: 14px 0;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #EDF1EF;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(237,241,239,0.1);
+  transition: color 0.25s ease;
+}
+.mk-drawer a:hover { color: #F2B84B; }
+.mk-drawer .mk-draw-cta {
+  margin-top: 20px;
+  display: block;
+  padding: 16px 20px;
+  background: #F2B84B;
+  color: #17261F !important;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.14em;
+  text-align: center;
+  border-bottom: none !important;
+}
+
+/* Mobile ticker */
+.mk-mticker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  height: 34px;
+  background: #17261F;
+  border-bottom: 1px solid rgba(237,241,239,0.1);
+  overflow: hidden;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #C1CBC6;
+  white-space: nowrap;
+}
+.mk-mticker .mk-led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #F2B84B;
+  flex-shrink: 0;
+  animation: k-pulse 2s ease-in-out infinite;
+}
+.mk-mticker-text { overflow: hidden; }
+.mk-mticker-scroll {
+  display: inline-flex;
+  gap: 0;
+  animation: k-marq 30s linear infinite;
+  white-space: nowrap;
+}
+
+/* Mobile hero */
+.mk-mhero {
+  position: relative;
+  padding: 48px 20px 52px;
+  overflow: hidden;
+  background: #17261F;
+  border-bottom: 1px solid rgba(237,241,239,0.1);
+}
+.mk-mhero-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(237,241,239,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(237,241,239,.025) 1px,transparent 1px),linear-gradient(rgba(237,241,239,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(237,241,239,.055) 1px,transparent 1px);
+  background-size: 24px 24px,24px 24px,96px 96px,96px 96px;
+  pointer-events: none;
+}
+.mk-mhero-year {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: #F2B84B;
+  margin-bottom: 16px;
+  gap: 8px;
+}
+.mk-mhero h1 {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(72px, 22vw, 108px);
+  line-height: 0.88;
+  letter-spacing: 0.03em;
+  color: #EDF1EF;
+}
+.mk-mhero-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 28px;
+}
+.mk-mhero-meta dt {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #9BACA4;
+  margin: 0;
+}
+.mk-mhero-meta dd {
+  margin: 3px 0 0;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  color: #EDF1EF;
+}
+.mk-mhero-meta dd.mk-gold {
+  color: #F2B84B;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mk-mhero-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+.mk-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: #F2B84B;
+  color: #17261F;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  flex: 1;
+  min-width: 140px;
+  transition: filter 0.2s ease, transform 0.15s ease;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.mk-btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: -80%; width: 50%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.4), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.7s cubic-bezier(.2,.7,.2,1);
+  pointer-events: none;
+}
+.mk-btn-primary:hover::before { left: 140%; }
+.mk-btn-primary:active { transform: scale(0.97); }
+.mk-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 20px;
+  border: 1px solid rgba(242,184,75,0.75);
+  color: #F2B84B;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  flex: 1;
+  min-width: 120px;
+  transition: background 0.3s ease, color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.mk-btn-outline::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #F2B84B;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.45s cubic-bezier(.2,.7,.2,1);
+  z-index: -1;
+}
+.mk-btn-outline:hover { color: #17261F; }
+.mk-btn-outline:hover::before { transform: scaleX(1); transform-origin: 0 50%; }
+
+/* Stats bar */
+.mk-mstats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid rgba(237,241,239,0.2);
+  border-bottom: 1px solid rgba(237,241,239,0.2);
+  background: rgba(23,38,31,0.6);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mk-mstats::-webkit-scrollbar { display: none; }
+.mk-mstat {
+  padding: 18px 12px 18px 0;
+  min-width: 80px;
+  border-left: 1px solid rgba(237,241,239,0.2);
+}
+.mk-mstat:first-child { border-left: none; padding-left: 16px; }
+.mk-mstat-num {
+  font-weight: 600;
+  font-size: clamp(32px, 8vw, 52px);
+  line-height: 1;
+  color: #EDF1EF;
+}
+.mk-mstat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: #9BACA4;
+  margin-top: 6px;
+}
+
+/* Section base */
+.mk-msec {
+  padding: 52px 20px;
+  border-bottom: 1px solid rgba(237,241,239,0.1);
+  position: relative;
+  overflow: hidden;
+}
+.mk-msec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: #F2B84B;
+  margin-bottom: 14px;
+}
+.mk-msec h2 {
+  margin: 0 0 20px;
+  font-weight: 600;
+  font-size: clamp(36px, 11vw, 56px);
+  line-height: 0.96;
+  letter-spacing: 0.02em;
+}
+.mk-msec p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.45;
+  color: #C1CBC6;
+}
+
+/* About / Statement section */
+.mk-mabout-words {
+  font-weight: 600;
+  font-size: clamp(36px, 12vw, 60px);
+  line-height: 0.96;
+  letter-spacing: 0.02em;
+  margin-bottom: 20px;
+}
+.mk-mabout-words span { color: #F2B84B; }
+
+/* Photo grid */
+.mk-mphoto {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border: 1px solid rgba(237,241,239,0.2);
+  margin: 24px 0;
+}
+.mk-mphoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  animation: mk-mphoto-cycle 18s steps(1) infinite;
+}
+@keyframes mk-mphoto-cycle {
+  0%    { opacity: 1; }
+  16.5% { opacity: 1; }
+  17%   { opacity: 0; }
+  100%  { opacity: 0; }
+}
+.mk-mphoto img:nth-child(1) { animation-delay: 0s; position: absolute; inset: 0; }
+.mk-mphoto img:nth-child(2) { animation-delay: 3s; position: absolute; inset: 0; }
+.mk-mphoto img:nth-child(3) { animation-delay: 6s; position: absolute; inset: 0; }
+.mk-mphoto img:nth-child(4) { animation-delay: 9s; position: absolute; inset: 0; }
+.mk-mphoto img:nth-child(5) { animation-delay: 12s; position: absolute; inset: 0; }
+.mk-mphoto img:nth-child(6) { animation-delay: 15s; position: absolute; inset: 0; }
+.mk-mphoto-corner-tl, .mk-mphoto-corner-br {
+  position: absolute;
+  width: 14px; height: 14px;
+  pointer-events: none;
+  z-index: 2;
+}
+.mk-mphoto-corner-tl { top: 8px; left: 8px; border-top: 2px solid #EDF1EF; border-left: 2px solid #EDF1EF; }
+.mk-mphoto-corner-br { bottom: 8px; right: 8px; border-bottom: 2px solid #EDF1EF; border-right: 2px solid #EDF1EF; }
+
+/* Details table */
+.mk-mdetails {
+  border: 1px solid rgba(237,241,239,0.3);
+  background: rgba(23,38,31,0.6);
+  margin-top: 24px;
+}
+.mk-mdetail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(237,241,239,0.12);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.mk-mdetail-row:last-child { border-bottom: none; }
+.mk-mdetail-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #9BACA4;
+  flex-shrink: 0;
+}
+.mk-mdetail-val {
+  font-size: 18px;
+  font-weight: 500;
+  color: #EDF1EF;
+  text-align: right;
+}
+.mk-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 4px 8px;
+  border: 1px solid rgba(237,241,239,0.5);
+  color: #9BACA4;
+  flex-shrink: 0;
+}
+.mk-badge-gold {
+  border-color: #F2B84B;
+  color: #F2B84B;
+}
+.mk-redact {
+  display: inline-block;
+  height: 18px;
+  width: 80px;
+  background-color: #283C33;
+  background-image: linear-gradient(90deg,transparent 0%,rgba(237,241,239,.16) 50%,transparent 100%);
+  background-size: 200% 100%;
+  animation: k-shim 2.6s linear infinite;
+  vertical-align: middle;
+}
+
+/* Why cards */
+.mk-mcards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 28px;
+}
+.mk-mcard {
+  border: 1px solid rgba(237,241,239,0.18);
+  background: rgba(23,38,31,0.6);
+  padding: 16px 14px;
+  transition: border-color 0.3s ease;
+}
+.mk-mcard:hover { border-color: #F2B84B; }
+.mk-mcard-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: #F2B84B;
+  margin-bottom: 8px;
+}
+.mk-mcard-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.mk-mcard-desc {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #C1CBC6;
+}
+
+/* Hosts section */
+.mk-mhosts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-top: 24px;
+}
+.mk-mhost {
+  border-top: 1px solid rgba(237,241,239,0.2);
+  padding-top: 14px;
+}
+.mk-mhost-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: #F2B84B;
+  margin-bottom: 10px;
+}
+.mk-mhost p {
+  font-size: 16px;
+  line-height: 1.45;
+  color: #C1CBC6;
+  margin: 0;
+}
+.mk-mranks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(237,241,239,0.2);
+  border-bottom: 1px solid rgba(237,241,239,0.2);
+  margin-top: 28px;
+  overflow: hidden;
+}
+.mk-mrank {
+  padding: 16px 12px;
+  border-right: 1px solid rgba(237,241,239,0.2);
+}
+.mk-mrank:last-child { border-right: none; }
+.mk-mrank-num {
+  font-weight: 600;
+  font-size: clamp(28px, 8vw, 44px);
+  line-height: 1;
+}
+.mk-mrank-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #9BACA4;
+  margin-top: 6px;
+  line-height: 1.3;
+}
+
+/* FAQ */
+.mk-mfaq { margin-top: 24px; }
+.mk-mfaq-item { border-top: 1px solid rgba(237,241,239,0.18); }
+.mk-mfaq-btn {
+  display: grid;
+  grid-template-columns: 40px 1fr 28px;
+  align-items: center;
+  width: 100%;
+  padding: 16px 0;
+  background: none;
+  border: none;
+  color: #EDF1EF;
+  font-family: 'Barlow Condensed', sans-serif;
+  text-align: left;
+  cursor: pointer;
+  gap: 0;
+}
+.mk-mfaq-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: #F2B84B;
+}
+.mk-mfaq-q {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+.mk-mfaq-pm {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  justify-self: end;
+}
+.mk-mfaq-pm::before, .mk-mfaq-pm::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 6px;
+  width: 14px; height: 2px;
+  background: #F2B84B;
+  transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
+}
+.mk-mfaq-pm::after { transform: rotate(90deg); }
+.mk-mfaq-btn[aria-expanded="true"] .mk-mfaq-pm::after { transform: rotate(180deg); }
+.mk-mfaq-a {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #C1CBC6;
+  padding: 0 0 18px 40px;
+  margin: 0;
+  display: none;
+}
+.mk-mfaq-a.is-open { display: block; animation: k-ans 0.4s cubic-bezier(.2,.7,.2,1); }
+.mk-mfaq-last { border-bottom: 1px solid rgba(237,241,239,0.18); }
+
+/* Contact */
+.mk-mcontact { margin-top: 24px; }
+.mk-mcontact-row {
+  padding: 12px 0;
+  border-top: 1px solid rgba(237,241,239,0.18);
+}
+.mk-mcontact-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #9BACA4;
+  margin-bottom: 4px;
+}
+.mk-mcontact-val {
+  font-size: 18px;
+  font-weight: 500;
+  color: #EDF1EF;
+  line-height: 1.3;
+}
+.mk-mcontact-val a { color: #EDF1EF; text-decoration: none; }
+
+/* Notify / email */
+.mk-mnotify {
+  padding: 52px 20px 60px;
+  background: #17261F;
+  border-bottom: 1px solid rgba(237,241,239,0.1);
+  position: relative;
+}
+.mk-mnotify-bg {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(237,241,239,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(237,241,239,.02) 1px,transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+.mk-mnotify h2 {
+  font-weight: 600;
+  font-size: clamp(52px, 16vw, 80px);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  margin: 0 0 8px;
+}
+.mk-mnotify h2 span { display: block; }
+.mk-mnotify p {
+  font-size: 17px;
+  line-height: 1.45;
+  color: #C1CBC6;
+  margin: 18px 0 28px;
+}
+.mk-mfield {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.mk-minput {
+  width: 100%;
+  box-sizing: border-box;
+  height: 52px;
+  padding: 0 16px;
+  background: rgba(23,38,31,0.4);
+  border: 1px solid rgba(237,241,239,0.55);
+  border-bottom: none;
+  color: #EDF1EF;
+  font-family: 'DM Mono', monospace;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  -webkit-appearance: none;
+}
+.mk-minput:focus { border-color: #F2B84B; background: rgba(23,38,31,0.7); }
+.mk-minput.is-err { border-color: #F29A88; }
+.mk-minput::placeholder { color: rgba(237,241,239,0.4); }
+.mk-msubmit {
+  width: 100%;
+  height: 52px;
+  background: #F2B84B;
+  color: #17261F;
+  border: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: filter 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.mk-msubmit::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: -80%; width: 50%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.7s cubic-bezier(.2,.7,.2,1);
+  pointer-events: none;
+}
+.mk-msubmit:hover::before { left: 140%; }
+.mk-msubmit:active { filter: brightness(0.93); }
+.mk-merr {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #F29A88;
+  margin-top: 8px;
+  min-height: 16px;
+}
+.mk-msuccess {
+  border: 1px solid #F2B84B;
+  padding: 18px 16px;
+  margin-top: 8px;
+  display: none;
+}
+.mk-msuccess.is-sent { display: block; animation: k-ans 0.5s cubic-bezier(.2,.7,.2,1); }
+.mk-msuccess-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: #F2B84B;
+  margin-bottom: 8px;
+}
+.mk-msuccess-body { font-size: 18px; line-height: 1.4; }
+.mk-mlinks {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+}
+.mk-mlinks a {
+  color: #F2B84B;
+  text-decoration: none;
+  position: relative;
+}
+.mk-mlinks a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
+}
+.mk-mlinks a:hover::after { transform: scaleX(1); }
+.mk-mlinks a.mk-mlink-dim { color: #9BACA4; }
+
+/* Mobile footer */
+.mk-mfooter {
+  padding: 40px 20px;
+  background: #17261F;
+  position: relative;
+  overflow: hidden;
+}
+.mk-mfooter-bg {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(237,241,239,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(237,241,239,.02) 1px,transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+.mk-mfooter-logo {
+  font-weight: 600;
+  font-size: clamp(48px, 16vw, 72px);
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(237,241,239,0.25);
+  margin-bottom: 32px;
+  position: relative;
+}
+.mk-mfooter-logo span {
+  -webkit-text-stroke-color: rgba(242,184,75,0.35);
+}
+.mk-mfooter-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+.mk-mfooter-bottom {
+  border-top: 1px solid rgba(237,241,239,0.15);
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+.mk-mfooter-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #9BACA4;
+}
+.mk-mfooter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2f9a52;
+  box-shadow: 0 0 8px rgba(47,154,82,0.7);
+}
+.mk-mfooter-org { color: #9BACA4; }
+.mk-mfooter-top {
+  color: #F2B84B;
+  text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  align-self: flex-start;
+}
+
+/* Code snippet mobile */
+.mk-mcode {
+  margin-top: 24px;
+  border: 1px solid rgba(237,241,239,0.3);
+  background: rgba(23,38,31,0.8);
+  overflow: hidden;
+}
+.mk-mcode-tabs {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  border-bottom: 1px solid rgba(237,241,239,0.15);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+.mk-mcode-tab-active {
+  padding: 0 14px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #EDF1EF;
+  border-right: 1px solid rgba(237,241,239,0.15);
+  box-shadow: inset 0 -2px 0 #F2B84B;
+}
+.mk-mcode-tab-dim {
+  padding: 0 14px;
+  color: #9BACA4;
+}
+.mk-mcode-body {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 12px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mk-mcode-body::-webkit-scrollbar { display: none; }
+.mk-mcode-line {
+  display: flex;
+  padding: 0 12px;
+  white-space: pre;
+}
+.mk-mcode-num {
+  flex-shrink: 0;
+  width: 32px;
+  text-align: right;
+  color: rgba(237,241,239,0.25);
+  padding-right: 12px;
+  user-select: none;
+}
+.mk-mcode-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 14px;
+  border-top: 1px solid rgba(237,241,239,0.15);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #9BACA4;
+}
+.mk-mcode-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #F2B84B;
+  box-shadow: 0 0 8px rgba(242,184,75,0.7);
+  animation: k-pulse 2s ease-in-out infinite;
+}
+
+/* Mobile and tablet viewport fixes. Keep the scroll container sized to the
+   visible browser area and preserve native touch scrolling. */
+@media (max-width: 1023px) {
+  .k-root { height: 100dvh !important; }
+  .mk-mobile { min-height: 100dvh; }
+  .mk-mcard-desc { font-size: 16px; }
+}
+@media (max-width: 560px) {
+  .mk-mcards { grid-template-columns: 1fr; }
+}
 </style>
 <script src="./vendor/react.js" defer></script>
 <script src="./vendor/react-dom.js" defer></script>
@@ -514,7 +1418,7 @@ button:hover{filter:brightness(1.08)}
 <div ref="{{qRingRef}}" class="k-rp"><div class="k-rs"></div><div ref="{{qProbeRef}}" class="k-probe k-mono"></div></div>
 <div ref="{{qDotRef}}" class="k-dp"><div class="k-ds"></div></div>
 </div>
-<div style="position: relative; height: 2380vh">
+<div class="mk-desktop-theater" style="position: relative; height: 2380vh">
 <div style="position: sticky; top: 0px; height: 100vh; overflow: hidden; contain: layout paint; background-color: #17261F">
 <div class="k-grid k-mat" aria-hidden="true"></div>
 <div class="k-clip">
@@ -758,6 +1662,533 @@ button:hover{filter:brightness(1.08)}
 </div>
 </footer>
 </div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MOBILE LAYOUT — shown only on screens ≤ 768px
+     The desktop scroll-theater above is hidden on mobile via CSS.
+     ═══════════════════════════════════════════════════════════ -->
+<div class="mk-mobile" aria-label="Makeathon 2027 mobile site">
+
+  <!-- Mobile Nav -->
+  <nav class="mk-mnav" id="top-mobile">
+    <a href="#top-mobile" class="mk-mnav-logo">MAKEATHON<span>2027</span></a>
+    <button class="mk-mham" id="mk-ham" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Nav Drawer -->
+  <div class="mk-drawer" id="mk-drawer" aria-hidden="true">
+    <a href="#m-about" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">ABOUT</a>
+    <a href="#m-build" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">BUILD</a>
+    <a href="#m-archive" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">ARCHIVE</a>
+    <a href="#m-next" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">NEXT</a>
+    <a href="#m-why" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">WHY</a>
+    <a href="#m-faq" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">FAQ</a>
+    <a href="#m-notify" class="mk-draw-cta" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">GET NOTIFIED →</a>
+  </div>
+
+  <!-- Ticker -->
+  <div class="mk-mticker" aria-hidden="true">
+    <span class="mk-led"></span>
+    <div class="mk-mticker-text">
+      <span class="mk-mticker-scroll">
+        19–20 JAN 2027 · ANNA AUDITORIUM, VIT VELLORE
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+        36-HOUR HARDWARE + SOFTWARE HACKATHON · PRIZE POOL ₹1,00,000
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+        PARTNER ENQUIRIES · OPEN
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+        50+ TEAMS · 250+ PARTICIPANTS · 30+ INDUSTRY JUDGES
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+        19–20 JAN 2027 · ANNA AUDITORIUM, VIT VELLORE
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+        36-HOUR HARDWARE + SOFTWARE HACKATHON · PRIZE POOL ₹1,00,000
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="mk-mhero" id="m-hero">
+    <div class="mk-mhero-grid" aria-hidden="true"></div>
+    <div style="position:relative">
+      <div class="mk-mhero-year">
+        <span style="width:6px;height:6px;border-radius:50%;background:#F2B84B;animation:k-pulse 2s ease-in-out infinite;flex-shrink:0"></span>
+        2027
+      </div>
+      <h1>MAKE<br>ATHON</h1>
+      <dl class="mk-mhero-meta">
+        <div>
+          <dt>FORMAT</dt>
+          <dd>HARDWARE HACKATHON</dd>
+        </div>
+        <div>
+          <dt>HOSTED BY</dt>
+          <dd>SELECT · VIT VELLORE</dd>
+        </div>
+        <div>
+          <dt>DATES</dt>
+          <dd class="mk-gold">
+            <span style="width:6px;height:6px;border-radius:50%;background:#F2B84B;animation:k-pulse 2s ease-in-out infinite"></span>
+            19–20 JAN 2027
+          </dd>
+        </div>
+        <div>
+          <dt>VENUE</dt>
+          <dd>ANNA AUDITORIUM, VIT VELLORE</dd>
+        </div>
+        <div>
+          <dt>PRIZE POOL</dt>
+          <dd style="color:#F2B84B">₹1,00,000</dd>
+        </div>
+      </dl>
+      <div class="mk-mhero-cta">
+        <a href="#m-notify" class="mk-btn-primary">GET NOTIFIED →</a>
+        <a href="#m-faq" class="mk-btn-outline">FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <div class="mk-mstats" aria-label="Makeathon 2026 statistics">
+    <div class="mk-mstat">
+      <div class="mk-mstat-num">50<span style="color:#F2B84B">+</span></div>
+      <div class="mk-mstat-label">TEAMS</div>
+    </div>
+    <div class="mk-mstat">
+      <div class="mk-mstat-num">250<span style="color:#F2B84B">+</span></div>
+      <div class="mk-mstat-label">PARTICIPANTS</div>
+    </div>
+    <div class="mk-mstat">
+      <div class="mk-mstat-num">30<span style="color:#F2B84B">+</span></div>
+      <div class="mk-mstat-label">INDUSTRY JUDGES</div>
+    </div>
+    <div class="mk-mstat">
+      <div class="mk-mstat-num">30<span style="color:#F2B84B">+</span></div>
+      <div class="mk-mstat-label">COLLEGES</div>
+    </div>
+    <div class="mk-mstat">
+      <div class="mk-mstat-num">36<span style="color:#F2B84B">h</span></div>
+      <div class="mk-mstat-label">HOURS</div>
+    </div>
+  </div>
+
+  <!-- About section -->
+  <section class="mk-msec" id="m-about" style="padding-bottom:0;border-bottom:none">
+    <div class="mk-msec-label">ABOUT · MAKEATHON 2027</div>
+    <div class="mk-mabout-words">
+      REAL HARDWARE.<br>REAL CODE.<br><span>JUDGED</span> ON WHAT WORKS.
+    </div>
+    <p>Makeathon is the flagship hardware hackathon of the School of Electrical Engineering at VIT Vellore. Electrical and computer science, building the same machine.</p>
+
+    <!-- Photo slideshow -->
+    <div class="mk-mphoto" aria-label="Photos from Makeathon 2026">
+      <img src="./assets/a215f016ee0ca8ff86fce52a85060814.jpg" alt="The opening session on stage at Makeathon 2026">
+      <img src="./assets/e353632797b6ad056b0f80c28a9ced17.jpg" alt="Teams working in the hall at Makeathon 2026">
+      <img src="./assets/470679fce9e9e52c9468a0e41492b71a.jpg" alt="Participants gathered around a hardware build at Makeathon 2026">
+      <img src="./assets/5118bed34c5cc9feac0a429ca3e45910.jpg" alt="A team presenting its prototype at Makeathon 2026">
+      <img src="./assets/3c21e747e96b3baffdfce8bc286948d1.jpg" alt="A team demonstrating robot car prototypes at Makeathon 2026">
+      <img src="./assets/9be6e49e0345d2f2065191cff021ccd4.jpg" alt="The Makeathon 2026 winners on stage">
+      <div class="mk-mphoto-corner-tl" aria-hidden="true"></div>
+      <div class="mk-mphoto-corner-br" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- Build section -->
+  <section class="mk-msec" id="m-build">
+    <div class="mk-msec-label">BUILD · PHASE 2</div>
+    <h2>EVERY BUILD<br>STARTS IN<br>PIECES.</h2>
+    <p>Hardware, firmware, software — three disciplines, one machine. Makeathon judges the assembled system, not the sum of its parts.</p>
+
+    <!-- Code snippet teaser -->
+    <div class="mk-mcode">
+      <div class="mk-mcode-tabs">
+        <div class="mk-mcode-tab-active">MAKEATHON.INO</div>
+        <div class="mk-mcode-tab-dim">MKT27.H</div>
+      </div>
+      <div class="mk-mcode-body">
+        <div class="mk-mcode-line"><span class="mk-mcode-num">1</span><span style="color:rgba(237,241,239,.4)">#include</span><span style="color:#F2B84B"> &lt;MKT27.h&gt;</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">2</span><span></span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">3</span><span style="color:rgba(237,241,239,.4)">void </span><span style="color:#EDF1EF">setup</span><span style="color:rgba(237,241,239,.6)">()</span><span style="color:rgba(237,241,239,.4)"> {</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">4</span><span style="color:rgba(237,241,239,.6)">  board.</span><span style="color:#EDF1EF">init</span><span style="color:rgba(237,241,239,.6)">();</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">5</span><span style="color:rgba(237,241,239,.6)">  sensor.</span><span style="color:#EDF1EF">begin</span><span style="color:rgba(237,241,239,.6)">(</span><span style="color:#F2B84B">UART_115200</span><span style="color:rgba(237,241,239,.6)">);</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">6</span><span style="color:rgba(237,241,239,.4)">}</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">7</span><span></span></div>
+        <div class="mk-mcode-line" style="background:rgba(242,184,75,.08)"><span class="mk-mcode-num" style="color:#F2B84B">8</span><span style="color:rgba(237,241,239,.4)">void </span><span style="color:#EDF1EF">loop</span><span style="color:rgba(237,241,239,.6)">()</span><span style="color:rgba(237,241,239,.4)"> {</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">9</span><span style="color:rgba(237,241,239,.6)">  float </span><span style="color:#EDF1EF">v </span><span style="color:rgba(237,241,239,.4)">= </span><span style="color:rgba(237,241,239,.6)">sensor.</span><span style="color:#EDF1EF">read</span><span style="color:rgba(237,241,239,.6)">();</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">10</span><span style="color:rgba(237,241,239,.6)">  board.</span><span style="color:#EDF1EF">transmit</span><span style="color:rgba(237,241,239,.6)">(v);</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">11</span><span style="color:rgba(237,241,239,.4)">}</span></div>
+      </div>
+      <div class="mk-mcode-status">
+        <div class="mk-mcode-dot"></div>
+        <span>IT WORKS.</span>
+        <span style="margin-left:auto">MKT-27 DEV · USB-C</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Archive section -->
+  <section class="mk-msec" id="m-archive">
+    <div class="mk-msec-label">ARCHIVE · MAKEATHON 2026</div>
+    <h2>LAST TIME,<br>ON THE BENCH.</h2>
+    <p>350 people. 60 teams. 20 colleges. 36 hours. What they built is in the record.</p>
+  </section>
+
+  <!-- Next edition section -->
+  <section class="mk-msec" id="m-next">
+    <div class="mk-msec-label">NEXT EDITION</div>
+    <h2>THE NEXT<br>EDITION IS<br>BEING<br>ENGINEERED.</h2>
+    <p>Dates, venue, tracks and prizes are confirmed. Problem statements are being finalised with our industry partners and will be released here.</p>
+
+    <div class="mk-mdetails">
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">EDITION</span>
+        <span class="mk-mdetail-val">2027</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">ORGANISER</span>
+        <span class="mk-mdetail-val">SELECT, VIT Vellore</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">VENUE</span>
+        <span class="mk-mdetail-val">Anna Auditorium</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">TRACKS</span>
+        <span class="mk-mdetail-val">5 + OPEN INNOVATION</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">PROBLEM STATEMENTS</span>
+        <span class="mk-mdetail-val"><span class="mk-redact"></span></span>
+        <span class="mk-badge mk-badge-gold">TO BE ANNOUNCED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">DATES</span>
+        <span class="mk-mdetail-val" style="color:#F2B84B">19–20 JAN 2027</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">PRIZE POOL</span>
+        <span class="mk-mdetail-val">₹1,00,000</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">PARTNERS</span>
+        <span class="mk-mdetail-val"><span class="mk-redact"></span></span>
+        <span class="mk-badge mk-badge-gold">ENQUIRIES OPEN</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Makeathon section -->
+  <section class="mk-msec" id="m-why">
+    <div class="mk-msec-label">WHY MAKEATHON</div>
+    <h2>WHY<br>MAKEATHON?</h2>
+    <div class="mk-mcards">
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">01</div>
+        <div class="mk-mcard-title">STRUCTURED BRIEFINGS</div>
+        <div class="mk-mcard-desc">Well-defined challenge statements directly from industry.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">02</div>
+        <div class="mk-mcard-title">TEAM IDEATION</div>
+        <div class="mk-mcard-desc">Cross-disciplinary teams brainstorm, evaluate and refine concepts.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">03</div>
+        <div class="mk-mcard-title">END-TO-END PROTOTYPES</div>
+        <div class="mk-mcard-desc">Hardware + software, functional within the 36-hour sprint.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">04</div>
+        <div class="mk-mcard-title">EXPERT MENTORSHIP</div>
+        <div class="mk-mcard-desc">Industry professionals give continuous feedback.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">05</div>
+        <div class="mk-mcard-title">JURY EVALUATION</div>
+        <div class="mk-mcard-desc">30+ judges assess innovation, depth, and impact.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">06</div>
+        <div class="mk-mcard-title">HIGH-IMPACT SHOWCASE</div>
+        <div class="mk-mcard-desc">Exceptional solutions are recognised and highlighted.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">07</div>
+        <div class="mk-mcard-title">PATENT FILING</div>
+        <div class="mk-mcard-desc">Novel ideas may get support from VIT, subject to eligibility.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">08</div>
+        <div class="mk-mcard-title">BUSINESS INCUBATION</div>
+        <div class="mk-mcard-desc">Promising ideas may opt for incubation support.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hosts section -->
+  <section class="mk-msec" id="m-hosts">
+    <div class="mk-msec-label">HOSTS · MAKEATHON 2027</div>
+    <h2>VIT × SELECT.</h2>
+    <div class="mk-mhosts-grid">
+      <div class="mk-mhost">
+        <div class="mk-mhost-name">ABOUT VIT</div>
+        <p>Vellore Institute of Technology is a leading institution recognised for excellence in education, research and innovation, with a diverse student community, advanced research facilities and strong international collaborations.</p>
+      </div>
+      <div class="mk-mhost">
+        <div class="mk-mhost-name">ABOUT SELECT</div>
+        <p>The School of Electrical Engineering at VIT excels in education, research and innovation. Its B.Tech. programmes are accredited by ABET, hold six-year NBA accreditation, and all programmes are accredited by the IET, U.K.</p>
+      </div>
+    </div>
+    <div class="mk-mranks">
+      <div class="mk-mrank">
+        <div class="mk-mrank-num">87</div>
+        <div class="mk-mrank-label">WORLD RANK · EEE · QS 2026</div>
+      </div>
+      <div class="mk-mrank">
+        <div class="mk-mrank-num">6</div>
+        <div class="mk-mrank-label">INDIA RANK · EEE · QS 2026</div>
+      </div>
+      <div class="mk-mrank">
+        <div class="mk-mrank-num">14</div>
+        <div class="mk-mrank-label">NIRF 2025 · UNIVERSITIES</div>
+      </div>
+      <div class="mk-mrank" style="border-right:none">
+        <div class="mk-mrank-num">A++</div>
+        <div class="mk-mrank-label">NAAC ACCREDITATION</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ section -->
+  <section class="mk-msec" id="m-faq">
+    <div class="mk-msec-label">FAQ</div>
+    <h2>QUESTIONS,<br>ANSWERED.</h2>
+    <div class="mk-mfaq" id="mk-mfaq-list">
+      <div class="mk-mfaq-item">
+        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a0" onclick="mkFaqToggle(0)">
+          <span class="mk-mfaq-num">01</span>
+          <span class="mk-mfaq-q">What is Makeathon?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a0" class="mk-mfaq-a">The SELECT Makeathon is a flagship annual innovation program: a 36-hour challenge where students, designers and technology enthusiasts build real-world prototypes for problem statements from industry partners, across hardware and software.</p>
+      </div>
+      <div class="mk-mfaq-item">
+        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a1" onclick="mkFaqToggle(1)">
+          <span class="mk-mfaq-num">02</span>
+          <span class="mk-mfaq-q">When and where is Makeathon 2027?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a1" class="mk-mfaq-a">19 to 20 January 2027 at Anna Auditorium, VIT Vellore, Tamil Nadu 632014.</p>
+      </div>
+      <div class="mk-mfaq-item">
+        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a2" onclick="mkFaqToggle(2)">
+          <span class="mk-mfaq-num">03</span>
+          <span class="mk-mfaq-q">Who can take part?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a2" class="mk-mfaq-a">Teams of 3 to 5 members: undergraduate students, research scholars and working professionals.</p>
+      </div>
+      <div class="mk-mfaq-item">
+        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a3" onclick="mkFaqToggle(3)">
+          <span class="mk-mfaq-num">04</span>
+          <span class="mk-mfaq-q">What does it cost?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a3" class="mk-mfaq-a">Free for VIT students. External participants pay ₹500 per person.</p>
+      </div>
+      <div class="mk-mfaq-item">
+        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a4" onclick="mkFaqToggle(4)">
+          <span class="mk-mfaq-num">05</span>
+          <span class="mk-mfaq-q">What are the tracks?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a4" class="mk-mfaq-a">FaultWatch, Vitalis, Cosmolith, Live Wire, CogniForge and Open Innovation. Problem statements from industry partners will be released before the event.</p>
+      </div>
+      <div class="mk-mfaq-item">
+        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a5" onclick="mkFaqToggle(5)">
+          <span class="mk-mfaq-num">06</span>
+          <span class="mk-mfaq-q">What can we win?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a5" class="mk-mfaq-a">A total prize pool of ₹1,00,000, awarded to teams. Every participating team receives digital certificates, and teams keep full ownership of their projects.</p>
+      </div>
+      <div class="mk-mfaq-item mk-mfaq-last">
+        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a6" onclick="mkFaqToggle(6)">
+          <span class="mk-mfaq-num">07</span>
+          <span class="mk-mfaq-q">How can my organisation partner with Makeathon?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a6" class="mk-mfaq-a">Write to enquiry@makeathon.in. We will share the partnership deck and the ways to get involved, from contributing problem statements to judging.</p>
+      </div>
+    </div>
+
+    <!-- Contact (below FAQ) -->
+    <div style="margin-top:48px">
+      <div class="mk-msec-label" id="m-contact">GET IN TOUCH</div>
+      <h2 style="font-size:clamp(32px,10vw,48px)">CONTACT US.</h2>
+      <div class="mk-mcontact">
+        <div class="mk-mcontact-row">
+          <div class="mk-mcontact-key">STUDENT CONVENER</div>
+          <div class="mk-mcontact-val">Prakul K Hebbur · 9844120276</div>
+        </div>
+        <div class="mk-mcontact-row">
+          <div class="mk-mcontact-key">STUDENT CONVENER</div>
+          <div class="mk-mcontact-val">Riddhi Tambi</div>
+        </div>
+        <div class="mk-mcontact-row">
+          <div class="mk-mcontact-key">FACULTY CONVENER</div>
+          <div class="mk-mcontact-val">Dr. K Satish Kumar · Dr. Marimuthu R</div>
+        </div>
+        <div class="mk-mcontact-row">
+          <div class="mk-mcontact-key">EMAIL</div>
+          <div class="mk-mcontact-val"><a href="mailto:enquiry@makeathon.in">enquiry@makeathon.in</a></div>
+        </div>
+        <div class="mk-mcontact-row">
+          <div class="mk-mcontact-key">ADDRESS</div>
+          <div class="mk-mcontact-val">School of Electrical Engineering, VIT Vellore, Tamil Nadu 632014</div>
+        </div>
+      </div>
+      <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership" class="mk-btn-primary" style="margin-top:20px;width:100%;box-sizing:border-box">PARTNER WITH US →</a>
+    </div>
+  </section>
+
+  <!-- Notify / Sign-up section -->
+  <div class="mk-mnotify" id="m-notify">
+    <div class="mk-mnotify-bg" aria-hidden="true"></div>
+    <div style="position:relative">
+      <div class="mk-msec-label">SIGN UP</div>
+      <h2><span>HEAR IT</span><span>FIRST.</span></h2>
+      <p>Get an email the moment registrations open and problem statements for Makeathon 2027 are released.</p>
+
+      <div id="mk-m-form-wrap">
+        <div class="mk-mfield">
+          <input
+            class="mk-minput"
+            id="mk-m-email"
+            type="email"
+            inputmode="email"
+            autocomplete="email"
+            placeholder="you@college.edu"
+            aria-label="Email address"
+          >
+          <button class="mk-msubmit" id="mk-m-submit" onclick="mkMobileSubmit()">
+            NOTIFY ME →
+          </button>
+        </div>
+        <div class="mk-merr" id="mk-m-err" aria-live="polite"></div>
+      </div>
+
+      <div class="mk-msuccess" id="mk-m-success" aria-live="polite">
+        <div class="mk-msuccess-title">YOU'RE ON THE LIST</div>
+        <div class="mk-msuccess-body">We will write to you as soon as registrations open for Makeathon 2027.</div>
+      </div>
+
+      <div class="mk-mlinks">
+        <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership">PARTNER WITH US →</a>
+        <a href="./makeathon-2027-brochure.pdf" download class="mk-mlink-dim">DOWNLOAD BROCHURE</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mk-mfooter">
+    <div class="mk-mfooter-bg" aria-hidden="true"></div>
+    <div style="position:relative">
+      <div class="mk-mfooter-logo" aria-hidden="true">MAKEATHON <span>2027</span></div>
+      <div class="mk-mfooter-cta">
+        <a href="#m-notify" class="mk-btn-primary">GET NOTIFIED →</a>
+        <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership" class="mk-btn-outline">PARTNER WITH US →</a>
+      </div>
+      <div class="mk-mfooter-bottom">
+        <div class="mk-mfooter-status">
+          <div class="mk-mfooter-dot"></div>
+          <span>ALL SYSTEMS OPERATIONAL</span>
+        </div>
+        <div class="mk-mfooter-org">SCHOOL OF ELECTRICAL ENGINEERING · VIT VELLORE</div>
+        <a href="#top-mobile" class="mk-mfooter-top">BACK TO TOP ↑</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- Mobile interactive JS (standalone, no React needed) -->
+<script>
+(function() {
+  // Hamburger menu toggle
+  var ham = document.getElementById('mk-ham');
+  var drawer = document.getElementById('mk-drawer');
+  if (ham && drawer) {
+    ham.addEventListener('click', function() {
+      var open = ham.classList.toggle('is-open');
+      drawer.classList.toggle('is-open', open);
+      ham.setAttribute('aria-expanded', open ? 'true' : 'false');
+      drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    });
+  }
+})();
+
+// FAQ accordion
+var mkFaqOpen = -1;
+function mkFaqToggle(idx) {
+  var items = document.querySelectorAll('.mk-mfaq-btn');
+  var answers = document.querySelectorAll('.mk-mfaq-a');
+  if (mkFaqOpen === idx) {
+    // close
+    items[idx].setAttribute('aria-expanded', 'false');
+    answers[idx].classList.remove('is-open');
+    mkFaqOpen = -1;
+  } else {
+    // close previous
+    if (mkFaqOpen >= 0) {
+      items[mkFaqOpen].setAttribute('aria-expanded', 'false');
+      answers[mkFaqOpen].classList.remove('is-open');
+    }
+    items[idx].setAttribute('aria-expanded', 'true');
+    answers[idx].classList.add('is-open');
+    mkFaqOpen = idx;
+  }
+}
+
+// Email signup
+function mkMobileSubmit() {
+  var inp = document.getElementById('mk-m-email');
+  var err = document.getElementById('mk-m-err');
+  var success = document.getElementById('mk-m-success');
+  var formWrap = document.getElementById('mk-m-form-wrap');
+  var submit = document.getElementById('mk-m-submit');
+  if (!inp) return;
+  var email = inp.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    err.textContent = 'PLEASE ENTER A VALID EMAIL ADDRESS';
+    inp.classList.add('is-err');
+    return;
+  }
+  err.textContent = '';
+  inp.classList.remove('is-err');
+  if (submit) submit.disabled = true;
+  fetch('/api/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+  }).then(function(r) {
+    if (!r.ok) throw new Error('subscribe ' + r.status);
+    if (formWrap) formWrap.style.display = 'none';
+    if (success) success.classList.add('is-sent');
+  }).catch(function() {
+    err.textContent = 'SIGN-UP COULD NOT BE COMPLETED. PLEASE TRY AGAIN.';
+    if (submit) submit.disabled = false;
+  });
+}
+</script>
+
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
@@ -775,6 +2206,7 @@ qMagC = (el) => { this.qMagEl.c = el; };
 qWheel = (e) => {
 const el = this.qEl; if (el && !el.hasAttribute('data-go')) { e.preventDefault(); return; }
 if (!el || e.ctrlKey || this.state.calm) return;
+try { if (window.matchMedia('(pointer: coarse)').matches) return; } catch (x) {}
 try { if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch (x) {}
 if (e.target && e.target.closest && e.target.closest('input, textarea')) return;
 let dy = e.deltaY; if (e.deltaMode === 1) dy *= 16; else if (e.deltaMode === 2) dy *= el.clientHeight;
@@ -3332,3 +4764,4 @@ faqs
 </script>
 </body>
 </html>
+
