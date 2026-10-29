@@ -1108,7 +1108,7 @@ x-dc{display:none!important}
 <script src="./vendor/react.js" defer></script>
 <script src="./vendor/react-dom.js" defer></script>
 <script>
-/* the GPU, probed once: no 3D on software rendering; a lighter board on integrated and mobile GPUs */
+/* the GPU, probed once: use a lighter board on integrated, mobile and software-rendered desktop GPUs */
 window.__mkGPU = (function () { var o = { soft: true, low: true, r: '' }; try { var c = document.createElement('canvas'), g = c.getContext('webgl', { failIfMajorPerformanceCaveat: true }); if (!g) return o; var e = g.getExtension('WEBGL_debug_renderer_info'), r = e ? String(g.getParameter(e.UNMASKED_RENDERER_WEBGL)) : '', l = g.getExtension('WEBGL_lose_context'); if (l) l.loseContext(); var mob = false; try { mob = matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 900; } catch (x) {} o.r = r; o.soft = /swiftshader|llvmpipe|softpipe|software|basic render/i.test(r); o.low = mob || (/intel/i.test(r) && !/iris|arc/i.test(r)) || /mali|adreno|powervr|vivante|tegra|videocore/i.test(r); } catch (x) {} return o; })();
 window.__mkSoft = window.__mkGPU.soft;
 /* MKFX — the loader and the surroundings.
@@ -2441,8 +2441,8 @@ window.addEventListener('pointercancel', this.qL.pu, { passive: true });
 document.addEventListener('mouseout', this.qL.po);
 document.addEventListener('visibilitychange', this.qL.vc);
 this.qIO = null;
-this.qInit(); if (window.__mkSoft) this.qG3Off = true;
-this.qLow = !!(window.__mkGPU && window.__mkGPU.low); if (this.qLow) { this.qQ = 3; this.qRS = 0.9; }
+this.qInit();
+this.qLow = !!(window.__mkGPU && (window.__mkGPU.low || window.__mkGPU.soft)); if (this.qLow) { this.qQ = 3; this.qRS = 0.9; }
 this.qMeasure();
 this.qEl.addEventListener('wheel', this.qWheel, { passive: false });
 this.qBoot();
@@ -2507,8 +2507,8 @@ this.qG3Off = true;
 if (this.qGLCv) this.qGLCv.style.visibility = 'hidden';
 try { if (window.MKFX) window.MKFX.stop(); } catch (e) {}
 } else if (!phone && wasPhone) {
-this.qG3Off = !!window.__mkSoft;
-if (!window.__mkSoft && this.qGLCv) { try { this.qG3Init(); } catch (e) { this.qG3Off = true; } }
+this.qG3Off = false;
+if (this.qGLCv) { try { this.qG3Init(); } catch (e) { this.qG3Off = true; } }
 try { if (window.MKFX) window.MKFX.start(this); } catch (e) {}
 }
 this.qWake();
