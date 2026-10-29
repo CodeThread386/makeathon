@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Makeathon 2027 · VIT Vellore Hardware Hackathon</title>
+<title>Makeathon 2027</title>
 <meta name="description" content="Makeathon 2027 — the flagship 36-hour hardware hackathon by SELECT, VIT Vellore. 19–20 Jan 2027 · Anna Auditorium · ₹1,00,000 prize pool.">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <link rel="preload" href="./fonts/barlow-condensed-600-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -98,13 +98,11 @@ x-dc{display:none!important}
   }
 }
 
-/* Phones keep the blueprint panel but skip the model and its canvas work. */
+/* Phones skip the board showcase and its 3D canvas work. */
 @media (max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse) {
   .mk-desktop-theater { display: none !important; }
   .k-cvs { display: none !important; }
-  .mk-mboard { height: clamp(230px, 66vw, 270px); background-color: #17261F; }
-  .mk-mboard-label { display: none; }
-  .mk-phone-board-art { display: flex; }
+  .mk-mboard { display: none !important; }
 }
 
 /* ── MOBILE LAYOUT STYLES ── */
@@ -526,6 +524,47 @@ x-dc{display:none!important}
   background-size: 200% 100%;
   animation: k-shim 2.6s linear infinite;
   vertical-align: middle;
+}
+
+@media (max-width: 767px) {
+  .mk-mdetail-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 10px;
+    flex-wrap: nowrap;
+  }
+  .mk-mdetail-key {
+    min-width: 0;
+    overflow: hidden;
+    font-size: clamp(7px, 2.4vw, 9px);
+    letter-spacing: .06em;
+    white-space: nowrap;
+  }
+  .mk-mdetail-val {
+    min-width: 0;
+    justify-self: end;
+    font-size: clamp(10px, 3.7vw, 15px);
+    white-space: nowrap;
+  }
+  .mk-badge {
+    justify-self: end;
+    padding: 4px 5px;
+    font-size: clamp(7px, 2.2vw, 9px);
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  .mk-mdetail-row .mk-redact { width: clamp(24px, 8vw, 48px); height: 14px; }
+}
+
+@media (max-width: 1023px) {
+  html, body, .k-root { scrollbar-width: none !important; }
+  html::-webkit-scrollbar, body::-webkit-scrollbar, .k-root::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
 }
 
 /* Why cards */
@@ -1087,7 +1126,7 @@ x-dc{display:none!important}
   .mk-mboard { height: clamp(230px, 66vw, 270px); }
   .mk-phone-board-art { display: flex; }
   .mk-mhero { padding: 40px 22px 34px; }
-  .mk-mhero h1 { font-size: clamp(68px, 21vw, 88px); letter-spacing: .01em; text-shadow: 0 10px 34px rgba(242,184,75,.1); }
+  .mk-mhero h1 { width: 100%; font-size: min(88px, 21vw, calc(25vw - 11px)); letter-spacing: .01em; white-space: nowrap; text-shadow: 0 10px 34px rgba(242,184,75,.1); }
   .mk-mhero-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; margin-top: 24px; }
   .mk-mhero-meta > div { min-width: 0; padding-top: 9px; border-top: 1px solid rgba(237,241,239,.16); }
   .mk-mhero-meta > div:nth-child(4) { grid-column: 1 / -1; }
@@ -1889,7 +1928,7 @@ button:hover{filter:brightness(1.08)}
         <span style="width:6px;height:6px;border-radius:50%;background:#F2B84B;animation:k-pulse 2s ease-in-out infinite;flex-shrink:0"></span>
         2027
       </div>
-      <h1>MAKE<br>ATHON</h1>
+      <h1>MAKEATHON</h1>
       <dl class="mk-mhero-meta">
         <div>
           <dt>FORMAT</dt>
@@ -2155,7 +2194,7 @@ button:hover{filter:brightness(1.08)}
     <h2>QUESTIONS,<br>ANSWERED.</h2>
     <div class="mk-mfaq" id="mk-mfaq-list">
       <div class="mk-mfaq-item">
-        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a0" onclick="mkFaqToggle(0)">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a0">
           <span class="mk-mfaq-num">01</span>
           <span class="mk-mfaq-q">What is Makeathon?</span>
           <span class="mk-mfaq-pm"></span>
@@ -2163,7 +2202,7 @@ button:hover{filter:brightness(1.08)}
         <p id="mk-mfaq-a0" class="mk-mfaq-a">The SELECT Makeathon is a flagship annual innovation program: a 36-hour challenge where students, designers and technology enthusiasts build real-world prototypes for problem statements from industry partners, across hardware and software.</p>
       </div>
       <div class="mk-mfaq-item">
-        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a1" onclick="mkFaqToggle(1)">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a1">
           <span class="mk-mfaq-num">02</span>
           <span class="mk-mfaq-q">When and where is Makeathon 2027?</span>
           <span class="mk-mfaq-pm"></span>
@@ -2171,7 +2210,7 @@ button:hover{filter:brightness(1.08)}
         <p id="mk-mfaq-a1" class="mk-mfaq-a">19 to 20 January 2027 at Anna Auditorium, VIT Vellore, Tamil Nadu 632014.</p>
       </div>
       <div class="mk-mfaq-item">
-        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a2" onclick="mkFaqToggle(2)">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a2">
           <span class="mk-mfaq-num">03</span>
           <span class="mk-mfaq-q">Who can take part?</span>
           <span class="mk-mfaq-pm"></span>
@@ -2179,7 +2218,7 @@ button:hover{filter:brightness(1.08)}
         <p id="mk-mfaq-a2" class="mk-mfaq-a">Teams of 3 to 5 members: undergraduate students, research scholars and working professionals.</p>
       </div>
       <div class="mk-mfaq-item">
-        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a3" onclick="mkFaqToggle(3)">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a3">
           <span class="mk-mfaq-num">04</span>
           <span class="mk-mfaq-q">What does it cost?</span>
           <span class="mk-mfaq-pm"></span>
@@ -2187,7 +2226,7 @@ button:hover{filter:brightness(1.08)}
         <p id="mk-mfaq-a3" class="mk-mfaq-a">Free for VIT students. External participants pay ₹500 per person.</p>
       </div>
       <div class="mk-mfaq-item">
-        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a4" onclick="mkFaqToggle(4)">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a4">
           <span class="mk-mfaq-num">05</span>
           <span class="mk-mfaq-q">What are the tracks?</span>
           <span class="mk-mfaq-pm"></span>
@@ -2195,7 +2234,7 @@ button:hover{filter:brightness(1.08)}
         <p id="mk-mfaq-a4" class="mk-mfaq-a">FaultWatch, Vitalis, Cosmolith, Live Wire, CogniForge and Open Innovation. Problem statements from industry partners will be released before the event.</p>
       </div>
       <div class="mk-mfaq-item">
-        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a5" onclick="mkFaqToggle(5)">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a5">
           <span class="mk-mfaq-num">06</span>
           <span class="mk-mfaq-q">What can we win?</span>
           <span class="mk-mfaq-pm"></span>
@@ -2203,7 +2242,7 @@ button:hover{filter:brightness(1.08)}
         <p id="mk-mfaq-a5" class="mk-mfaq-a">A total prize pool of ₹1,00,000, awarded to teams. Every participating team receives digital certificates, and teams keep full ownership of their projects.</p>
       </div>
       <div class="mk-mfaq-item mk-mfaq-last">
-        <button class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a6" onclick="mkFaqToggle(6)">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a6">
           <span class="mk-mfaq-num">07</span>
           <span class="mk-mfaq-q">How can my organisation partner with Makeathon?</span>
           <span class="mk-mfaq-pm"></span>
@@ -2318,27 +2357,27 @@ button:hover{filter:brightness(1.08)}
   }
 })();
 
-// FAQ accordion
-var mkFaqOpen = -1;
-function mkFaqToggle(idx) {
-  var items = document.querySelectorAll('.mk-mfaq-btn');
-  var answers = document.querySelectorAll('.mk-mfaq-a');
-  if (mkFaqOpen === idx) {
-    // close
-    items[idx].setAttribute('aria-expanded', 'false');
-    answers[idx].classList.remove('is-open');
-    mkFaqOpen = -1;
-  } else {
-    // close previous
-    if (mkFaqOpen >= 0) {
-      items[mkFaqOpen].setAttribute('aria-expanded', 'false');
-      answers[mkFaqOpen].classList.remove('is-open');
-    }
-    items[idx].setAttribute('aria-expanded', 'true');
-    answers[idx].classList.add('is-open');
-    mkFaqOpen = idx;
+// Delegated FAQ handling survives the mobile shell being mounted or replaced.
+document.addEventListener('click', function(event) {
+  var button = event.target.closest && event.target.closest('.mk-mfaq-btn');
+  if (!button) return;
+  var list = button.closest('.mk-mfaq');
+  if (!list) return;
+
+  var buttonRow = button.closest('.mk-mfaq-item');
+  var answer = buttonRow && buttonRow.querySelector('.mk-mfaq-a');
+  var opening = button.getAttribute('aria-expanded') !== 'true';
+  list.querySelectorAll('.mk-mfaq-btn').forEach(function(item) {
+    item.setAttribute('aria-expanded', 'false');
+    var itemRow = item.closest('.mk-mfaq-item');
+    var panel = itemRow && itemRow.querySelector('.mk-mfaq-a');
+    if (panel) panel.classList.remove('is-open');
+  });
+  if (opening && answer) {
+    button.setAttribute('aria-expanded', 'true');
+    answer.classList.add('is-open');
   }
-}
+});
 
 // Email signup
 function mkMobileSubmit() {
@@ -2404,7 +2443,8 @@ const el = ev.currentTarget;
 if (this.qWT != null && Math.abs(el.scrollTop - this.qWS) > 3) this.qWT = null;
 if (window.matchMedia('(max-width: 1023px)').matches) {
 const mobileRoot = el.querySelector('.mk-mobile'), rootRect = el.getBoundingClientRect();
-const points = [['m-hero', 0], ['mk-mboard', 0.8], ['m-about', 2.5], ['m-build', 5.0], ['m-archive', 14.6], ['m-next', 19.2], ['m-why', 20.0], ['m-hosts', 20.8], ['m-faq', 21.6], ['m-notify', 22.5]];
+const phone = window.matchMedia('(max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse)').matches;
+const points = [['m-hero', 0], ...(!phone ? [['mk-mboard', 0.8]] : []), ['m-about', 2.5], ['m-build', 5.0], ['m-archive', 14.6], ['m-next', 19.2], ['m-why', 20.0], ['m-hosts', 20.8], ['m-faq', 21.6], ['m-notify', 22.5]];
 const stops = points.map(([id, sp]) => { const node = mobileRoot && mobileRoot.querySelector('#' + id); return node ? [el.scrollTop + node.getBoundingClientRect().top - rootRect.top, sp] : null; }).filter(Boolean);
 let pos = 0;
 if (stops.length) {
