@@ -98,6 +98,15 @@ x-dc{display:none!important}
   }
 }
 
+/* Phones keep the blueprint panel but skip the model and its canvas work. */
+@media (max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse) {
+  .mk-desktop-theater { display: none !important; }
+  .k-cvs { display: none !important; }
+  .mk-mboard { height: clamp(230px, 66vw, 270px); background-color: #17261F; }
+  .mk-mboard-label { display: none; }
+  .mk-phone-board-art { display: flex; }
+}
+
 /* ── MOBILE LAYOUT STYLES ── */
 .mk-mobile {
   position: relative;
@@ -1004,10 +1013,79 @@ x-dc{display:none!important}
 .mk-mboard-label span:last-child { color: #F2B84B; text-align: right; }
 .mk-mboard-label span:first-child { max-width: 58%; }
 .mk-mboard-label span:last-child { max-width: 40%; }
+.mk-phone-board-art { display: none; }
+.mk-phone-board-art { position: absolute; inset: 0; flex-direction: column; padding: 14px 16px; }
+.mk-phone-board-top, .mk-phone-board-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font: 9px/1.4 'DM Mono', monospace;
+  letter-spacing: .12em;
+  color: #9BACA4;
+}
+.mk-phone-board-top span:first-child { color: #F2B84B; }
+.mk-phone-schematic {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 100px;
+  margin: 12px 0 8px;
+}
+.mk-phone-board-outline {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(78%, 280px);
+  height: 72px;
+  border: 1px solid rgba(242,184,75,.75);
+  background-image: radial-gradient(rgba(237,241,239,.52) 1px, transparent 1px);
+  background-position: 6px 6px;
+  background-size: 12px 12px;
+  transform: rotate(-5deg);
+}
+.mk-phone-board-outline::before, .mk-phone-board-outline::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px solid rgba(47,154,82,.78);
+  transform: translate(-50%,-50%);
+}
+.mk-phone-board-outline::before { width: 44%; height: 44px; background: #17261F; }
+.mk-phone-board-outline::after { width: 54%; height: 54px; border-color: rgba(242,184,75,.24); }
+.mk-phone-board-core {
+  position: relative;
+  z-index: 1;
+  padding: 7px 10px;
+  background: #17261F;
+  border: 1px solid rgba(47,154,82,.75);
+  color: #EDF1EF;
+  font: 10px/1 'DM Mono', monospace;
+  letter-spacing: .12em;
+}
+.mk-phone-board-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font: 600 clamp(20px, 6vw, 28px)/.95 'Barlow Condensed', sans-serif;
+  letter-spacing: .05em;
+  color: #EDF1EF;
+}
+.mk-phone-board-title i { color: #F2B84B; font-style: normal; }
+.mk-phone-board-foot { margin-top: 9px; color: #F2B84B; }
+@media (max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse) {
+  .mk-mboard { height: clamp(230px, 66vw, 270px); }
+  .mk-mboard-label { display: none; }
+  .mk-phone-board-art { display: flex; }
+}
 @media (max-width: 380px) {
   .mk-mboard { margin-inline: 14px; height: 250px; }
 }
 @media (max-width: 767px) {
+  .mk-mboard { height: clamp(230px, 66vw, 270px); }
+  .mk-phone-board-art { display: flex; }
   .mk-mhero { padding: 40px 22px 34px; }
   .mk-mhero h1 { font-size: clamp(68px, 21vw, 88px); letter-spacing: .01em; text-shadow: 0 10px 34px rgba(242,184,75,.1); }
   .mk-mhero-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; margin-top: 24px; }
@@ -1022,6 +1100,7 @@ x-dc{display:none!important}
   .mk-msec h2 { font-size: clamp(38px, 10vw, 54px); }
   .mk-mboard-label { left: 13px; right: 13px; bottom: 12px; font-size: 8px; letter-spacing: .08em; }
 }
+@media (max-width: 380px) { .mk-mboard { height: 250px; } }
 @media (max-width: 560px) {
   .mk-mcards { grid-template-columns: 1fr; }
 }
@@ -1265,7 +1344,9 @@ window.__mkSoft = window.__mkGPU.soft;
   }
 
   FX.start = function (site) {
-    if (S) return; S = site; root = site.qEl; if (!root) return; t0 = performance.now();
+    if (S) return;
+    try { if (window.matchMedia('(max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse)').matches) return; } catch (e) {}
+    S = site; root = site.qEl; if (!root) return; t0 = performance.now();
     cvG = root.querySelector('.k-fxg'); cv2 = root.querySelector('.k-fx2');
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
     if (cvG) glInit(); c2 = cv2 && cv2.getContext('2d');
@@ -1843,6 +1924,12 @@ button:hover{filter:brightness(1.08)}
 
   <div class="mk-mboard" id="mk-mboard" aria-hidden="true">
     <div class="mk-mboard-label"><span>SELECT · VIT VELLORE / LIVE BUILD</span><span>36H SYSTEM CHECK <i class="mk-led" style="display:inline-block;margin-left:6px"></i></span></div>
+    <div class="mk-phone-board-art">
+      <div class="mk-phone-board-top"><span>MK / 27</span><span>FIELD SYSTEMS · 001</span></div>
+      <div class="mk-phone-schematic"><div class="mk-phone-board-outline"><span class="mk-phone-board-core">MAKE / TEST / REPEAT</span></div></div>
+      <div class="mk-phone-board-title"><span>HARDWARE</span><i>×</i><span>SOFTWARE</span></div>
+      <div class="mk-phone-board-foot"><span>36 HOURS · VELLORE</span><span>BUILT TO WORK</span></div>
+    </div>
   </div>
 
   <!-- Stats bar -->
@@ -2412,6 +2499,18 @@ this.qPf = f;
 qMeasure() {
 if (this.qEl) this.setState({ w: this.qEl.clientWidth, h: this.qEl.clientHeight });
 this.qResize();
+const phone = window.matchMedia('(max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse)').matches, wasPhone = this.qPhone;
+this.qPhone = phone;
+if (phone && !wasPhone) {
+if (this.qG3) { try { this.qG3.dispose(); } catch (e) {} this.qG3 = null; }
+this.qG3Off = true;
+if (this.qGLCv) this.qGLCv.style.visibility = 'hidden';
+try { if (window.MKFX) window.MKFX.stop(); } catch (e) {}
+} else if (!phone && wasPhone) {
+this.qG3Off = !!window.__mkSoft;
+if (!window.__mkSoft && this.qGLCv) { try { this.qG3Init(); } catch (e) { this.qG3Off = true; } }
+try { if (window.MKFX) window.MKFX.start(this); } catch (e) {}
+}
 this.qWake();
 }
 qWake() {
