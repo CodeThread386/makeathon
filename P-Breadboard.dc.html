@@ -36,73 +36,14 @@ x-dc{display:none!important}
 <style>
 /* ============================================================
    MOBILE RESPONSIVE LAYER — Makeathon 2027
-   Responsive story layout for screens ≤ 1023px width
+   Responsive story layout for screens ≤ 1023px wide, and portrait screens up to 1366px
    ============================================================ */
 
-/* Mobile: show the native mobile UI, hide the scaled desktop canvas sections */
-@media (max-width: 1023px) {
-  /* Keep the full-viewport canvas, while replacing the fixed-stage story UI. */
-
-  /* Make the root scrollable in a natural way on mobile */
-  .k-root { overflow-y: auto !important; }
-
-  /* Hide the desktop custom cursor on touch */
-  .k-cur { display: none !important; }
-
-  /* Hide the canvas layers glow effects on mobile — too heavy */
-  .k-spark, .k-ph, .k-pv { display: none !important; }
-
-  /* Keep the original WebGL renderer alive as a viewport layer. The mobile
-     story reveals it through its board panel instead of scaling the desktop UI. */
-  .mk-desktop-theater {
-    display: block !important;
-    position: fixed !important;
-    inset: 0 !important;
-    z-index: 2;
-    width: 100% !important;
-    height: 100dvh !important;
-    overflow: hidden;
-    pointer-events: none;
-  }
-  .mk-desktop-theater > div:first-child {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    overflow: hidden !important;
-    contain: none !important;
-  }
-  .mk-desktop-theater > div:first-child > :not(.k-clip) { display: none !important; }
-  .k-clip { position: absolute !important; inset: 0 !important; clip-path: none !important; }
-  .k-fxg, .k-fx2 { display: none !important; }
-  .k-cvs { pointer-events: none; }
-  .mk-desktop-theater ~ #why,
-  .mk-desktop-theater ~ #hosts,
-  .mk-desktop-theater ~ #hosts + div,
-  .mk-desktop-theater ~ #hosts + div + footer { display: none !important; }
-
-  /* Show the mobile layout */
+/* Narrow screens: the static layout replaces the desktop scene, which is not shown at all (its React
+   root is hidden; the 3D board and the effects are never started) and needs no loader. */
+@media (max-width: 1023px), (max-width: 1366px) and (max-aspect-ratio: 4/5) {
+  #dc-root, #mk-pre { display: none !important; }
   .mk-mobile { display: block !important; }
-
-  /* ── TICKER BAR ── */
-  .mk-ticker {
-    position: relative !important;
-    left: 0 !important; right: 0 !important; top: 0 !important;
-    height: 36px !important;
-    display: flex !important;
-    align-items: center !important;
-    border-bottom: 1px solid rgba(237,241,239,0.12) !important;
-    overflow: hidden !important;
-    background: #17261F !important;
-    padding: 0 !important;
-  }
-}
-
-/* Phones skip the board showcase and its 3D canvas work. */
-@media (max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse) {
-  .mk-desktop-theater { display: none !important; }
-  .k-cvs { display: none !important; }
-  .mk-mboard { display: none !important; }
 }
 
 /* ── MOBILE LAYOUT STYLES ── */
@@ -114,6 +55,7 @@ x-dc{display:none!important}
   color: #EDF1EF;
   background-color: transparent;
   min-height: 100vh;
+  min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -253,15 +195,40 @@ x-dc{display:none!important}
   background-size: 24px 24px,24px 24px,96px 96px,96px 96px;
   pointer-events: none;
 }
-.mk-mhero-year {
-  display: inline-flex;
-  align-items: center;
+/* the title block: logo mark, a dimension line the width of the title (as on desktop), the title */
+.mk-mhero-title { width: fit-content; max-width: 100%; }
+.mk-mhero-logo { width: 54px; height: 53px; margin-bottom: 18px; }
+.mk-mhero-dim {
+  position: relative;
+  height: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.mk-mhero-dim::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 10px;
+  height: 1px;
+  background: rgba(237,241,239,.5);
+}
+.mk-mhero-dim::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 4px;
+  height: 13px;
+  border-left: 1px solid rgba(237,241,239,.5);
+  border-right: 1px solid rgba(237,241,239,.5);
+}
+.mk-mhero-dim span {
+  position: relative;
+  z-index: 1;
+  padding: 0 10px;
+  background: #17261F;
   font-family: 'DM Mono', monospace;
   font-size: 12px;
+  line-height: 20px;
   letter-spacing: 0.2em;
   color: #F2B84B;
-  margin-bottom: 16px;
-  gap: 8px;
 }
 .mk-mhero h1 {
   margin: 0;
@@ -558,9 +525,9 @@ x-dc{display:none!important}
   .mk-mdetail-row .mk-redact { width: clamp(24px, 8vw, 48px); height: 14px; }
 }
 
-@media (max-width: 1023px) {
-  html, body, .k-root { scrollbar-width: none !important; }
-  html::-webkit-scrollbar, body::-webkit-scrollbar, .k-root::-webkit-scrollbar {
+@media (max-width: 1023px), (max-width: 1366px) and (max-aspect-ratio: 4/5) {
+  html, body { scrollbar-width: none !important; }
+  html::-webkit-scrollbar, body::-webkit-scrollbar {
     display: none !important;
     width: 0 !important;
     height: 0 !important;
@@ -999,132 +966,11 @@ x-dc{display:none!important}
   animation: k-pulse 2s ease-in-out infinite;
 }
 
-/* Mobile and tablet viewport fixes. Keep the scroll container sized to the
-   visible browser area and preserve native touch scrolling. */
-@media (max-width: 1023px) {
-  .k-root { height: 100dvh !important; }
-  .k-root { touch-action: pan-y; }
-  .mk-mobile { min-height: 100dvh; }
+@media (max-width: 1023px), (max-width: 1366px) and (max-aspect-ratio: 4/5) {
   .mk-mcard-desc { font-size: 16px; }
 }
 
-/* Responsive 3D board showcase */
-.mk-mboard {
-  position: relative;
-  isolation: isolate;
-  height: clamp(250px, 74vw, 390px);
-  margin: 0 20px 24px;
-  overflow: hidden;
-  border: 1px solid rgba(242,184,75,.42);
-  background:
-    radial-gradient(ellipse at 50% 48%, rgba(47,154,82,.14), transparent 58%),
-    linear-gradient(rgba(237,241,239,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(237,241,239,.035) 1px, transparent 1px),
-    rgba(23,38,31,.28);
-  background-size: auto, 24px 24px, 24px 24px, auto;
-}
-.mk-mboard + .mk-mstats { background: #17261F; }
-.mk-mboard::before, .mk-mboard::after {
-  content: '';
-  position: absolute;
-  z-index: 2;
-  width: 22px;
-  height: 22px;
-  pointer-events: none;
-}
-.mk-mboard::before { left: 10px; top: 10px; border-left: 2px solid #F2B84B; border-top: 2px solid #F2B84B; }
-.mk-mboard::after { right: 10px; bottom: 10px; border-right: 2px solid #F2B84B; border-bottom: 2px solid #F2B84B; }
-.mk-mboard-label {
-  position: absolute;
-  z-index: 3;
-  left: 16px;
-  right: 16px;
-  bottom: 14px;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  font: 10px/1.3 'DM Mono', monospace;
-  letter-spacing: .12em;
-  color: #C1CBC6;
-  text-shadow: 0 1px 8px #17261F;
-  pointer-events: none;
-}
-.mk-mboard-label span:last-child { color: #F2B84B; text-align: right; }
-.mk-mboard-label span:first-child { max-width: 58%; }
-.mk-mboard-label span:last-child { max-width: 40%; }
-.mk-phone-board-art { display: none; }
-.mk-phone-board-art { position: absolute; inset: 0; flex-direction: column; padding: 14px 16px; }
-.mk-phone-board-top, .mk-phone-board-foot {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  font: 9px/1.4 'DM Mono', monospace;
-  letter-spacing: .12em;
-  color: #9BACA4;
-}
-.mk-phone-board-top span:first-child { color: #F2B84B; }
-.mk-phone-schematic {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  min-height: 100px;
-  margin: 12px 0 8px;
-}
-.mk-phone-board-outline {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: min(78%, 280px);
-  height: 72px;
-  border: 1px solid rgba(242,184,75,.75);
-  background-image: radial-gradient(rgba(237,241,239,.52) 1px, transparent 1px);
-  background-position: 6px 6px;
-  background-size: 12px 12px;
-  transform: rotate(-5deg);
-}
-.mk-phone-board-outline::before, .mk-phone-board-outline::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  border: 1px solid rgba(47,154,82,.78);
-  transform: translate(-50%,-50%);
-}
-.mk-phone-board-outline::before { width: 44%; height: 44px; background: #17261F; }
-.mk-phone-board-outline::after { width: 54%; height: 54px; border-color: rgba(242,184,75,.24); }
-.mk-phone-board-core {
-  position: relative;
-  z-index: 1;
-  padding: 7px 10px;
-  background: #17261F;
-  border: 1px solid rgba(47,154,82,.75);
-  color: #EDF1EF;
-  font: 10px/1 'DM Mono', monospace;
-  letter-spacing: .12em;
-}
-.mk-phone-board-title {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  font: 600 clamp(20px, 6vw, 28px)/.95 'Barlow Condensed', sans-serif;
-  letter-spacing: .05em;
-  color: #EDF1EF;
-}
-.mk-phone-board-title i { color: #F2B84B; font-style: normal; }
-.mk-phone-board-foot { margin-top: 9px; color: #F2B84B; }
-@media (max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse) {
-  .mk-mboard { height: clamp(230px, 66vw, 270px); }
-  .mk-mboard-label { display: none; }
-  .mk-phone-board-art { display: flex; }
-}
-@media (max-width: 380px) {
-  .mk-mboard { margin-inline: 14px; height: 250px; }
-}
 @media (max-width: 767px) {
-  .mk-mboard { height: clamp(230px, 66vw, 270px); }
-  .mk-phone-board-art { display: flex; }
   .mk-mhero { padding: 40px 22px 34px; }
   .mk-mhero h1 { width: 100%; font-size: min(88px, 21vw, calc(25vw - 11px)); letter-spacing: .01em; white-space: nowrap; text-shadow: 0 10px 34px rgba(242,184,75,.1); }
   .mk-mhero-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; margin-top: 24px; }
@@ -1137,11 +983,169 @@ x-dc{display:none!important}
   .mk-mstat:first-child { padding-left: 16px; }
   .mk-msec { padding: 44px 22px; }
   .mk-msec h2 { font-size: clamp(38px, 10vw, 54px); }
-  .mk-mboard-label { left: 13px; right: 13px; bottom: 12px; font-size: 8px; letter-spacing: .08em; }
 }
-@media (max-width: 380px) { .mk-mboard { height: 250px; } }
 @media (max-width: 560px) {
   .mk-mcards { grid-template-columns: 1fr; }
+}
+
+/* ── RESPONSIVE POLISH ──
+   Every width: a centred hamburger, a drawer that leaves the tab order while closed,
+   and section anchors that land below the sticky nav. */
+.mk-mham { justify-content: center; }
+.mk-drawer { visibility: hidden; transition: transform 0.4s cubic-bezier(.2,.7,.2,1), visibility 0s linear 0.4s; }
+.mk-drawer.is-open { visibility: visible; transition-delay: 0s; }
+.mk-mhero, .mk-msec, .mk-mnotify, #m-contact { scroll-margin-top: 60px; }
+.mk-mnav-links { display: none; }
+
+/* Phones: stats in two rows (3 + 2) instead of a sideways scroll, ranks 2 × 2, and spec rows that
+   put the label above the value and status, so nothing drops below 9px. */
+@media (max-width: 767px) {
+  .mk-mhero-meta { grid-auto-flow: row dense; }
+  .mk-mstats { grid-template-columns: repeat(6, minmax(0, 1fr)); overflow: visible; scroll-snap-type: none; }
+  .mk-mstat { grid-column: span 2; min-width: 0; padding: 16px 10px 16px 14px; }
+  .mk-mstat:first-child, .mk-mstat:nth-child(4) { padding-left: 20px; border-left: none; }
+  .mk-mstat:nth-child(n+4) { grid-column: span 3; border-top: 1px solid rgba(237,241,239,0.2); }
+  .mk-mstat-label { line-height: 1.35; }
+  .mk-mranks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mk-mrank { border-right: none; }
+  .mk-mrank:nth-child(odd) { border-right: 1px solid rgba(237,241,239,0.2); }
+  .mk-mrank:nth-child(n+3) { border-top: 1px solid rgba(237,241,239,0.2); }
+  .mk-mrank-label { font-size: 10px; }
+  .mk-mdetail-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "key key" "val badge"; gap: 6px 12px; padding: 12px 14px; }
+  .mk-mdetail-key { grid-area: key; font-size: 10px; letter-spacing: .14em; }
+  .mk-mdetail-val { grid-area: val; justify-self: start; text-align: left; font-size: 17px; white-space: normal; }
+  .mk-badge { grid-area: badge; font-size: 9px; letter-spacing: .1em; padding: 4px 7px; }
+  .mk-mdetail-row .mk-redact { width: 96px; height: 16px; }
+}
+
+/* From 600px the layout sits in a centred column (--mk-pad is the side gutter). */
+@media (min-width: 600px) and (max-width: 767px) {
+  .mk-mobile { --mk-pad: max(32px, calc((100% - 640px) / 2)); }
+}
+@media (min-width: 600px) and (max-width: 1023px), (min-width: 600px) and (max-width: 1366px) and (max-aspect-ratio: 4/5) {
+  .mk-mnav, .mk-mticker, .mk-mhero, .mk-msec, .mk-mnotify, .mk-mfooter { padding-left: var(--mk-pad); padding-right: var(--mk-pad); }
+  .mk-mstats { padding-left: calc(var(--mk-pad) - 20px); padding-right: calc(var(--mk-pad) - 20px); }
+}
+
+/* Tablets and portrait screens: a larger type scale, inline nav links, and side-by-side
+   layouts where the width allows. */
+@media (min-width: 768px) and (max-width: 1023px), (min-width: 768px) and (max-width: 1366px) and (max-aspect-ratio: 4/5) {
+  .mk-mobile { --mk-pad: max(40px, calc((100% - 880px) / 2)); }
+  .mk-mnav { height: 68px; }
+  .mk-mnav-links { display: flex; align-items: center; gap: clamp(12px, 2vw, 26px); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .14em; }
+  .mk-mnav-links a { color: #C1CBC6; text-decoration: none; transition: color .25s ease; }
+  .mk-mnav-links a:hover { color: #F2B84B; }
+  .mk-mnav-links .mk-mnav-cta { padding: 10px 12px; background: #F2B84B; color: #17261F; }
+  .mk-mnav-links .mk-mnav-cta:hover { color: #17261F; filter: brightness(1.06); }
+  .mk-mham, .mk-drawer { display: none; }
+  .mk-mhero, .mk-msec, .mk-mnotify, #m-contact { scroll-margin-top: 68px; }
+
+  .mk-mhero { padding-top: 72px; padding-bottom: 64px; }
+  .mk-mhero h1 { font-size: min(168px, 18vw, 30vh); letter-spacing: .02em; white-space: nowrap; }
+  .mk-mhero-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 28px; margin-top: 36px; }
+  .mk-mhero-meta > div { min-width: 0; padding-top: 10px; border-top: 1px solid rgba(237,241,239,.16); }
+  .mk-mhero-meta > div:nth-child(4) { grid-column: span 2; }
+  .mk-mhero-meta dt { font-size: 11px; }
+  .mk-mhero-meta dd { font-size: 18px; }
+  .mk-mhero-cta { margin-top: 36px; }
+  .mk-mhero-cta a { flex: 0 0 auto; min-width: 220px; }
+
+  .mk-mstat { padding: 22px 16px; }
+  .mk-mstat:first-child { padding-left: 20px; }
+  .mk-mstat-num { font-size: clamp(40px, 5.6vw, 56px); }
+  .mk-mstat-label { font-size: 11px; }
+
+  .mk-msec { padding-top: 84px; padding-bottom: 84px; }
+  .mk-msec-label { font-size: 13px; margin-bottom: 18px; }
+  .mk-msec h2 { font-size: clamp(56px, 7.6vw, 80px); margin-bottom: 24px; }
+  .mk-mabout-words { font-size: clamp(56px, 8.4vw, 88px); margin-bottom: 26px; }
+  .mk-msec p { font-size: 21px; max-width: 660px; }
+  .mk-mphoto { margin: 36px 0; }
+  .mk-mcode { margin-top: 36px; }
+  .mk-mcode-body { font-size: 14px; }
+  .mk-mdetails { margin-top: 36px; }
+  .mk-mdetail-row { display: grid; grid-template-columns: minmax(150px, 30%) minmax(0, 1fr) auto; gap: 16px; padding: 16px 20px; }
+  .mk-mdetail-key { font-size: 12px; }
+  .mk-mdetail-val { font-size: 20px; text-align: left; }
+  .mk-badge { font-size: 11px; padding: 5px 9px; }
+  .mk-mcards { gap: 16px; margin-top: 36px; }
+  .mk-mcard { padding: 22px 22px 24px; }
+  .mk-mcard-title { font-size: 22px; }
+  .mk-mcard-desc { font-size: 17px; }
+  .mk-mhosts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; margin-top: 36px; }
+  .mk-mhost p { font-size: 18px; }
+  .mk-mranks { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 44px; }
+  .mk-mrank { padding: 20px 18px; }
+  .mk-mrank-num { font-size: clamp(40px, 5.6vw, 56px); }
+  .mk-mrank-label { font-size: 10px; }
+  .mk-mfaq-q { font-size: 23px; }
+  .mk-mfaq-a { font-size: 18px; max-width: 700px; }
+  .mk-mcontact { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 36px; }
+  .mk-mcontact-row:last-child { grid-column: 1 / -1; }
+  #m-faq .mk-btn-primary { width: auto !important; min-width: 280px; }
+
+  .mk-mnotify { padding-top: 84px; padding-bottom: 92px; }
+  .mk-mnotify h2 { font-size: clamp(80px, 12vw, 128px); }
+  .mk-mnotify p { font-size: 21px; max-width: 620px; }
+  .mk-mfield { flex-direction: row; max-width: 660px; }
+  .mk-minput { flex: 1; min-width: 0; height: 58px; border-bottom: 1px solid rgba(237,241,239,0.55); border-right: none; }
+  .mk-minput:focus { border-color: #F2B84B; }
+  .mk-msubmit { flex: 0 0 auto; width: auto; height: 58px; padding: 0 30px; }
+  .mk-msuccess { max-width: 660px; }
+  .mk-mfooter { padding-top: 64px; padding-bottom: 48px; }
+  .mk-mfooter-logo { font-size: clamp(72px, 11vw, 120px); }
+  .mk-mfooter-cta { flex-direction: row; max-width: 660px; }
+  .mk-mfooter-cta a { flex: 1; }
+  .mk-mfooter-bottom { flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; }
+  .mk-mfooter-top { align-self: auto; }
+  .mk-mhero-logo { width: 76px; height: 74px; margin-bottom: 22px; }
+}
+
+/* ── FINISH ──
+   Hero corner marks, a gold rule ahead of each section label, the "why" cards as a numbered list on
+   narrow phones, the hero's entrance (held, like every animation in .k-root, until the loader lifts)
+   and sections that rise in as they scroll into view. */
+.mk-mhero::before, .mk-mhero::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+.mk-mhero::before { left: 10px; top: 10px; border-left: 1.5px solid rgba(237,241,239,.5); border-top: 1.5px solid rgba(237,241,239,.5); }
+.mk-mhero::after { right: 10px; bottom: 10px; border-right: 1.5px solid #F2B84B; border-bottom: 1.5px solid #F2B84B; }
+.mk-msec-label::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  margin-right: 10px;
+  vertical-align: middle;
+  background: currentColor;
+}
+@media (max-width: 560px) {
+  .mk-mcards { gap: 0; margin-top: 20px; border-bottom: 1px solid rgba(237,241,239,0.18); }
+  .mk-mcard { display: grid; grid-template-columns: 40px minmax(0, 1fr); padding: 16px 0; border: none; border-top: 1px solid rgba(237,241,239,0.18); background: none; }
+  .mk-mcard-num { grid-row: span 2; margin: 3px 0 0; }
+  .mk-mcard-title { margin-bottom: 6px; }
+}
+@keyframes mk-up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .mk-mhero-logo { animation: mk-up .8s .05s cubic-bezier(.2,.7,.2,1) both; }
+  .mk-mhero-dim { animation: mk-up .8s .15s cubic-bezier(.2,.7,.2,1) both; }
+  .mk-mhero h1 { animation: mk-up 1s .2s cubic-bezier(.16,.84,.14,1) both; }
+  .mk-mhero-meta { animation: mk-up .8s .4s cubic-bezier(.2,.7,.2,1) both; }
+  .mk-mhero-cta { animation: mk-up .8s .52s cubic-bezier(.2,.7,.2,1) both; }
+  @supports (animation-timeline: view()) {
+    /* a view timeline follows the nearest scroll container, so these clip rather than hide overflow */
+    .mk-mhero, .mk-msec, .mk-mfooter { overflow: clip; }
+    .mk-msec-label, .mk-msec h2, .mk-mabout-words, .mk-msec > p, .mk-mphoto, .mk-mcode, .mk-mdetails,
+    .mk-mcard, .mk-mhost, .mk-mranks, .mk-mfaq-item, .mk-mcontact-row, .mk-mnotify h2, .mk-mnotify p, .mk-mfield, .mk-mfooter-logo {
+      animation: mk-up linear both;
+      animation-timeline: view();
+      animation-range: cover 0px cover 180px;
+    }
+  }
 }
 </style>
 <script src="./vendor/react.js" defer></script>
@@ -1159,8 +1163,8 @@ window.__mkSoft = window.__mkGPU.soft;
   'use strict';
   var FX = {}; window.MKFX = FX;
   var S, root, cvG, cv2, cvL, gl, PR, U = {}, c2, cl2;
-  var W = 0, H = 0, dpr = 1, gs = 1, k = 1, ox = 0, oy = 0, gx0 = 0, gy0 = 0, gx1 = 0, gy1 = 0;
-  var PSC = null, glPend = false, slowF = 0, raf = 0, lastT = 0, tf = 0, slow = 0, frameN = 0, t0 = 0;
+  var W = 0, H = 0, dpr = 1, gs = 1, k = 1, ox = 0, oy = 0, xw = 0, yh = 0, gx0 = 0, gy0 = 0, gx1 = 0, gy1 = 0;
+  var PSC = null, glPend = false, slowF = 0, raf = 0, lastT = 0, tf = 0, slow = 0, frameN = 0, t0 = 0, lastSp = -1, odd = false;
   var ptr = { x: 0, y: 0, a: 0 }, bootAt = -1, reduce = false, pcb = null, crowd = null, ld = null;
   var GOLD = '242,184,75', INK = '237,241,239', LOWQ = !!(window.__mkGPU && window.__mkGPU.low);
   var cl = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
@@ -1243,6 +1247,7 @@ window.__mkSoft = window.__mkGPU.soft;
   function size() {
     W = root.clientWidth; H = root.clientHeight; dpr = Math.min(1.25, window.devicePixelRatio || 1);
     k = Math.min(W / 1440, H / 900) || 1; ox = (W - 1440 * k) / 2; oy = (H - 900 * k) / 2;
+    xw = Math.max(0, Math.min(240, (W / k - 1440) / 2)); yh = Math.max(0, Math.min(140, (H / k - 900) / 2));
     var mw = W - 40, mh = H - 40; gx0 = 20 + ((mw - 24) / 2) % 24; gy0 = 20 + ((mh - 24) / 2) % 24; gx1 = 20 + ((mw - 120) / 2) % 120; gy1 = 20 + ((mh - 120) / 2) % 120;
     gs = Math.min(LOWQ ? 0.7 : 1.25, dpr) * (slow > 2 ? 0.6 : slow > 0 ? 0.8 : 1); if (W * H * gs * gs > 2.4e6) gs = Math.sqrt(2.4e6 / (W * H));
     if (cvG) { cvG.width = Math.round(W * gs); cvG.height = Math.round(H * gs); }
@@ -1274,10 +1279,10 @@ window.__mkSoft = window.__mkGPU.soft;
   }
   function genCrowd() {
     var ps = [], teams = [], i;
-    for (i = 0; i < 60; i++) { var cx = i % 12, cy = Math.floor(i / 12); teams.push(S2(150 + cx * 103 + (hsh(i) - 0.5) * 50, 290 + cy * 108 + (hsh(i + 9) - 0.5) * 50)); }
+    for (i = 0; i < 60; i++) { var cx = i % 12, cy = Math.floor(i / 12); teams.push(S2(150 - xw + cx * (103 + xw * 2 / 11) + (hsh(i) - 0.5) * 50, 290 + cy * 108 + (hsh(i + 9) - 0.5) * 50)); }
     for (i = 0; i < 380; i++) {
       var judge = i >= 350, col = Math.floor(hsh(i * 3.1) * 20), oa = col / 20 * Math.PI * 2, team = judge ? -1 : i % 60, m = Math.floor(i / 60);
-      var tgt = judge ? S2(140 + hsh(i * 7) * 1160, 260 + hsh(i * 11) * 560) : [teams[team][0] + Math.cos(m * 1.26 + team) * 13 * k, teams[team][1] + Math.sin(m * 1.26 + team) * 13 * k];
+      var tgt = judge ? S2(140 - xw + hsh(i * 7) * (1160 + 2 * xw), 260 + hsh(i * 11) * 560) : [teams[team][0] + Math.cos(m * 1.26 + team) * 13 * k, teams[team][1] + Math.sin(m * 1.26 + team) * 13 * k];
       ps.push({ o: [W / 2 + Math.cos(oa) * W * 0.75, H / 2 + Math.sin(oa) * H * 0.85], t: tgt, j: judge, d: hsh(i * 1.7) * 0.4, an: i / 380 * Math.PI * 2, rr: 1 + (hsh(i * 5) - 0.5) * 0.14 });
     }
     return { ps: ps, teams: teams };
@@ -1295,7 +1300,7 @@ window.__mkSoft = window.__mkGPU.soft;
   var MODES = [[1, 2], [1, 3], [2, 3], [1, 4], [3, 4], [2, 5], [3, 5], [4, 5], [3, 7]];
   function modeAt(sp) { var m = 0; for (var i = 0; i < 8; i++) m += ss(1.35 + i * 0.16, 1.67 + i * 0.16, sp); return m; }
   function d2Plate(ctx, sp) {
-    var md = MODES[Math.min(8, Math.round(modeAt(sp)))], p = S2(1344, 790);
+    var md = MODES[Math.min(8, Math.round(modeAt(sp)))], p = S2(1344 + xw, 790 + yh);
     mono(ctx, 12); ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(' + INK + ',0.45)';
     ctx.fillText('CHLADNI PLATE · MODE (' + md[0] + ',' + md[1] + ') · ' + (0.21 * (md[0] * md[0] + md[1] * md[1])).toFixed(2) + ' KHZ', p[0], p[1]);
   }
@@ -1304,7 +1309,7 @@ window.__mkSoft = window.__mkGPU.soft;
     var pR = ss(4.95, 5.6, sp), live = ss(5.6, 5.85, sp), pT = cl((sp - 6.0) / 1.15), pk = ss(8.55, 8.9, sp);
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     if (pR > 0) [[150, '5V0'], [812, '3V3']].forEach(function (rw, i) {
-      var y = S2(0, rw[0])[1], x0 = 30, x1 = W - 30, xe = x0 + (x1 - x0) * pR;
+      var y = S2(0, rw[0] + (i ? yh : -yh))[1], x0 = 30, x1 = W - 30, xe = x0 + (x1 - x0) * pR;
       ctx.strokeStyle = 'rgba(' + GOLD + ',' + (0.06 + 0.14 * live) + ')'; ctx.lineWidth = 5 * k; ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(xe, y); ctx.stroke();
       ctx.strokeStyle = 'rgba(' + INK + ',0.18)'; ctx.lineWidth = 1; ctx.stroke();
       if (live > 0) { ctx.strokeStyle = 'rgba(' + GOLD + ',' + 0.75 * live + ')'; ctx.lineWidth = 1.6; ctx.setLineDash([3 * k, 30 * k]); ctx.lineDashOffset = -t * (i ? -70 : 70) * k; ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(xe, y); ctx.stroke(); ctx.setLineDash([]); ctx.lineDashOffset = 0; }
@@ -1321,7 +1326,7 @@ window.__mkSoft = window.__mkGPU.soft;
   }
   // 5 · the archive: 350 people from 20 colleges become 60 teams, then 36 hours on the clock
   function d2Crowd(ctx, sp, t) {
-    if (!crowd) return; var p1 = ss(14.45, 15.55, sp), p2 = ss(15.7, 16.35, sp), c = S2(1112, 470), R = 330 * k, hrs = cl((sp - 15.95) / 2.34) * 36, pos = [], i;
+    if (!crowd) return; var p1 = ss(14.45, 15.55, sp), p2 = ss(15.7, 16.35, sp), c = S2(1112 + xw, 470), R = 330 * k, hrs = cl((sp - 15.95) / 2.34) * 36, pos = [], i;
     crowd.ps.forEach(function (p, i) {
       var e1 = eo(cl((p1 - p.d) / 0.6)), e2 = eo(cl((p2 - p.d * 0.5) / 0.8)), an = p.an + t * 0.03;
       var x = p.o[0] + (p.t[0] - p.o[0]) * e1 + Math.sin(t * 1.3 + i) * 2 * k, y = p.o[1] + (p.t[1] - p.o[1]) * e1 + Math.cos(t + i) * 2 * k;
@@ -1357,6 +1362,9 @@ window.__mkSoft = window.__mkGPU.soft;
     ptr.x += ((live ? P.x : W * 0.72) - ptr.x) * Math.min(1, dt * 9); ptr.y += ((live ? P.y : H * 0.45) - ptr.y) * Math.min(1, dt * 9); ptr.a += ((live ? 1 : 0) - ptr.a) * Math.min(1, dt * 4);
     if (sp >= 12.55) { if (bootAt < 0) bootAt = now; } else bootAt = -1;
     if (spR > 23.8) return;
+    // with the page at rest the ambient effects draw at half rate, leaving the GPU to the board
+    var still = Math.abs(sp - lastSp) < 1e-4 && now - (P.t || 0) > 600 && now - bootAt > 2400 && now - t0 > 3000; lastSp = sp; odd = !odd;
+    if (still && odd) return;
     var ch = chapter(sp), gOn = GLFX[ch[0]] || (ch[1] >= 0 && GLFX[ch[1]]), dOn = D2FX[ch[0]] || (ch[1] >= 0 && D2FX[ch[1]]);
     if (gl && glPend) glFin();
     if (gl && !glPend) {
@@ -1384,7 +1392,7 @@ window.__mkSoft = window.__mkGPU.soft;
 
   FX.start = function (site) {
     if (S) return;
-    try { if (window.matchMedia('(max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse)').matches) return; } catch (e) {}
+    try { if (window.matchMedia('(max-width: 1023px), (max-width: 1366px) and (max-aspect-ratio: 4/5)').matches) return; } catch (e) {}
     S = site; root = site.qEl; if (!root) return; t0 = performance.now();
     cvG = root.querySelector('.k-fxg'); cv2 = root.querySelector('.k-fx2');
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
@@ -1576,7 +1584,7 @@ button:hover{filter:brightness(1.08)}
 .k-lead2{stroke-dasharray:420;stroke-dashoffset:420;animation:k-draw 1s 2.7s cubic-bezier(.2,.7,.2,1) forwards}
 .k-mklbl{opacity:0;animation:k-annl .8s 3.0s cubic-bezier(.2,.7,.2,1) forwards}
 .k-root:not([data-go]){overflow-y:hidden!important}
-.k-b3l{position:absolute;left:720px;top:470px;display:flex;flex-direction:column;align-items:center;gap:16px;transform:translateX(-50%);font-size:13px;letter-spacing:.18em;color:#9BACA4;opacity:0;transition:opacity .5s ease;pointer-events:none}
+.k-b3l{position:absolute;left:50%;top:470px;display:flex;flex-direction:column;align-items:center;gap:16px;transform:translateX(-50%);font-size:13px;letter-spacing:.18em;color:#9BACA4;opacity:0;transition:opacity .5s ease;pointer-events:none}
 .k-root[data-b3="wait"] .k-b3l{opacity:1}
 .k-b3l i{display:block;width:40px;height:40px;box-sizing:border-box;border-radius:50%;border:1.5px solid rgba(242,184,75,.22);border-top-color:#F2B84B;animation:k-spin .9s linear infinite;will-change:transform}
 @keyframes k-spin{to{transform:rotate(360deg)}}
@@ -1619,6 +1627,9 @@ button:hover{filter:brightness(1.08)}
 .k-on .k-rv{opacity:1;transform:none}
 .k-bl{margin:0 0 10px;padding-left:18px;font-size:19px;line-height:1.38;color:#C1CBC6}
 .k-bl b{color:#EDF1EF;font-weight:500}
+.k-nav,.k-tkw .k-mq,.k-tkw>span.k-mono,.k-hud{font-size:calc(13px * var(--tb, 1))!important}
+.k-eb{font-size:calc(14px * var(--tb, 1))!important}
+.k-mot{font-size:calc(12px * var(--tb, 1))}
 
 </style>
 </helmet>
@@ -1653,16 +1664,16 @@ button:hover{filter:brightness(1.08)}
 <div class="k-mono" style="position: absolute; left: 182px; top: -64px; white-space: nowrap; padding: 3px 7px; background-color: rgba(23,38,31,0.72); font-size: 13px; letter-spacing: 0.16em; color: #EDF1EF">{{calTxt}}</div>
 <div class="k-mono" style="position: absolute; left: 182px; top: -40px; white-space: nowrap; padding: 3px 7px; background-color: rgba(23,38,31,0.72); font-size: 13px; letter-spacing: 0.16em; color: #F2B84B">{{calSub}}</div>
 </div>
-<div style="position: absolute; left: 50%; top: 50%; width: 1440px; height: 900px; transform: translate(-50%, -50%) scale({{k}}); font-family: 'Barlow Condensed', sans-serif; color: #EDF1EF; pointer-events: none">
+<div style="position: absolute; left: 50%; top: 50%; width: {{sw}}; height: 900px; transform: translate(-50%, -50%) scale({{k}}); font-family: 'Barlow Condensed', sans-serif; color: #EDF1EF; pointer-events: none">
 
-<div class="k-fadein k-tkw" style="position: absolute; left: 96px; right: 96px; top: 40px; height: 30px; display: flex; align-items: center; gap: 18px; border-bottom: 1px solid rgba(237,241,239,0.15); pointer-events: auto">
+<div class="k-fadein k-tkw" style="position: absolute; left: 96px; right: 96px; top: calc(40px - {{yh}}); height: 30px; display: flex; align-items: center; gap: 18px; border-bottom: 1px solid rgba(237,241,239,0.15); pointer-events: auto">
 <span class="k-mono" style="flex-shrink: 0; display: flex; align-items: center; gap: 8px; font-size: 13px; letter-spacing: 0.16em; color: #F2B84B"><span class="k-led" style="width: 7px; height: 7px; border-radius: 50%; background-color: #F2B84B"></span>LATEST</span>
 <div class="k-tkmask" style="flex-grow: 1; overflow: hidden">
 <div class="k-mono k-mq" style="display: flex; width: max-content; white-space: nowrap; font-size: 13px; letter-spacing: 0.14em; color: #C1CBC6"><span style="display: flex; align-items: center; flex-shrink: 0">19–20 JAN 2027 · ANNA AUDITORIUM, VIT VELLORE<span style="display: block; width: 5px; height: 5px; margin: 0px 32px; background-color: #F2B84B; transform: rotate(45deg)"></span></span><span style="display: flex; align-items: center; flex-shrink: 0">36-HOUR HARDWARE + SOFTWARE HACKATHON · PRIZE POOL ₹1,00,000<span style="display: block; width: 5px; height: 5px; margin: 0px 32px; background-color: #F2B84B; transform: rotate(45deg)"></span></span><span style="display: flex; align-items: center; flex-shrink: 0">PARTNER ENQUIRIES · OPEN<span style="display: block; width: 5px; height: 5px; margin: 0px 32px; background-color: #F2B84B; transform: rotate(45deg)"></span></span><span style="display: flex; align-items: center; flex-shrink: 0">50+ TEAMS · 250+ PARTICIPANTS · 30+ INDUSTRY JUDGES · 30+ COLLEGES<span style="display: block; width: 5px; height: 5px; margin: 0px 32px; background-color: #F2B84B; transform: rotate(45deg)"></span></span><span style="display: flex; align-items: center; flex-shrink: 0">19–20 JAN 2027 · ANNA AUDITORIUM, VIT VELLORE<span style="display: block; width: 5px; height: 5px; margin: 0px 32px; background-color: #F2B84B; transform: rotate(45deg)"></span></span><span style="display: flex; align-items: center; flex-shrink: 0">36-HOUR HARDWARE + SOFTWARE HACKATHON · PRIZE POOL ₹1,00,000<span style="display: block; width: 5px; height: 5px; margin: 0px 32px; background-color: #F2B84B; transform: rotate(45deg)"></span></span><span style="display: flex; align-items: center; flex-shrink: 0">PARTNER ENQUIRIES · OPEN<span style="display: block; width: 5px; height: 5px; margin: 0px 32px; background-color: #F2B84B; transform: rotate(45deg)"></span></span><span style="display: flex; align-items: center; flex-shrink: 0">50+ TEAMS · 250+ PARTICIPANTS · 30+ INDUSTRY JUDGES · 30+ COLLEGES<span style="display: block; width: 5px; height: 5px; margin: 0px 32px; background-color: #F2B84B; transform: rotate(45deg)"></span></span></div>
 </div>
 <button class="k-mono k-mot" onClick="{{toggleCalm}}" aria-pressed="{{calmP}}" title="Reduce motion"><span class="k-motI" aria-hidden="true"></span>MOTION <span style="color: {{motC}}">{{motTxt}}</span></button>
 </div>
-<header class="k-fadein" style="position: absolute; left: 96px; right: 96px; top: 92px; display: flex; align-items: center; justify-content: space-between; pointer-events: auto">
+<header class="k-fadein" style="position: absolute; left: 96px; right: 96px; top: calc(92px - {{yh}}); display: flex; align-items: center; justify-content: space-between; pointer-events: auto">
 <a href="#top" onClick="{{goTop}}" style="display: flex; align-items: baseline; gap: 12px"><span style="font-weight: 600; font-size: 26px; letter-spacing: 0.2em">MAKEATHON</span><span style="font-weight: 600; font-size: 26px; letter-spacing: 0.1em; color: #F2B84B">2027</span></a>
 <nav class="k-mono k-nav" aria-label="Sections" style="display: flex; align-items: center; gap: 30px; font-size: 13px; letter-spacing: 0.14em">
 <a href="#about" class="k-nl {{nOn.a}}" aria-current="{{nAc.a}}" onClick="{{goAbout}}" onMouseEnter="{{nh.a}}">{{nv.a}}</a>
@@ -1691,7 +1702,7 @@ button:hover{filter:brightness(1.08)}
 </div>
 </div>
 </div>
-<div class="k-mono" style="position: absolute; left: 0px; right: 0px; top: 842px; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 13px; letter-spacing: 0.14em; color: #C1CBC6; opacity: {{hint}}">
+<div class="k-mono k-hud" style="position: absolute; left: 0px; right: 0px; top: calc(842px + {{yh}}); display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 13px; letter-spacing: 0.14em; color: #C1CBC6; opacity: {{hint}}">
 <span>{{hintTxt}}</span><span style="color: #EDF1EF">SCROLL</span><span class="k-nudge" style="color: #F2B84B">↓</span>
 </div>
 
@@ -1705,7 +1716,7 @@ button:hover{filter:brightness(1.08)}
 <h2 id="build" style="margin: 0px; font-weight: 600; font-size: 74px; line-height: 0.96; letter-spacing: 0.02em"><span class="k-ln"><span>EVERY BUILD</span></span><span class="k-ln"><span style="transition-delay: 0.08s">STARTS IN PIECES.</span></span></h2>
 <p style="margin: 16px 0px 0px; max-width: 560px; font-size: 24px; line-height: 1.4; color: #C1CBC6">Electrical and computer science, building the same machine.</p>
 <div style="margin-top: 34px; opacity: {{scOp}}; transform: translateY({{scY}})">
-<div class="k-mono" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{stepLbl}}</div>
+<div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{stepLbl}}</div>
 <div style="font-weight: 600; font-size: 64px; line-height: 1; letter-spacing: 0.04em; margin-top: 10px">{{stepName}}</div>
 <div style="font-size: 24px; line-height: 1.35; color: #C1CBC6; margin-top: 8px">{{stepDesc}}</div>
 <div style="margin-top: 22px; border-bottom: 1px solid rgba(237,241,239,0.16)"><div class="k-mono" style="display: flex; align-items: center; gap: 12px; height: 31px; border-top: 1px solid rgba(237,241,239,0.16); font-size: 13px; letter-spacing: 0.14em; color: #C1CBC6; opacity: {{pr0}}; transform: translateX({{px0}})"><span style="width: 6px; height: 6px; background-color: {{pc0}}; transform: rotate(45deg)"></span><span>{{pl0}}</span></div><div class="k-mono" style="display: flex; align-items: center; gap: 12px; height: 31px; border-top: 1px solid rgba(237,241,239,0.16); font-size: 13px; letter-spacing: 0.14em; color: #C1CBC6; opacity: {{pr1}}; transform: translateX({{px1}})"><span style="width: 6px; height: 6px; background-color: {{pc1}}; transform: rotate(45deg)"></span><span>{{pl1}}</span></div><div class="k-mono" style="display: flex; align-items: center; gap: 12px; height: 31px; border-top: 1px solid rgba(237,241,239,0.16); font-size: 13px; letter-spacing: 0.14em; color: #C1CBC6; opacity: {{pr2}}; transform: translateX({{px2}})"><span style="width: 6px; height: 6px; background-color: {{pc2}}; transform: rotate(45deg)"></span><span>{{pl2}}</span></div></div>
@@ -1714,7 +1725,7 @@ button:hover{filter:brightness(1.08)}
 </div>
 
 <div class="{{cdCls}}" style="position: absolute; left: 96px; top: 146px; width: 664px; opacity: {{cdOp}}; transform: translateY({{cdY}}); pointer-events: none">
-<div class="k-mono" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebCd}}</div>
+<div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebCd}}</div>
 <h2 style="margin: 8px 0px 0px; font-weight: 600; font-size: 54px; line-height: 1; letter-spacing: 0.02em"><span class="k-ln"><span>THEN, THE CODE.</span></span></h2>
 <div class="k-glass" style="margin-top: 18px; border: 1px solid rgba(237,241,239,0.4)">
 <div class="k-mono" style="display: flex; align-items: center; height: 34px; border-bottom: 1px solid rgba(237,241,239,0.18); font-size: 12px; letter-spacing: 0.12em">
@@ -1734,17 +1745,17 @@ button:hover{filter:brightness(1.08)}
 </div>
 
 <div class="{{okCls}}" style="position: absolute; left: 96px; top: 560px; width: 820px; opacity: {{okOp}}; transform: translateY({{okY}}); pointer-events: none">
-<div class="k-mono" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebOk}}</div>
+<div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebOk}}</div>
 <h2 style="margin: 8px 0px 0px; font-weight: 600; font-size: 168px; line-height: 0.9; letter-spacing: 0.02em"><span class="k-ln"><span>IT <span style="color: #F2B84B">WORKS.</span></span></span></h2>
 <p style="margin: 16px 0px 0px; max-width: 600px; font-size: 24px; line-height: 1.42; color: #C1CBC6">Not slides, not mock-ups: a build that runs on the bench. That is the bar at Makeathon.</p>
 </div>
 
 <div class="{{arCls}}" style="position: absolute; left: 96px; top: 166px; opacity: {{arOp}}; transform: translateY({{arY}}); pointer-events: none">
-<div class="k-mono" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebAr}}</div>
+<div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebAr}}</div>
 <h2 id="archive" style="margin: 12px 0px 0px; font-weight: 600; font-size: 96px; line-height: 1; letter-spacing: 0.02em"><span class="k-ln"><span>LAST TIME, ON THE BENCH.</span></span></h2>
 </div>
 <div style="position: absolute; left: 96px; right: 96px; top: 372px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid rgba(237,241,239,0.3); border-bottom: 1px solid rgba(237,241,239,0.3); background-color: rgba(23,38,31,0.6); opacity: {{cnOp}}; transform: translateY({{cnY}}); pointer-events: none"><div style="padding: 22px 0px 22px 0px;"><div style="font-weight: 600; font-size: 84px; line-height: 1">{{n0}}</div><div class="k-mono" style="font-size: 13px; letter-spacing: 0.16em; color: #9BACA4; margin-top: 8px">TEAMS</div></div><div style="padding: 22px 0px 22px 28px; border-left: 1px solid rgba(237,241,239,0.25);"><div style="font-weight: 600; font-size: 84px; line-height: 1">{{n1}}</div><div class="k-mono" style="font-size: 13px; letter-spacing: 0.16em; color: #9BACA4; margin-top: 8px">PARTICIPANTS</div></div><div style="padding: 22px 0px 22px 28px; border-left: 1px solid rgba(237,241,239,0.25);"><div style="font-weight: 600; font-size: 84px; line-height: 1">{{n2}}</div><div class="k-mono" style="font-size: 13px; letter-spacing: 0.16em; color: #9BACA4; margin-top: 8px">INDUSTRY JUDGES</div></div><div style="padding: 22px 0px 22px 28px; border-left: 1px solid rgba(237,241,239,0.25);"><div style="font-weight: 600; font-size: 84px; line-height: 1">{{n3}}</div><div class="k-mono" style="font-size: 13px; letter-spacing: 0.16em; color: #9BACA4; margin-top: 8px">COLLEGES</div></div><div style="padding: 22px 0px 22px 28px; border-left: 1px solid rgba(237,241,239,0.25);"><div style="font-weight: 600; font-size: 84px; line-height: 1">{{n4}}</div><div class="k-mono" style="font-size: 13px; letter-spacing: 0.16em; color: #9BACA4; margin-top: 8px">HOURS</div></div></div>
-<div style="position: absolute; left: 96px; top: 304px; width: 720px; height: 450px; overflow: hidden; box-sizing: border-box; border: 1px solid rgba(237,241,239,0.35); background-color: #1B2C24; opacity: {{rlOp}}; transform: translateY({{rlY}}); pointer-events: none">
+<div style="position: absolute; left: 96px; top: 304px; width: calc(720px + {{xw}}); height: 450px; overflow: hidden; box-sizing: border-box; border: 1px solid rgba(237,241,239,0.35); background-color: #1B2C24; opacity: {{rlOp}}; transform: translateY({{rlY}}); pointer-events: none">
 <img class="k-photo" src="./assets/a215f016ee0ca8ff86fce52a85060814.jpg" alt="The opening session on stage at Makeathon 2026" style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0px 0px {{cp0}} 0px)">
 <img class="k-photo" src="./assets/e353632797b6ad056b0f80c28a9ced17.jpg" alt="Teams working in the hall at Makeathon 2026" style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0px 0px {{cp1}} 0px)">
 <img class="k-photo" src="./assets/470679fce9e9e52c9468a0e41492b71a.jpg" alt="Participants gathered around a hardware build at Makeathon 2026" style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0px 0px {{cp2}} 0px)">
@@ -1755,7 +1766,7 @@ button:hover{filter:brightness(1.08)}
 <span aria-hidden="true" style="position: absolute; left: 10px; top: 10px; width: 16px; height: 16px; border-left: 2px solid #EDF1EF; border-top: 2px solid #EDF1EF"></span>
 <span aria-hidden="true" style="position: absolute; right: 10px; bottom: 10px; width: 16px; height: 16px; border-right: 2px solid #EDF1EF; border-bottom: 2px solid #EDF1EF"></span>
 </div>
-<div style="position: absolute; left: 880px; top: 304px; width: 464px; opacity: {{rlOp}}; transform: translateY({{rlY}}); pointer-events: none">
+<div style="position: absolute; left: calc(880px + {{xw2}}); top: 304px; width: 464px; opacity: {{rlOp}}; transform: translateY({{rlY}}); pointer-events: none">
 <div class="k-num" style="font-weight: 600; font-size: 168px; line-height: 0.82; letter-spacing: 0.02em">{{capNum}}</div>
 <div style="font-weight: 600; font-size: 56px; line-height: 1; letter-spacing: 0.04em; margin-top: 26px">{{capTitle}}</div>
 <div class="k-mono" style="font-size: 13px; letter-spacing: 0.16em; color: #C1CBC6; margin-top: 12px">{{capSub}}</div>
@@ -1764,18 +1775,18 @@ button:hover{filter:brightness(1.08)}
 </div>
 
 <div class="{{nxCls}}" style="position: absolute; left: 96px; top: 200px; width: 540px; opacity: {{nxOp}}; transform: translateY({{nxY}}); pointer-events: none">
-<div class="k-mono" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebNx}}</div>
+<div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebNx}}</div>
 <h2 id="next" style="margin: 14px 0px 0px; font-weight: 600; font-size: 76px; line-height: 0.96; letter-spacing: 0.02em"><span class="k-ln"><span>THE NEXT EDITION</span></span><span class="k-ln"><span style="transition-delay: 0.08s">IS BEING</span></span><span class="k-ln"><span style="transition-delay: 0.16s">ENGINEERED.</span></span></h2>
 <p style="margin: 24px 0px 0px; max-width: 500px; font-size: 24px; line-height: 1.42; color: #C1CBC6">Dates, venue, tracks and prizes are confirmed. Problem statements are being finalised with our industry partners and will be released here.</p>
 </div>
-<div class="k-glass" style="position: absolute; left: 680px; top: 196px; width: 664px; border: 1px solid rgba(237,241,239,0.55); opacity: {{nxOp}}; pointer-events: none">
+<div class="k-glass" style="position: absolute; left: calc(680px + {{xw2}}); top: 196px; width: 664px; border: 1px solid rgba(237,241,239,0.55); opacity: {{nxOp}}; pointer-events: none">
 <div class="k-mono" style="display: flex; justify-content: space-between; height: 46px; align-items: center; padding: 0px 18px; font-size: 13px; letter-spacing: 0.14em; color: #9BACA4"><span>{{ebSp}}</span><span>STATUS</span></div>
 <div style="display: grid; grid-template-columns: 190px minmax(0, 1fr) 170px; align-items: center; gap: 16px; height: 58px; padding: 0px 18px; border-top: 1px solid rgba(237,241,239,0.18)"><span class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">EDITION</span><span style="font-size: 24px; font-weight: 500">2027</span><span class="k-mono" style="justify-self: end; border: 1px solid rgba(237,241,239,0.75); padding: 6px 10px; font-size: 12px; letter-spacing: 0.12em; opacity: {{ro0}}; transform: scale({{rs0}})">CONFIRMED</span></div><div style="display: grid; grid-template-columns: 190px minmax(0, 1fr) 170px; align-items: center; gap: 16px; height: 58px; padding: 0px 18px; border-top: 1px solid rgba(237,241,239,0.18)"><span class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">ORGANISER</span><span style="font-size: 24px; font-weight: 500">SELECT, VIT Vellore</span><span class="k-mono" style="justify-self: end; border: 1px solid rgba(237,241,239,0.75); padding: 6px 10px; font-size: 12px; letter-spacing: 0.12em; opacity: {{ro1}}; transform: scale({{rs1}})">CONFIRMED</span></div><div style="display: grid; grid-template-columns: 190px minmax(0, 1fr) 170px; align-items: center; gap: 16px; height: 58px; padding: 0px 18px; border-top: 1px solid rgba(237,241,239,0.18)"><span class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">VENUE</span><span style="font-size: 24px; font-weight: 500">Anna Auditorium</span><span class="k-mono" style="justify-self: end; border: 1px solid rgba(237,241,239,0.75); padding: 6px 10px; font-size: 12px; letter-spacing: 0.12em; opacity: {{ro2}}; transform: scale({{rs2}})">CONFIRMED</span></div><div style="display: grid; grid-template-columns: 190px minmax(0, 1fr) 170px; align-items: center; gap: 16px; height: 58px; padding: 0px 18px; border-top: 1px solid rgba(237,241,239,0.18)"><span class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">TRACKS</span><span style="font-size: 24px; font-weight: 500">5 + OPEN INNOVATION</span><span class="k-mono" style="justify-self: end; border: 1px solid rgba(237,241,239,0.75); padding: 6px 10px; font-size: 12px; letter-spacing: 0.12em; opacity: {{ro3}}; transform: scale({{rs3}})">CONFIRMED</span></div><div style="display: grid; grid-template-columns: 190px minmax(0, 1fr) 170px; align-items: center; gap: 16px; height: 58px; padding: 0px 18px; border-top: 1px solid rgba(237,241,239,0.18)"><span class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">PROBLEM STATEMENTS</span><span class="k-redact" style="display: block; width: 58%; height: 22px"></span><span class="k-mono" style="justify-self: end; border: 1px solid #F2B84B; color: #F2B84B; padding: 6px 10px; font-size: 12px; letter-spacing: 0.12em; opacity: {{ro4}}; transform: scale({{rs4}})">TO BE ANNOUNCED</span></div><div style="display: grid; grid-template-columns: 190px minmax(0, 1fr) 170px; align-items: center; gap: 16px; height: 58px; padding: 0px 18px; border-top: 1px solid rgba(237,241,239,0.18)"><span class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">DATES</span><span style="font-size: 24px; font-weight: 500">19–20 JAN 2027</span><span class="k-mono" style="justify-self: end; border: 1px solid rgba(237,241,239,0.75); padding: 6px 10px; font-size: 12px; letter-spacing: 0.12em; opacity: {{ro5}}; transform: scale({{rs5}})">CONFIRMED</span></div><div style="display: grid; grid-template-columns: 190px minmax(0, 1fr) 170px; align-items: center; gap: 16px; height: 58px; padding: 0px 18px; border-top: 1px solid rgba(237,241,239,0.18)"><span class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">PRIZE POOL</span><span style="font-size: 24px; font-weight: 500">₹1,00,000</span><span class="k-mono" style="justify-self: end; border: 1px solid rgba(237,241,239,0.75); padding: 6px 10px; font-size: 12px; letter-spacing: 0.12em; opacity: {{ro6}}; transform: scale({{rs6}})">CONFIRMED</span></div><div style="display: grid; grid-template-columns: 190px minmax(0, 1fr) 170px; align-items: center; gap: 16px; height: 58px; padding: 0px 18px; border-top: 1px solid rgba(237,241,239,0.18)"><span class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">PARTNERS</span><span class="k-redact" style="display: block; width: 66%; height: 22px"></span><span class="k-mono" style="justify-self: end; border: 1px solid #F2B84B; color: #F2B84B; padding: 6px 10px; font-size: 12px; letter-spacing: 0.12em; opacity: {{ro7}}; transform: scale({{rs7}})">ENQUIRIES OPEN</span></div>
 <div style="position: absolute; left: 0px; right: 0px; top: {{scanY}}; height: 2px; background-color: #F2B84B; box-shadow: 0px 0px 18px rgba(242,184,75,0.85); opacity: {{scanOp}}"></div>
 </div>
 
-<div class="{{suCls}}" style="position: absolute; left: 760px; top: 186px; width: 600px; opacity: {{suOp}}; transform: translateY({{suY}}); pointer-events: {{suPe}}">
-<div class="k-mono" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebSu}}</div>
+<div class="{{suCls}}" style="position: absolute; left: calc(760px + {{xw2}}); top: 186px; width: 600px; opacity: {{suOp}}; transform: translateY({{suY}}); pointer-events: {{suPe}}">
+<div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebSu}}</div>
 <h2 id="notify" style="margin: 12px 0px 0px; font-weight: 600; font-size: 132px; line-height: 0.92; letter-spacing: 0.02em"><span class="k-ln"><span>HEAR IT</span></span><span class="k-ln"><span style="transition-delay: 0.09s">FIRST.</span></span></h2>
 <p style="margin: 22px 0px 0px; max-width: 540px; font-size: 24px; line-height: 1.42; color: #C1CBC6">Get an email the moment registrations open and problem statements for Makeathon 2027 are released.</p>
 <sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
@@ -1798,33 +1809,33 @@ button:hover{filter:brightness(1.08)}
 </div>
 </div>
 
-<div class="k-mono" style="position: absolute; left: 0px; right: 0px; top: 830px; display: flex; justify-content: center; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.14em; color: #C1CBC6; opacity: {{benchOp}}; pointer-events: none">
+<div class="k-mono k-hud" style="position: absolute; left: 0px; right: 0px; top: calc(830px + {{yh}}); display: flex; justify-content: center; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.14em; color: #C1CBC6; opacity: {{benchOp}}; pointer-events: none">
 <span style="color: #9BACA4">BENCH SUPPLY</span><span style="color: #F2B84B">{{benchV}}</span><span>{{benchA}}</span>
 </div>
-<div class="k-mono" style="position: absolute; left: 96px; top: 830px; display: flex; align-items: center; gap: 14px; font-size: 14px; letter-spacing: 0.16em; opacity: {{hudOp}}">
+<div class="k-mono k-hud k-eb" style="position: absolute; left: 96px; top: calc(830px + {{yh}}); display: flex; align-items: center; gap: 14px; font-size: 14px; letter-spacing: 0.16em; opacity: {{hudOp}}">
 <span style="color: #F2B84B">{{chNum}}</span><span style="color: #9BACA4">/ 08</span><span>{{chName}}</span>
 </div>
-<div class="k-mono" style="position: absolute; right: 96px; top: 830px; display: flex; align-items: center; gap: 10px; font-size: 14px; letter-spacing: 0.16em; color: #9BACA4; opacity: {{hudOp}}">NEXT<span style="color: #EDF1EF">{{nextName}}</span><span class="k-nudge" style="color: #F2B84B">↓</span></div>
+<div class="k-mono k-hud k-eb" style="position: absolute; right: 96px; top: calc(830px + {{yh}}); display: flex; align-items: center; gap: 10px; font-size: 14px; letter-spacing: 0.16em; color: #9BACA4; opacity: {{hudOp}}">NEXT<span style="color: #EDF1EF">{{nextName}}</span><span class="k-nudge" style="color: #F2B84B">↓</span></div>
 </div>
 </div>
 </div>
 <div class="{{d1Cls}}" id="why" style="position: relative; height: 100vh; overflow: hidden; contain: layout paint; background-color: #17261F">
 <div class="k-grid k-mat" aria-hidden="true"></div>
 <div aria-hidden="true" style="position: absolute; left: 20px; top: 20px; right: 20px; bottom: 20px; border: 1px solid rgba(237,241,239,0.16); pointer-events: none"></div><span style="position: absolute; top: 20px; left: 20px; width: 22px; height: 22px; border-top: 2px solid rgba(237,241,239,0.7); border-left: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; top: 20px; right: 20px; width: 22px; height: 22px; border-top: 2px solid rgba(237,241,239,0.7); border-right: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; bottom: 20px; left: 20px; width: 22px; height: 22px; border-bottom: 2px solid rgba(237,241,239,0.7); border-left: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; bottom: 20px; right: 20px; width: 22px; height: 22px; border-bottom: 2px solid rgba(237,241,239,0.7); border-right: 2px solid rgba(237,241,239,0.7)"></span><div aria-hidden="true" class="k-rulX"></div><div aria-hidden="true" class="k-rulY"></div>
-<div style="position: absolute; left: 50%; top: 50%; width: 1440px; height: 900px; transform: translate(-50%, -50%) scale({{k}}); font-family: 'Barlow Condensed', sans-serif; color: #EDF1EF"><div style="position:absolute;left:96px;top:92px;width:1248px"><div class="k-mono" style="font-size:14px;letter-spacing:.18em;color:#F2B84B">WHY MAKEATHON</div><h2 style="margin:12px 0 0;font-weight:600;font-size:76px;line-height:1;letter-spacing:.02em"><span class="k-ln"><span>WHY MAKEATHON?</span></span></h2></div><div style="position:absolute;left:96px;top:280px;width:1248px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px"><div class="k-cd2 k-rv" style="transition-delay:0.00s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">01</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">STRUCTURED BRIEFINGS</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Well-defined challenge statements directly from industry.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.06s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">02</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">TEAM IDEATION</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Cross-disciplinary teams brainstorm, evaluate and refine their concepts.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.12s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">03</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">END-TO-END PROTOTYPES</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">From hardware builds to full-stack software, functional within the 36-hour sprint.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.18s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">04</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">EXPERT MENTORSHIP</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Industry professionals and subject experts give continuous feedback on feasibility and scalability.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.24s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">05</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">JURY EVALUATION</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">30+ industrial judges assess innovation, technical depth, feasibility and impact.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.30s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">06</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">HIGH-IMPACT SHOWCASE</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Exceptional solutions are recognised and highlighted for future development.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.36s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">07</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">PATENT FILING</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Novel, patentable ideas may get support from VIT, subject to terms and eligibility.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.42s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">08</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">BUSINESS INCUBATION</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Promising ideas may opt for incubation support to grow into viable ventures.</div></div></div></div>
+<div style="position: absolute; left: 50%; top: 50%; width: {{sw}}; height: 900px; transform: translate(-50%, -50%) scale({{k}}); font-family: 'Barlow Condensed', sans-serif; color: #EDF1EF"><div style="position:absolute;left:96px;top:92px;width:calc(1248px + {{xw2}})"><div class="k-mono k-eb" style="font-size:14px;letter-spacing:.18em;color:#F2B84B">WHY MAKEATHON</div><h2 style="margin:12px 0 0;font-weight:600;font-size:76px;line-height:1;letter-spacing:.02em"><span class="k-ln"><span>WHY MAKEATHON?</span></span></h2></div><div style="position:absolute;left:96px;top:280px;width:calc(1248px + {{xw2}});display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px"><div class="k-cd2 k-rv" style="transition-delay:0.00s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">01</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">STRUCTURED BRIEFINGS</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Well-defined challenge statements directly from industry.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.06s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">02</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">TEAM IDEATION</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Cross-disciplinary teams brainstorm, evaluate and refine their concepts.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.12s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">03</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">END-TO-END PROTOTYPES</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">From hardware builds to full-stack software, functional within the 36-hour sprint.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.18s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">04</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">EXPERT MENTORSHIP</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Industry professionals and subject experts give continuous feedback on feasibility and scalability.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.24s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">05</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">JURY EVALUATION</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">30+ industrial judges assess innovation, technical depth, feasibility and impact.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.30s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">06</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">HIGH-IMPACT SHOWCASE</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Exceptional solutions are recognised and highlighted for future development.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.36s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">07</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">PATENT FILING</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Novel, patentable ideas may get support from VIT, subject to terms and eligibility.</div></div><div class="k-cd2 k-rv" style="transition-delay:0.42s"><div class="k-mono" style="font-size:13px;letter-spacing:.16em;color:#F2B84B">08</div><div style="font-size:26px;font-weight:600;letter-spacing:.03em;line-height:1.05;margin-top:8px">BUSINESS INCUBATION</div><div style="font-size:20px;line-height:1.4;color:#C1CBC6;margin-top:10px">Promising ideas may opt for incubation support to grow into viable ventures.</div></div></div></div>
 </div>
 <div class="{{d3Cls}}" id="hosts" style="position: relative; height: 100vh; overflow: hidden; contain: layout paint; background-color: #17261F">
 <div class="k-grid k-mat" aria-hidden="true"></div>
 <div aria-hidden="true" style="position: absolute; left: 20px; top: 20px; right: 20px; bottom: 20px; border: 1px solid rgba(237,241,239,0.16); pointer-events: none"></div><span style="position: absolute; top: 20px; left: 20px; width: 22px; height: 22px; border-top: 2px solid rgba(237,241,239,0.7); border-left: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; top: 20px; right: 20px; width: 22px; height: 22px; border-top: 2px solid rgba(237,241,239,0.7); border-right: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; bottom: 20px; left: 20px; width: 22px; height: 22px; border-bottom: 2px solid rgba(237,241,239,0.7); border-left: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; bottom: 20px; right: 20px; width: 22px; height: 22px; border-bottom: 2px solid rgba(237,241,239,0.7); border-right: 2px solid rgba(237,241,239,0.7)"></span><div aria-hidden="true" class="k-rulX"></div><div aria-hidden="true" class="k-rulY"></div>
-<div style="position: absolute; left: 50%; top: 50%; width: 1440px; height: 900px; transform: translate(-50%, -50%) scale({{k}}); font-family: 'Barlow Condensed', sans-serif; color: #EDF1EF"><div style="position:absolute;left:96px;top:92px;width:1248px"><div class="k-mono" style="font-size:14px;letter-spacing:.18em;color:#F2B84B">HOSTS · MAKEATHON 2027</div><h2 style="margin:12px 0 0;font-weight:600;font-size:76px;line-height:1;letter-spacing:.02em"><span class="k-ln"><span>VIT × SELECT.</span></span></h2></div><div class="k-rv" style="position:absolute;left:96px;top:262px;width:600px"><div class="k-mono" style="font-size:14px;letter-spacing:.18em;color:#F2B84B;padding-bottom:10px;border-bottom:1px solid rgba(237,241,239,.25);margin-bottom:16px">ABOUT VIT</div><p style="margin:0;font-size:23px;line-height:1.42;color:#C1CBC6">Vellore Institute of Technology is a leading institution recognised for excellence in education, research and innovation, with a diverse student community, advanced research facilities and strong international collaborations. It fosters technological innovation, interdisciplinary learning and entrepreneurship, an ideal platform for Makeathon.</p></div><div class="k-rv" style="position:absolute;left:744px;top:262px;width:600px"><div class="k-mono" style="font-size:14px;letter-spacing:.18em;color:#F2B84B;padding-bottom:10px;border-bottom:1px solid rgba(237,241,239,.25);margin-bottom:16px">ABOUT SELECT</div><p style="margin:0;font-size:23px;line-height:1.42;color:#C1CBC6">The School of Electrical Engineering at VIT excels in education, research and innovation. Its B.Tech. programmes are accredited by ABET and hold six-year NBA accreditation, and all UG and PG programmes are accredited by the IET, U.K. With advanced laboratories and strong industry collaborations, SELECT is the ideal foundation for technological innovation. Makeathon '27 is organised by SELECT, VIT Vellore.</p></div><div style="position:absolute;left:96px;right:96px;top:650px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid rgba(237,241,239,.3);border-bottom:1px solid rgba(237,241,239,.3)"><div class="k-rv" style="transition-delay:0.00s;padding:20px 0 20px 0px;"><div style="font-weight:600;font-size:76px;line-height:1">87</div><div class="k-mono" style="font-size:12px;letter-spacing:.14em;color:#9BACA4;margin-top:8px">WORLD RANK · EEE · QS 2026</div></div><div class="k-rv" style="transition-delay:0.07s;padding:20px 0 20px 24px;border-left:1px solid rgba(237,241,239,.25)"><div style="font-weight:600;font-size:76px;line-height:1">6</div><div class="k-mono" style="font-size:12px;letter-spacing:.14em;color:#9BACA4;margin-top:8px">INDIA RANK · EEE · QS 2026</div></div><div class="k-rv" style="transition-delay:0.14s;padding:20px 0 20px 24px;border-left:1px solid rgba(237,241,239,.25)"><div style="font-weight:600;font-size:76px;line-height:1">14</div><div class="k-mono" style="font-size:12px;letter-spacing:.14em;color:#9BACA4;margin-top:8px">NIRF 2025 · UNIVERSITIES</div></div><div class="k-rv" style="transition-delay:0.21s;padding:20px 0 20px 24px;border-left:1px solid rgba(237,241,239,.25)"><div style="font-weight:600;font-size:76px;line-height:1">16</div><div class="k-mono" style="font-size:12px;letter-spacing:.14em;color:#9BACA4;margin-top:8px">NIRF 2025 · ENGINEERING</div></div><div class="k-rv" style="transition-delay:0.28s;padding:20px 0 20px 24px;border-left:1px solid rgba(237,241,239,.25)"><div style="font-weight:600;font-size:76px;line-height:1">A++</div><div class="k-mono" style="font-size:12px;letter-spacing:.14em;color:#9BACA4;margin-top:8px">NAAC ACCREDITATION</div></div></div></div>
+<div style="position: absolute; left: 50%; top: 50%; width: {{sw}}; height: 900px; transform: translate(-50%, -50%) scale({{k}}); font-family: 'Barlow Condensed', sans-serif; color: #EDF1EF"><div style="position:absolute;left:96px;top:92px;width:calc(1248px + {{xw2}})"><div class="k-mono k-eb" style="font-size:14px;letter-spacing:.18em;color:#F2B84B">HOSTS · MAKEATHON 2027</div><h2 style="margin:12px 0 0;font-weight:600;font-size:76px;line-height:1;letter-spacing:.02em"><span class="k-ln"><span>VIT × SELECT.</span></span></h2></div><div class="k-rv" style="position:absolute;left:96px;top:262px;width:calc(600px + {{xw}})"><div class="k-mono k-eb" style="font-size:14px;letter-spacing:.18em;color:#F2B84B;padding-bottom:10px;border-bottom:1px solid rgba(237,241,239,.25);margin-bottom:16px">ABOUT VIT</div><p style="margin:0;font-size:23px;line-height:1.42;color:#C1CBC6">Vellore Institute of Technology is a leading institution recognised for excellence in education, research and innovation, with a diverse student community, advanced research facilities and strong international collaborations. It fosters technological innovation, interdisciplinary learning and entrepreneurship, an ideal platform for Makeathon.</p></div><div class="k-rv" style="position:absolute;left:calc(744px + {{xw}});top:262px;width:calc(600px + {{xw}})"><div class="k-mono k-eb" style="font-size:14px;letter-spacing:.18em;color:#F2B84B;padding-bottom:10px;border-bottom:1px solid rgba(237,241,239,.25);margin-bottom:16px">ABOUT SELECT</div><p style="margin:0;font-size:23px;line-height:1.42;color:#C1CBC6">The School of Electrical Engineering at VIT excels in education, research and innovation. Its B.Tech. programmes are accredited by ABET and hold six-year NBA accreditation, and all UG and PG programmes are accredited by the IET, U.K. With advanced laboratories and strong industry collaborations, SELECT is the ideal foundation for technological innovation. Makeathon '27 is organised by SELECT, VIT Vellore.</p></div><div style="position:absolute;left:96px;right:96px;top:650px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid rgba(237,241,239,.3);border-bottom:1px solid rgba(237,241,239,.3)"><div class="k-rv" style="transition-delay:0.00s;padding:20px 0 20px 0px;"><div style="font-weight:600;font-size:76px;line-height:1">87</div><div class="k-mono" style="font-size:12px;letter-spacing:.14em;color:#9BACA4;margin-top:8px">WORLD RANK · EEE · QS 2026</div></div><div class="k-rv" style="transition-delay:0.07s;padding:20px 0 20px 24px;border-left:1px solid rgba(237,241,239,.25)"><div style="font-weight:600;font-size:76px;line-height:1">6</div><div class="k-mono" style="font-size:12px;letter-spacing:.14em;color:#9BACA4;margin-top:8px">INDIA RANK · EEE · QS 2026</div></div><div class="k-rv" style="transition-delay:0.14s;padding:20px 0 20px 24px;border-left:1px solid rgba(237,241,239,.25)"><div style="font-weight:600;font-size:76px;line-height:1">14</div><div class="k-mono" style="font-size:12px;letter-spacing:.14em;color:#9BACA4;margin-top:8px">NIRF 2025 · UNIVERSITIES</div></div><div class="k-rv" style="transition-delay:0.21s;padding:20px 0 20px 24px;border-left:1px solid rgba(237,241,239,.25)"><div style="font-weight:600;font-size:76px;line-height:1">16</div><div class="k-mono" style="font-size:12px;letter-spacing:.14em;color:#9BACA4;margin-top:8px">NIRF 2025 · ENGINEERING</div></div><div class="k-rv" style="transition-delay:0.28s;padding:20px 0 20px 24px;border-left:1px solid rgba(237,241,239,.25)"><div style="font-weight:600;font-size:76px;line-height:1">A++</div><div class="k-mono" style="font-size:12px;letter-spacing:.14em;color:#9BACA4;margin-top:8px">NAAC ACCREDITATION</div></div></div></div>
 </div>
 <div style="position: relative; height: 100vh; overflow: hidden; contain: layout paint; background-color: #17261F">
 <div class="k-grid k-mat" aria-hidden="true"></div>
 <div aria-hidden="true" style="position: absolute; left: 20px; top: 20px; right: 20px; bottom: 20px; border: 1px solid rgba(237,241,239,0.16); pointer-events: none"></div><span style="position: absolute; top: 20px; left: 20px; width: 22px; height: 22px; border-top: 2px solid rgba(237,241,239,0.7); border-left: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; top: 20px; right: 20px; width: 22px; height: 22px; border-top: 2px solid rgba(237,241,239,0.7); border-right: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; bottom: 20px; left: 20px; width: 22px; height: 22px; border-bottom: 2px solid rgba(237,241,239,0.7); border-left: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; bottom: 20px; right: 20px; width: 22px; height: 22px; border-bottom: 2px solid rgba(237,241,239,0.7); border-right: 2px solid rgba(237,241,239,0.7)"></span><div aria-hidden="true" class="k-rulX"></div><div aria-hidden="true" class="k-rulY"></div>
-<div style="position: absolute; left: 50%; top: 50%; width: 1440px; height: 900px; transform: translate(-50%, -50%) scale({{k}}); font-family: 'Barlow Condensed', sans-serif; color: #EDF1EF">
-<div class="{{fqCls}}" style="position: absolute; left: 0px; top: 0px; width: 1440px; height: 900px; opacity: {{fqOp}}; transform: translateY({{fqY}})">
-<div style="position: absolute; left: 96px; top: 92px; width: 760px">
-<div class="k-mono" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebFq}}</div>
+<div style="position: absolute; left: 50%; top: 50%; width: {{sw}}; height: 900px; transform: translate(-50%, -50%) scale({{k}}); font-family: 'Barlow Condensed', sans-serif; color: #EDF1EF">
+<div class="{{fqCls}}" style="position: absolute; left: 0px; top: 0px; right: 0px; height: 900px; opacity: {{fqOp}}; transform: translateY({{fqY}})">
+<div style="position: absolute; left: 96px; top: 92px; width: calc(760px + {{xw}})">
+<div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebFq}}</div>
 <h2 id="faq" style="margin: 12px 0px 0px; font-weight: 600; font-size: 76px; line-height: 1; letter-spacing: 0.02em"><span class="k-ln"><span>QUESTIONS, ANSWERED.</span></span></h2>
 <div style="margin-top: 36px; border-bottom: 1px solid rgba(237,241,239,0.2)">
 <sc-for list="{{faqs}}" as="f" hint-placeholder-count="6">
@@ -1841,8 +1852,8 @@ button:hover{filter:brightness(1.08)}
 </sc-for>
 </div>
 </div>
-<div style="position: absolute; left: 940px; top: 92px; width: 404px">
-<div class="k-mono" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebCt}}</div>
+<div style="position: absolute; left: calc(940px + {{xw2}}); top: 92px; width: 404px">
+<div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebCt}}</div>
 <h2 id="contact" style="margin: 12px 0px 0px; font-weight: 600; font-size: 76px; line-height: 1; letter-spacing: 0.02em"><span class="k-ln"><span style="transition-delay: 0.06s">GET IN TOUCH.</span></span></h2>
 <div style="margin-top: 36px"><div style="padding: 13px 0px; border-top: 1px solid rgba(237,241,239,0.2)"><div class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">STUDENT CONVENER</div><div style="font-size: 23px; font-weight: 500; margin-top: 4px; line-height: 1.3">Prakul K Hebbur · 9844120276</div></div><div style="padding: 13px 0px; border-top: 1px solid rgba(237,241,239,0.2)"><div class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">STUDENT CONVENER</div><div style="font-size: 23px; font-weight: 500; margin-top: 4px; line-height: 1.3">Riddhi Tambi</div></div><div style="padding: 13px 0px; border-top: 1px solid rgba(237,241,239,0.2)"><div class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">FACULTY CONVENER</div><div style="font-size: 23px; font-weight: 500; margin-top: 4px; line-height: 1.3">Dr. K Satish Kumar · Dr. Marimuthu R</div></div><div style="padding: 13px 0px; border-top: 1px solid rgba(237,241,239,0.2)"><div class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">EMAIL</div><div style="font-size: 23px; font-weight: 500; margin-top: 4px; line-height: 1.3"><a href="mailto:enquiry@makeathon.in">enquiry@makeathon.in</a></div></div><div style="padding: 13px 0px; border-top: 1px solid rgba(237,241,239,0.2)"><div class="k-mono" style="font-size: 13px; letter-spacing: 0.14em; color: #9BACA4">ADDRESS</div><div style="font-size: 23px; font-weight: 500; margin-top: 4px; line-height: 1.3">School of Electrical Engineering, VIT Vellore, Tamil Nadu 632014</div></div></div>
 <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership" ref="{{qMagC}}" class="k-btn" style="display: flex; justify-content: space-between; margin-top: 24px; background-color: #F2B84B; color: #17261F; padding: 17px 22px; font-weight: 600; font-size: 20px; letter-spacing: 0.12em">PARTNER WITH US <span class="k-arr" aria-hidden="true">→</span></a>
@@ -1854,14 +1865,14 @@ button:hover{filter:brightness(1.08)}
 <footer style="position: relative; height: 100vh; overflow: hidden; contain: layout paint; background-color: #17261F">
 <div class="k-grid k-mat" aria-hidden="true"></div>
 <div aria-hidden="true" style="position: absolute; left: 20px; top: 20px; right: 20px; bottom: 20px; border: 1px solid rgba(237,241,239,0.16); pointer-events: none"></div><span style="position: absolute; top: 20px; left: 20px; width: 22px; height: 22px; border-top: 2px solid rgba(237,241,239,0.7); border-left: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; top: 20px; right: 20px; width: 22px; height: 22px; border-top: 2px solid rgba(237,241,239,0.7); border-right: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; bottom: 20px; left: 20px; width: 22px; height: 22px; border-bottom: 2px solid rgba(237,241,239,0.7); border-left: 2px solid rgba(237,241,239,0.7)"></span><span style="position: absolute; bottom: 20px; right: 20px; width: 22px; height: 22px; border-bottom: 2px solid rgba(237,241,239,0.7); border-right: 2px solid rgba(237,241,239,0.7)"></span><div aria-hidden="true" class="k-rulX"></div><div aria-hidden="true" class="k-rulY"></div>
-<div style="position: absolute; left: 50%; top: 50%; width: 1440px; height: 900px; transform: translate(-50%, -50%) scale({{k}}); font-family: 'Barlow Condensed', sans-serif; color: #EDF1EF">
-<span class="k-logo" aria-hidden="true" style="position: absolute; left: 119px; top: 312px; width: 154px; height: 150px"></span>
-<div aria-hidden="true" style="position: absolute; left: 313px; top: 318px; width: 1008px; height: 140px; white-space: nowrap; font-weight: 600; font-size: 150px; line-height: 0.92; letter-spacing: 0.04em">
+<div style="position: absolute; left: 50%; top: 50%; width: {{sw}}; height: 900px; transform: translate(-50%, -50%) scale({{k}}); font-family: 'Barlow Condensed', sans-serif; color: #EDF1EF">
+<span class="k-logo" aria-hidden="true" style="position: absolute; left: calc(119px + {{xw}}); top: 312px; width: 154px; height: 150px"></span>
+<div aria-hidden="true" style="position: absolute; left: calc(313px + {{xw}}); top: 318px; width: 1008px; height: 140px; white-space: nowrap; font-weight: 600; font-size: 150px; line-height: 0.92; letter-spacing: 0.04em">
 <div style="position: absolute; left: 0px; top: 0px; color: transparent; -webkit-text-stroke: 1.2px rgba(237,241,239,0.3)">MAKEATHON <span style="-webkit-text-stroke-color: rgba(242,184,75,0.45)">2027</span></div>
 <div style="position: absolute; left: 0px; top: 0px; clip-path: inset(0px {{wmR}} 0px 0px)">MAKEATHON <span style="color: #F2B84B">2027</span></div>
 <div class="k-wmE" style="position: absolute; top: -6px; bottom: -6px; left: {{wmX}}; width: 2px; background-color: #F2B84B; opacity: {{wmEo}}"></div>
 </div>
-<div class="k-mono" style="position: absolute; left: 96px; right: 96px; top: 812px; padding-top: 20px; border-top: 1px solid rgba(237,241,239,0.2); display: flex; justify-content: space-between; align-items: center; font-size: 13px; letter-spacing: 0.16em">
+<div class="k-mono k-hud" style="position: absolute; left: 96px; right: 96px; top: calc(812px + {{yh}}); padding-top: 20px; border-top: 1px solid rgba(237,241,239,0.2); display: flex; justify-content: space-between; align-items: center; font-size: 13px; letter-spacing: 0.16em">
 <span style="display: flex; align-items: center; gap: 10px; color: {{syC}}; transition: color 0.6s ease"><span style="width: 7px; height: 7px; border-radius: 50%; background-color: {{syD}}; box-shadow: {{syG}}; transition: background-color 0.6s ease, box-shadow 0.6s ease"></span>{{syTxt}}</span>
 <span style="color: #9BACA4">SCHOOL OF ELECTRICAL ENGINEERING · VIT VELLORE</span>
 <a href="#top" class="k-ul" onClick="{{goTop}}" style="color: #F2B84B">BACK TO TOP ↑</a>
@@ -1872,545 +1883,7 @@ button:hover{filter:brightness(1.08)}
 </div>
 </div>
 </footer>
-
-<!-- ═══════════════════════════════════════════════════════════
-     MOBILE LAYOUT — shown on screens ≤ 1023px
-     The desktop text scene is replaced by a native flow layout; its 3D canvas
-     remains as the responsive build visual.
-     ═══════════════════════════════════════════════════════════ -->
-<div class="mk-mobile" aria-label="Makeathon 2027 mobile site">
-
-  <!-- Mobile Nav -->
-  <nav class="mk-mnav" id="top-mobile">
-    <a href="#top-mobile" class="mk-mnav-logo">MAKEATHON<span>2027</span></a>
-    <button class="mk-mham" id="mk-ham" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <!-- Mobile Nav Drawer -->
-  <div class="mk-drawer" id="mk-drawer" aria-hidden="true">
-    <a href="#m-about" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">ABOUT</a>
-    <a href="#m-build" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">BUILD</a>
-    <a href="#m-archive" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">ARCHIVE</a>
-    <a href="#m-next" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">NEXT</a>
-    <a href="#m-why" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">WHY</a>
-    <a href="#m-faq" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">FAQ</a>
-    <a href="#m-notify" class="mk-draw-cta" onclick="document.getElementById('mk-drawer').classList.remove('is-open');document.getElementById('mk-ham').classList.remove('is-open');document.getElementById('mk-ham').setAttribute('aria-expanded','false');">GET NOTIFIED →</a>
-  </div>
-
-  <!-- Ticker -->
-  <div class="mk-mticker" aria-hidden="true">
-    <span class="mk-led"></span>
-    <div class="mk-mticker-text">
-      <span class="mk-mticker-scroll">
-        19–20 JAN 2027 · ANNA AUDITORIUM, VIT VELLORE
-        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
-        36-HOUR HARDWARE + SOFTWARE HACKATHON · PRIZE POOL ₹1,00,000
-        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
-        PARTNER ENQUIRIES · OPEN
-        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
-        50+ TEAMS · 250+ PARTICIPANTS · 30+ INDUSTRY JUDGES
-        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
-        19–20 JAN 2027 · ANNA AUDITORIUM, VIT VELLORE
-        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
-        36-HOUR HARDWARE + SOFTWARE HACKATHON · PRIZE POOL ₹1,00,000
-        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
-      </span>
-    </div>
-  </div>
-
-  <!-- Hero -->
-  <section class="mk-mhero" id="m-hero">
-    <div class="mk-mhero-grid" aria-hidden="true"></div>
-    <div style="position:relative">
-      <div class="mk-mhero-year">
-        <span style="width:6px;height:6px;border-radius:50%;background:#F2B84B;animation:k-pulse 2s ease-in-out infinite;flex-shrink:0"></span>
-        2027
-      </div>
-      <h1>MAKEATHON</h1>
-      <dl class="mk-mhero-meta">
-        <div>
-          <dt>FORMAT</dt>
-          <dd>HARDWARE HACKATHON</dd>
-        </div>
-        <div>
-          <dt>HOSTED BY</dt>
-          <dd>SELECT · VIT VELLORE</dd>
-        </div>
-        <div>
-          <dt>DATES</dt>
-          <dd class="mk-gold">
-            <span style="width:6px;height:6px;border-radius:50%;background:#F2B84B;animation:k-pulse 2s ease-in-out infinite"></span>
-            19–20 JAN 2027
-          </dd>
-        </div>
-        <div>
-          <dt>VENUE</dt>
-          <dd>ANNA AUDITORIUM, VIT VELLORE</dd>
-        </div>
-        <div>
-          <dt>PRIZE POOL</dt>
-          <dd style="color:#F2B84B">₹1,00,000</dd>
-        </div>
-      </dl>
-      <div class="mk-mhero-cta">
-        <a href="#m-notify" class="mk-btn-primary">GET NOTIFIED →</a>
-        <a href="#m-faq" class="mk-btn-outline">FAQ</a>
-      </div>
-    </div>
-  </section>
-
-  <div class="mk-mboard" id="mk-mboard" aria-hidden="true">
-    <div class="mk-mboard-label"><span>SELECT · VIT VELLORE / LIVE BUILD</span><span>36H SYSTEM CHECK <i class="mk-led" style="display:inline-block;margin-left:6px"></i></span></div>
-    <div class="mk-phone-board-art">
-      <div class="mk-phone-board-top"><span>MK / 27</span><span>FIELD SYSTEMS · 001</span></div>
-      <div class="mk-phone-schematic"><div class="mk-phone-board-outline"><span class="mk-phone-board-core">MAKE / TEST / REPEAT</span></div></div>
-      <div class="mk-phone-board-title"><span>HARDWARE</span><i>×</i><span>SOFTWARE</span></div>
-      <div class="mk-phone-board-foot"><span>36 HOURS · VELLORE</span><span>BUILT TO WORK</span></div>
-    </div>
-  </div>
-
-  <!-- Stats bar -->
-  <div class="mk-mstats" aria-label="Makeathon 2026 statistics">
-    <div class="mk-mstat">
-      <div class="mk-mstat-num">50<span style="color:#F2B84B">+</span></div>
-      <div class="mk-mstat-label">TEAMS</div>
-    </div>
-    <div class="mk-mstat">
-      <div class="mk-mstat-num">250<span style="color:#F2B84B">+</span></div>
-      <div class="mk-mstat-label">PARTICIPANTS</div>
-    </div>
-    <div class="mk-mstat">
-      <div class="mk-mstat-num">30<span style="color:#F2B84B">+</span></div>
-      <div class="mk-mstat-label">INDUSTRY JUDGES</div>
-    </div>
-    <div class="mk-mstat">
-      <div class="mk-mstat-num">30<span style="color:#F2B84B">+</span></div>
-      <div class="mk-mstat-label">COLLEGES</div>
-    </div>
-    <div class="mk-mstat">
-      <div class="mk-mstat-num">36<span style="color:#F2B84B">h</span></div>
-      <div class="mk-mstat-label">HOURS</div>
-    </div>
-  </div>
-
-  <!-- About section -->
-  <section class="mk-msec" id="m-about" style="padding-bottom:0;border-bottom:none">
-    <div class="mk-msec-label">ABOUT · MAKEATHON 2027</div>
-    <div class="mk-mabout-words">
-      REAL HARDWARE.<br>REAL CODE.<br><span>JUDGED</span> ON WHAT WORKS.
-    </div>
-    <p>Makeathon is the flagship hardware hackathon of the School of Electrical Engineering at VIT Vellore. Electrical and computer science, building the same machine.</p>
-
-    <!-- Photo slideshow -->
-    <div class="mk-mphoto" aria-label="Photos from Makeathon 2026">
-      <img src="./assets/a215f016ee0ca8ff86fce52a85060814.jpg" alt="The opening session on stage at Makeathon 2026">
-      <img src="./assets/e353632797b6ad056b0f80c28a9ced17.jpg" alt="Teams working in the hall at Makeathon 2026">
-      <img src="./assets/470679fce9e9e52c9468a0e41492b71a.jpg" alt="Participants gathered around a hardware build at Makeathon 2026">
-      <img src="./assets/5118bed34c5cc9feac0a429ca3e45910.jpg" alt="A team presenting its prototype at Makeathon 2026">
-      <img src="./assets/3c21e747e96b3baffdfce8bc286948d1.jpg" alt="A team demonstrating robot car prototypes at Makeathon 2026">
-      <img src="./assets/9be6e49e0345d2f2065191cff021ccd4.jpg" alt="The Makeathon 2026 winners on stage">
-      <div class="mk-mphoto-corner-tl" aria-hidden="true"></div>
-      <div class="mk-mphoto-corner-br" aria-hidden="true"></div>
-    </div>
-  </section>
-
-  <!-- Build section -->
-  <section class="mk-msec" id="m-build">
-    <div class="mk-msec-label">BUILD · PHASE 2</div>
-    <h2>EVERY BUILD<br>STARTS IN<br>PIECES.</h2>
-    <p>Hardware, firmware, software — three disciplines, one machine. Makeathon judges the assembled system, not the sum of its parts.</p>
-
-    <!-- Code snippet teaser -->
-    <div class="mk-mcode">
-      <div class="mk-mcode-tabs">
-        <div class="mk-mcode-tab-active">MAKEATHON.INO</div>
-        <div class="mk-mcode-tab-dim">MKT27.H</div>
-      </div>
-      <div class="mk-mcode-body">
-        <div class="mk-mcode-line"><span class="mk-mcode-num">1</span><span style="color:rgba(237,241,239,.4)">#include</span><span style="color:#F2B84B"> &lt;MKT27.h&gt;</span></div>
-        <div class="mk-mcode-line"><span class="mk-mcode-num">2</span><span></span></div>
-        <div class="mk-mcode-line"><span class="mk-mcode-num">3</span><span style="color:rgba(237,241,239,.4)">void </span><span style="color:#EDF1EF">setup</span><span style="color:rgba(237,241,239,.6)">()</span><span style="color:rgba(237,241,239,.4)"> {</span></div>
-        <div class="mk-mcode-line"><span class="mk-mcode-num">4</span><span style="color:rgba(237,241,239,.6)">  board.</span><span style="color:#EDF1EF">init</span><span style="color:rgba(237,241,239,.6)">();</span></div>
-        <div class="mk-mcode-line"><span class="mk-mcode-num">5</span><span style="color:rgba(237,241,239,.6)">  sensor.</span><span style="color:#EDF1EF">begin</span><span style="color:rgba(237,241,239,.6)">(</span><span style="color:#F2B84B">UART_115200</span><span style="color:rgba(237,241,239,.6)">);</span></div>
-        <div class="mk-mcode-line"><span class="mk-mcode-num">6</span><span style="color:rgba(237,241,239,.4)">}</span></div>
-        <div class="mk-mcode-line"><span class="mk-mcode-num">7</span><span></span></div>
-        <div class="mk-mcode-line" style="background:rgba(242,184,75,.08)"><span class="mk-mcode-num" style="color:#F2B84B">8</span><span style="color:rgba(237,241,239,.4)">void </span><span style="color:#EDF1EF">loop</span><span style="color:rgba(237,241,239,.6)">()</span><span style="color:rgba(237,241,239,.4)"> {</span></div>
-        <div class="mk-mcode-line"><span class="mk-mcode-num">9</span><span style="color:rgba(237,241,239,.6)">  float </span><span style="color:#EDF1EF">v </span><span style="color:rgba(237,241,239,.4)">= </span><span style="color:rgba(237,241,239,.6)">sensor.</span><span style="color:#EDF1EF">read</span><span style="color:rgba(237,241,239,.6)">();</span></div>
-        <div class="mk-mcode-line"><span class="mk-mcode-num">10</span><span style="color:rgba(237,241,239,.6)">  board.</span><span style="color:#EDF1EF">transmit</span><span style="color:rgba(237,241,239,.6)">(v);</span></div>
-        <div class="mk-mcode-line"><span class="mk-mcode-num">11</span><span style="color:rgba(237,241,239,.4)">}</span></div>
-      </div>
-      <div class="mk-mcode-status">
-        <div class="mk-mcode-dot"></div>
-        <span>IT WORKS.</span>
-        <span style="margin-left:auto">MKT-27 DEV · USB-C</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Archive section -->
-  <section class="mk-msec" id="m-archive">
-    <div class="mk-msec-label">ARCHIVE · MAKEATHON 2026</div>
-    <h2>LAST TIME,<br>ON THE BENCH.</h2>
-    <p>350 people. 60 teams. 20 colleges. 36 hours. What they built is in the record.</p>
-  </section>
-
-  <!-- Next edition section -->
-  <section class="mk-msec" id="m-next">
-    <div class="mk-msec-label">NEXT EDITION</div>
-    <h2>THE NEXT<br>EDITION IS<br>BEING<br>ENGINEERED.</h2>
-    <p>Dates, venue, tracks and prizes are confirmed. Problem statements are being finalised with our industry partners and will be released here.</p>
-
-    <div class="mk-mdetails">
-      <div class="mk-mdetail-row">
-        <span class="mk-mdetail-key">EDITION</span>
-        <span class="mk-mdetail-val">2027</span>
-        <span class="mk-badge">CONFIRMED</span>
-      </div>
-      <div class="mk-mdetail-row">
-        <span class="mk-mdetail-key">ORGANISER</span>
-        <span class="mk-mdetail-val">SELECT, VIT Vellore</span>
-        <span class="mk-badge">CONFIRMED</span>
-      </div>
-      <div class="mk-mdetail-row">
-        <span class="mk-mdetail-key">VENUE</span>
-        <span class="mk-mdetail-val">Anna Auditorium</span>
-        <span class="mk-badge">CONFIRMED</span>
-      </div>
-      <div class="mk-mdetail-row">
-        <span class="mk-mdetail-key">TRACKS</span>
-        <span class="mk-mdetail-val">5 + OPEN INNOVATION</span>
-        <span class="mk-badge">CONFIRMED</span>
-      </div>
-      <div class="mk-mdetail-row">
-        <span class="mk-mdetail-key">PROBLEM STATEMENTS</span>
-        <span class="mk-mdetail-val"><span class="mk-redact"></span></span>
-        <span class="mk-badge mk-badge-gold">TO BE ANNOUNCED</span>
-      </div>
-      <div class="mk-mdetail-row">
-        <span class="mk-mdetail-key">DATES</span>
-        <span class="mk-mdetail-val" style="color:#F2B84B">19–20 JAN 2027</span>
-        <span class="mk-badge">CONFIRMED</span>
-      </div>
-      <div class="mk-mdetail-row">
-        <span class="mk-mdetail-key">PRIZE POOL</span>
-        <span class="mk-mdetail-val">₹1,00,000</span>
-        <span class="mk-badge">CONFIRMED</span>
-      </div>
-      <div class="mk-mdetail-row">
-        <span class="mk-mdetail-key">PARTNERS</span>
-        <span class="mk-mdetail-val"><span class="mk-redact"></span></span>
-        <span class="mk-badge mk-badge-gold">ENQUIRIES OPEN</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Why Makeathon section -->
-  <section class="mk-msec" id="m-why">
-    <div class="mk-msec-label">WHY MAKEATHON</div>
-    <h2>WHY<br>MAKEATHON?</h2>
-    <div class="mk-mcards">
-      <div class="mk-mcard">
-        <div class="mk-mcard-num">01</div>
-        <div class="mk-mcard-title">STRUCTURED BRIEFINGS</div>
-        <div class="mk-mcard-desc">Well-defined challenge statements directly from industry.</div>
-      </div>
-      <div class="mk-mcard">
-        <div class="mk-mcard-num">02</div>
-        <div class="mk-mcard-title">TEAM IDEATION</div>
-        <div class="mk-mcard-desc">Cross-disciplinary teams brainstorm, evaluate and refine concepts.</div>
-      </div>
-      <div class="mk-mcard">
-        <div class="mk-mcard-num">03</div>
-        <div class="mk-mcard-title">END-TO-END PROTOTYPES</div>
-        <div class="mk-mcard-desc">Hardware + software, functional within the 36-hour sprint.</div>
-      </div>
-      <div class="mk-mcard">
-        <div class="mk-mcard-num">04</div>
-        <div class="mk-mcard-title">EXPERT MENTORSHIP</div>
-        <div class="mk-mcard-desc">Industry professionals give continuous feedback.</div>
-      </div>
-      <div class="mk-mcard">
-        <div class="mk-mcard-num">05</div>
-        <div class="mk-mcard-title">JURY EVALUATION</div>
-        <div class="mk-mcard-desc">30+ judges assess innovation, depth, and impact.</div>
-      </div>
-      <div class="mk-mcard">
-        <div class="mk-mcard-num">06</div>
-        <div class="mk-mcard-title">HIGH-IMPACT SHOWCASE</div>
-        <div class="mk-mcard-desc">Exceptional solutions are recognised and highlighted.</div>
-      </div>
-      <div class="mk-mcard">
-        <div class="mk-mcard-num">07</div>
-        <div class="mk-mcard-title">PATENT FILING</div>
-        <div class="mk-mcard-desc">Novel ideas may get support from VIT, subject to eligibility.</div>
-      </div>
-      <div class="mk-mcard">
-        <div class="mk-mcard-num">08</div>
-        <div class="mk-mcard-title">BUSINESS INCUBATION</div>
-        <div class="mk-mcard-desc">Promising ideas may opt for incubation support.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Hosts section -->
-  <section class="mk-msec" id="m-hosts">
-    <div class="mk-msec-label">HOSTS · MAKEATHON 2027</div>
-    <h2>VIT × SELECT.</h2>
-    <div class="mk-mhosts-grid">
-      <div class="mk-mhost">
-        <div class="mk-mhost-name">ABOUT VIT</div>
-        <p>Vellore Institute of Technology is a leading institution recognised for excellence in education, research and innovation, with a diverse student community, advanced research facilities and strong international collaborations.</p>
-      </div>
-      <div class="mk-mhost">
-        <div class="mk-mhost-name">ABOUT SELECT</div>
-        <p>The School of Electrical Engineering at VIT excels in education, research and innovation. Its B.Tech. programmes are accredited by ABET, hold six-year NBA accreditation, and all programmes are accredited by the IET, U.K.</p>
-      </div>
-    </div>
-    <div class="mk-mranks">
-      <div class="mk-mrank">
-        <div class="mk-mrank-num">87</div>
-        <div class="mk-mrank-label">WORLD RANK · EEE · QS 2026</div>
-      </div>
-      <div class="mk-mrank">
-        <div class="mk-mrank-num">6</div>
-        <div class="mk-mrank-label">INDIA RANK · EEE · QS 2026</div>
-      </div>
-      <div class="mk-mrank">
-        <div class="mk-mrank-num">14</div>
-        <div class="mk-mrank-label">NIRF 2025 · UNIVERSITIES</div>
-      </div>
-      <div class="mk-mrank" style="border-right:none">
-        <div class="mk-mrank-num">A++</div>
-        <div class="mk-mrank-label">NAAC ACCREDITATION</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ section -->
-  <section class="mk-msec" id="m-faq">
-    <div class="mk-msec-label">FAQ</div>
-    <h2>QUESTIONS,<br>ANSWERED.</h2>
-    <div class="mk-mfaq" id="mk-mfaq-list">
-      <div class="mk-mfaq-item">
-        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a0">
-          <span class="mk-mfaq-num">01</span>
-          <span class="mk-mfaq-q">What is Makeathon?</span>
-          <span class="mk-mfaq-pm"></span>
-        </button>
-        <p id="mk-mfaq-a0" class="mk-mfaq-a">The SELECT Makeathon is a flagship annual innovation program: a 36-hour challenge where students, designers and technology enthusiasts build real-world prototypes for problem statements from industry partners, across hardware and software.</p>
-      </div>
-      <div class="mk-mfaq-item">
-        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a1">
-          <span class="mk-mfaq-num">02</span>
-          <span class="mk-mfaq-q">When and where is Makeathon 2027?</span>
-          <span class="mk-mfaq-pm"></span>
-        </button>
-        <p id="mk-mfaq-a1" class="mk-mfaq-a">19 to 20 January 2027 at Anna Auditorium, VIT Vellore, Tamil Nadu 632014.</p>
-      </div>
-      <div class="mk-mfaq-item">
-        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a2">
-          <span class="mk-mfaq-num">03</span>
-          <span class="mk-mfaq-q">Who can take part?</span>
-          <span class="mk-mfaq-pm"></span>
-        </button>
-        <p id="mk-mfaq-a2" class="mk-mfaq-a">Teams of 3 to 5 members: undergraduate students, research scholars and working professionals.</p>
-      </div>
-      <div class="mk-mfaq-item">
-        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a3">
-          <span class="mk-mfaq-num">04</span>
-          <span class="mk-mfaq-q">What does it cost?</span>
-          <span class="mk-mfaq-pm"></span>
-        </button>
-        <p id="mk-mfaq-a3" class="mk-mfaq-a">Free for VIT students. External participants pay ₹500 per person.</p>
-      </div>
-      <div class="mk-mfaq-item">
-        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a4">
-          <span class="mk-mfaq-num">05</span>
-          <span class="mk-mfaq-q">What are the tracks?</span>
-          <span class="mk-mfaq-pm"></span>
-        </button>
-        <p id="mk-mfaq-a4" class="mk-mfaq-a">FaultWatch, Vitalis, Cosmolith, Live Wire, CogniForge and Open Innovation. Problem statements from industry partners will be released before the event.</p>
-      </div>
-      <div class="mk-mfaq-item">
-        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a5">
-          <span class="mk-mfaq-num">06</span>
-          <span class="mk-mfaq-q">What can we win?</span>
-          <span class="mk-mfaq-pm"></span>
-        </button>
-        <p id="mk-mfaq-a5" class="mk-mfaq-a">A total prize pool of ₹1,00,000, awarded to teams. Every participating team receives digital certificates, and teams keep full ownership of their projects.</p>
-      </div>
-      <div class="mk-mfaq-item mk-mfaq-last">
-        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a6">
-          <span class="mk-mfaq-num">07</span>
-          <span class="mk-mfaq-q">How can my organisation partner with Makeathon?</span>
-          <span class="mk-mfaq-pm"></span>
-        </button>
-        <p id="mk-mfaq-a6" class="mk-mfaq-a">Write to enquiry@makeathon.in. We will share the partnership deck and the ways to get involved, from contributing problem statements to judging.</p>
-      </div>
-    </div>
-
-    <!-- Contact (below FAQ) -->
-    <div style="margin-top:48px">
-      <div class="mk-msec-label" id="m-contact">GET IN TOUCH</div>
-      <h2 style="font-size:clamp(32px,10vw,48px)">CONTACT US.</h2>
-      <div class="mk-mcontact">
-        <div class="mk-mcontact-row">
-          <div class="mk-mcontact-key">STUDENT CONVENER</div>
-          <div class="mk-mcontact-val">Prakul K Hebbur · 9844120276</div>
-        </div>
-        <div class="mk-mcontact-row">
-          <div class="mk-mcontact-key">STUDENT CONVENER</div>
-          <div class="mk-mcontact-val">Riddhi Tambi</div>
-        </div>
-        <div class="mk-mcontact-row">
-          <div class="mk-mcontact-key">FACULTY CONVENER</div>
-          <div class="mk-mcontact-val">Dr. K Satish Kumar · Dr. Marimuthu R</div>
-        </div>
-        <div class="mk-mcontact-row">
-          <div class="mk-mcontact-key">EMAIL</div>
-          <div class="mk-mcontact-val"><a href="mailto:enquiry@makeathon.in">enquiry@makeathon.in</a></div>
-        </div>
-        <div class="mk-mcontact-row">
-          <div class="mk-mcontact-key">ADDRESS</div>
-          <div class="mk-mcontact-val">School of Electrical Engineering, VIT Vellore, Tamil Nadu 632014</div>
-        </div>
-      </div>
-      <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership" class="mk-btn-primary" style="margin-top:20px;width:100%;box-sizing:border-box">PARTNER WITH US →</a>
-    </div>
-  </section>
-
-  <!-- Notify / Sign-up section -->
-  <div class="mk-mnotify" id="m-notify">
-    <div class="mk-mnotify-bg" aria-hidden="true"></div>
-    <div style="position:relative">
-      <div class="mk-msec-label">SIGN UP</div>
-      <h2><span>HEAR IT</span><span>FIRST.</span></h2>
-      <p>Get an email the moment registrations open and problem statements for Makeathon 2027 are released.</p>
-
-      <div id="mk-m-form-wrap">
-        <div class="mk-mfield">
-          <input
-            class="mk-minput"
-            id="mk-m-email"
-            type="email"
-            inputmode="email"
-            autocomplete="email"
-            placeholder="you@college.edu"
-            aria-label="Email address"
-          >
-          <button class="mk-msubmit" id="mk-m-submit" onclick="mkMobileSubmit()">
-            NOTIFY ME →
-          </button>
-        </div>
-        <div class="mk-merr" id="mk-m-err" aria-live="polite"></div>
-      </div>
-
-      <div class="mk-msuccess" id="mk-m-success" aria-live="polite">
-        <div class="mk-msuccess-title">YOU'RE ON THE LIST</div>
-        <div class="mk-msuccess-body">We will write to you as soon as registrations open for Makeathon 2027.</div>
-      </div>
-
-      <div class="mk-mlinks">
-        <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership">PARTNER WITH US →</a>
-        <a href="./makeathon-2027-brochure.pdf" download class="mk-mlink-dim">DOWNLOAD BROCHURE</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="mk-mfooter">
-    <div class="mk-mfooter-bg" aria-hidden="true"></div>
-    <div style="position:relative">
-      <div class="mk-mfooter-logo" aria-hidden="true">MAKEATHON <span>2027</span></div>
-      <div class="mk-mfooter-cta">
-        <a href="#m-notify" class="mk-btn-primary">GET NOTIFIED →</a>
-        <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership" class="mk-btn-outline">PARTNER WITH US →</a>
-      </div>
-      <div class="mk-mfooter-bottom">
-        <div class="mk-mfooter-status">
-          <div class="mk-mfooter-dot"></div>
-          <span>ALL SYSTEMS OPERATIONAL</span>
-        </div>
-        <div class="mk-mfooter-org">SCHOOL OF ELECTRICAL ENGINEERING · VIT VELLORE</div>
-        <a href="#top-mobile" class="mk-mfooter-top">BACK TO TOP ↑</a>
-      </div>
-    </div>
-  </footer>
 </div>
-</div>
-
-<!-- Mobile interactive JS (standalone, no React needed) -->
-<script>
-(function() {
-  // Hamburger menu toggle
-  var ham = document.getElementById('mk-ham');
-  var drawer = document.getElementById('mk-drawer');
-  if (ham && drawer) {
-    ham.addEventListener('click', function() {
-      var open = ham.classList.toggle('is-open');
-      drawer.classList.toggle('is-open', open);
-      ham.setAttribute('aria-expanded', open ? 'true' : 'false');
-      drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
-    });
-  }
-})();
-
-// Delegated FAQ handling survives the mobile shell being mounted or replaced.
-document.addEventListener('click', function(event) {
-  var button = event.target.closest && event.target.closest('.mk-mfaq-btn');
-  if (!button) return;
-  var list = button.closest('.mk-mfaq');
-  if (!list) return;
-
-  var buttonRow = button.closest('.mk-mfaq-item');
-  var answer = buttonRow && buttonRow.querySelector('.mk-mfaq-a');
-  var opening = button.getAttribute('aria-expanded') !== 'true';
-  list.querySelectorAll('.mk-mfaq-btn').forEach(function(item) {
-    item.setAttribute('aria-expanded', 'false');
-    var itemRow = item.closest('.mk-mfaq-item');
-    var panel = itemRow && itemRow.querySelector('.mk-mfaq-a');
-    if (panel) panel.classList.remove('is-open');
-  });
-  if (opening && answer) {
-    button.setAttribute('aria-expanded', 'true');
-    answer.classList.add('is-open');
-  }
-});
-
-// Email signup
-function mkMobileSubmit() {
-  var inp = document.getElementById('mk-m-email');
-  var err = document.getElementById('mk-m-err');
-  var success = document.getElementById('mk-m-success');
-  var formWrap = document.getElementById('mk-m-form-wrap');
-  var submit = document.getElementById('mk-m-submit');
-  if (!inp) return;
-  var email = inp.value.trim();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    err.textContent = 'PLEASE ENTER A VALID EMAIL ADDRESS';
-    inp.classList.add('is-err');
-    return;
-  }
-  err.textContent = '';
-  inp.classList.remove('is-err');
-  if (submit) submit.disabled = true;
-  fetch('/api/subscribe', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email })
-  }).then(function(r) {
-    if (!r.ok) throw new Error('subscribe ' + r.status);
-    if (formWrap) formWrap.style.display = 'none';
-    if (success) success.classList.add('is-sent');
-  }).catch(function() {
-    err.textContent = 'SIGN-UP COULD NOT BE COMPLETED. PLEASE TRY AGAIN.';
-    if (submit) submit.disabled = false;
-  });
-}
-</script>
-
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
@@ -2425,34 +1898,10 @@ qDotRef = (el) => { this.qDotEl = el; };
 qMagA = (el) => { this.qMagEl.a = el; };
 qMagB = (el) => { this.qMagEl.b = el; };
 qMagC = (el) => { this.qMagEl.c = el; };
-qWheel = (e) => {
-const el = this.qEl; if (el && !el.hasAttribute('data-go')) { e.preventDefault(); return; }
-if (!el || e.ctrlKey || this.state.calm) return;
-try { if (window.matchMedia('(pointer: coarse)').matches) return; } catch (x) {}
-try { if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch (x) {}
-if (e.target && e.target.closest && e.target.closest('input, textarea')) return;
-let dy = e.deltaY; if (e.deltaMode === 1) dy *= 16; else if (e.deltaMode === 2) dy *= el.clientHeight;
-if (!dy) return;
-e.preventDefault();
-if (this.qWT == null) this.qWT = el.scrollTop;
-this.qWT = Math.max(0, Math.min(el.scrollHeight - el.clientHeight, this.qWT + dy));
-this.qWake();
-};
+// wheel and trackpad scroll natively (on the compositor, with the system's own momentum); the scene eases after it in qLoop
 qOnScroll = (ev) => {
 const el = ev.currentTarget;
-if (this.qWT != null && Math.abs(el.scrollTop - this.qWS) > 3) this.qWT = null;
-if (window.matchMedia('(max-width: 1023px)').matches) {
-const mobileRoot = el.querySelector('.mk-mobile'), rootRect = el.getBoundingClientRect();
-const phone = window.matchMedia('(max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse)').matches;
-const points = [['m-hero', 0], ...(!phone ? [['mk-mboard', 0.8]] : []), ['m-about', 2.5], ['m-build', 5.0], ['m-archive', 14.6], ['m-next', 19.2], ['m-why', 20.0], ['m-hosts', 20.8], ['m-faq', 21.6], ['m-notify', 22.5]];
-const stops = points.map(([id, sp]) => { const node = mobileRoot && mobileRoot.querySelector('#' + id); return node ? [el.scrollTop + node.getBoundingClientRect().top - rootRect.top, sp] : null; }).filter(Boolean);
-let pos = 0;
-if (stops.length) {
-pos = stops[0][1];
-for (let i = 0; i < stops.length - 1; i++) { const a = stops[i], b = stops[i + 1]; if (el.scrollTop <= b[0]) { const t = Math.max(0, Math.min(1, (el.scrollTop - a[0]) / Math.max(1, b[0] - a[0]))); pos = a[1] + (b[1] - a[1]) * t; break; } pos = b[1]; }
-}
-this.qTarget = pos;
-} else this.qTarget = el.clientHeight > 0 ? el.scrollTop / el.clientHeight : 0;
+this.qTarget = el.clientHeight > 0 ? el.scrollTop / el.clientHeight : 0;
 this.qWake();
 };
 componentDidMount() {
@@ -2484,7 +1933,6 @@ this.qIO = null;
 this.qInit();
 this.qLow = !!(window.__mkGPU && (window.__mkGPU.low || window.__mkGPU.soft)); if (this.qLow) { this.qQ = 3; this.qRS = 0.9; }
 this.qMeasure();
-this.qEl.addEventListener('wheel', this.qWheel, { passive: false });
 this.qBoot();
 }
 qBoot() {
@@ -2517,7 +1965,6 @@ if (pre) { pre.classList.add('is-out'); setTimeout(() => { if (pre.parentNode) p
 this.qWake();
 }
 componentWillUnmount() {
-if (this.qEl) this.qEl.removeEventListener('wheel', this.qWheel);
 window.removeEventListener('resize', this.qL.rs);
 window.removeEventListener('pointermove', this.qL.pm);
 window.removeEventListener('pointerdown', this.qL.pd);
@@ -2539,7 +1986,7 @@ this.qPf = f;
 qMeasure() {
 if (this.qEl) this.setState({ w: this.qEl.clientWidth, h: this.qEl.clientHeight });
 this.qResize();
-const phone = window.matchMedia('(max-width: 767px), (max-width: 1023px) and (max-height: 500px) and (pointer: coarse)').matches, wasPhone = this.qPhone;
+const phone = window.matchMedia('(max-width: 1023px), (max-width: 1366px) and (max-aspect-ratio: 4/5)').matches, wasPhone = this.qPhone;
 this.qPhone = phone;
 if (phone && !wasPhone) {
 if (this.qG3) { try { this.qG3.dispose(); } catch (e) {} this.qG3 = null; }
@@ -2586,14 +2033,8 @@ const A = (b) => 1 - Math.pow(1 - b, dt);
 const st = this.state, up = {};
 let busy = false;
 if (now >= this.qT0 && st.bt < 3200) { up.bt = now - this.qT0; busy = true; }
-if (this.qWT != null && this.qEl) {
-const el = this.qEl, df = this.qWT - el.scrollTop;
-if (Math.abs(df) < 0.6) { el.scrollTop = this.qWT; this.qWT = null; }
-else { const sp0 = df * A(0.16); el.scrollTop += Math.abs(sp0) < 1 ? Math.sign(df) : sp0; busy = true; }
-this.qWS = el.scrollTop; if (el.clientHeight > 0) this.qTarget = el.scrollTop / el.clientHeight;
-}
 const d = this.qTarget - this.qCur;
-if (Math.abs(d) > 0.0015) { this.qCur += d * A(0.14); up.sp = this.qCur; busy = true; }
+if (Math.abs(d) > 0.0015) { this.qCur += d * A(0.2); up.sp = this.qCur; busy = true; }
 else if (this.qCur !== this.qTarget) { this.qCur = this.qTarget; up.sp = this.qCur; }
 const p = this.qPtr, live = p.in && this.qFine;
 if (this.qEl) {
@@ -2685,7 +2126,6 @@ if (ev && ev.preventDefault) ev.preventDefault();
 const el = this.qEl; if (!el) return;
 const ov = this.qFadeEl;
 const jump = () => {
-this.qWT = null;
 el.scrollTop = screens < 0 ? el.scrollHeight : screens * el.clientHeight;
 const t = el.clientHeight > 0 ? el.scrollTop / el.clientHeight : 0;
 this.qTarget = t; this.qCur = t; this.qKey3 = ''; this.setState({ sp: t }); this.qWake();
@@ -2730,16 +2170,18 @@ this.qG3 = null; this.qG3Off = false; this.qQ = 2; this.qFT = 16.7; this.qFrameN
 this.qOrb = { a: 0, e: 0, va: 0, ve: 0 }; this.qPar = { a: 0, e: 0 }; this.qDrag = null;
 this.qCm = 62; this.qPlot = []; this.qPlotT = 0; this.qPress = 0; this.qPressT = -1e9; this.qHelloT = -1e9; this.qBootT = -1;
 this.qYour = -1; this.qYourT = 0; this.qName = ''; this.qPick = -1; this.qPickAt = 0; this.qRgb = new Float32Array(48); this.qBench = '';
-this.qRS = 0.85; this.qEma = 16.7; this.qSlowN = 0; this.qFastN = 0; this.qSoft = false;
+this.qRS = 1; this.qEma = 16.7; this.qSlowN = 0; this.qFastN = 0; this.qSoft = false;
 }
 qDispose() { if (this.qG3) { try { this.qG3.dispose(); } catch (e) {} this.qG3 = null; } }
 qResize() {
 const el = this.qEl;
 const W = (el && el.clientWidth) || this.state.w || 1440, H = (el && el.clientHeight) || this.state.h || 900;
-this.qMobile = window.matchMedia('(max-width: 1023px)').matches;
+this.qMobile = window.matchMedia('(max-width: 1023px), (max-width: 1366px) and (max-aspect-ratio: 4/5)').matches;
 this.qW = W; this.qH = H; this.qK = Math.min(W / 1440, H / 900) || 1;
+// labels a short window would shrink below about 11px are lifted a little (see .k-eb, .k-hud)
+try { document.documentElement.style.setProperty('--tb', Math.min(1.18, Math.max(1, 0.84 / this.qK)).toFixed(3)); } catch (e) {}
 if (this.qMobile) this.qK = Math.min(0.58, W / 840, H / 560) || 0.42;
-this.qDpr = Math.min(1.5, (typeof window !== 'undefined' && window.devicePixelRatio) || 1);
+this.qDpr = Math.min(2, (typeof window !== 'undefined' && window.devicePixelRatio) || 1);
 this.qKey3 = '';
 if (this.qG3) this.qG3Size();
 }
@@ -2756,9 +2198,10 @@ this.qG3.compile();
 }
 qG3Size() {
 const g = this.qG3; if (!g) return;
-// a pixel budget, so a big screen does not cost more than a laptop's
+// up to the screen's own resolution (2x at most) within a 4K frame (3840 x 2160, 1080p on a weak GPU); a machine
+// that cannot keep up steps down through the frame-time ladder in qStep3D
 const W = this.qW || 1440, H = this.qH || 900;
-const dpr = Math.max(this.qLow ? 0.5 : 0.75, Math.min(this.qDpr || 1, Math.sqrt((this.qLow ? 1.3e6 : 2.8e6) / (W * H))));
+const dpr = Math.max(this.qLow ? 0.5 : 0.75, Math.min(this.qDpr || 1, Math.sqrt((this.qLow ? 2.1e6 : 8.3e6) / (W * H))));
 g.resize(W, H, dpr);
 this.qKey3 = '';
 }
@@ -3032,8 +2475,8 @@ if (ft > 4 && ft < 400) {
 this.qFT = this.qFT * 0.94 + Math.min(ft, 250) * 0.06;
 this.qEma = this.qEma * 0.9 + ft * 0.1;
 if (this.qEma > 19) { this.qSlowN++; this.qFastN = 0; } else if (this.qEma < 17) { this.qFastN++; this.qSlowN = 0; }
-if (this.qSlowN > 10) { this.qSlowN = 0; this.qEma = 18; if (this.qQ < 3) this.qQ = 3; else if (g.msaa() > 0) g.msaa(0); else if (this.qRS > 0.7) this.qRS = Math.max(0.7, this.qRS * 0.85); else if (this.qRS > 0.45) this.qRS = Math.max(0.45, this.qRS * 0.85); }
-if (this.qFastN > 240 && this.qRS < 0.85 && this.qQ < 3) { this.qRS = Math.min(0.85, this.qRS / 0.9); this.qFastN = 0; }
+if (this.qSlowN > 10) { this.qSlowN = 0; this.qEma = 18; if (this.qRS > 0.85) this.qRS = 0.85; else if (this.qQ < 3) this.qQ = 3; else if (g.msaa() > 0) g.msaa(0); else if (this.qRS > 0.7) this.qRS = Math.max(0.7, this.qRS * 0.85); else if (this.qRS > 0.45) this.qRS = Math.max(0.45, this.qRS * 0.85); }
+if (this.qFastN > 240 && this.qRS < 1 && this.qQ < 3) { this.qRS = Math.min(1, this.qRS / 0.9); this.qFastN = 0; }
 }
 }
 this.qLastFrameAt = now;
@@ -4557,7 +4000,7 @@ function target(w, h, ms) {
 }
 function freeTarget(T) { if (!T) return; [T.res, T.dep].forEach((t) => t && gl.deleteTexture(t)); [T.resF, T.msF].forEach((f) => f && gl.deleteFramebuffer(f)); [T.msC, T.msD].forEach((r) => r && gl.deleteRenderbuffer(r)); }
 let main = null, mips = [], dofT = null, W = 0, H = 0, CW = 0, CH = 0, DPR = 1;
-const SHN = opt.low ? 1024 : 2048, HMW = 1024, HMH = 448;
+const SHN = opt.low ? 1024 : (gl.getParameter(gl.MAX_TEXTURE_SIZE) >= 8192 ? 4096 : 2048), HMW = 1024, HMH = 448;
 function depthTex(w, h, cmp) {
   const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.DEPTH_COMPONENT24, w, h, 0, gl.DEPTH_COMPONENT, gl.UNSIGNED_INT, null);
@@ -4899,6 +4342,9 @@ const lerp = (a, b, t) => a + (b - a) * t;
 const eo = (t) => 1 - Math.pow(1 - cl(t), 3);
 const k = Math.min(s.w / 1440, s.h / 900) || 1;
 this.qScale = k;
+// a window wider than 16:10 widens the stage (up to 1920) instead of letterboxing it: left columns stay on the
+// left margin, right columns move out to the right margin; a taller one pins the header and HUD to its edges
+const xw = Math.max(0, Math.min(240, (s.w / k - 1440) / 2)), yh = Math.max(0, Math.min(140, (s.h / k - 900) / 2));
 const O = this.qOps(sp), bt = s.bt;
 const pad2 = (n) => String(n).padStart(2, '0');
 const v = {};
@@ -4971,7 +4417,7 @@ goTop: this.qGo(0), goAbout: this.qGo(2.3), goBuild: this.qGo(4.3), goArchive: t
 wmR: ((1 - wmF) * 100).toFixed(2) + '%', wmX: (wmF * 1008).toFixed(1) + 'px', wmEo: wmF > 0.002 && wmF < 0.995 ? 1 : 0,
 syTxt: T('sy', synced ? 'IT WORKS · SEE YOU AT THE BENCH' : 'BOOTING'), syC: synced ? '#F2B84B' : '#9BACA4', syD: synced ? '#F2B84B' : '#9BACA4', syG: synced ? '0px 0px 10px rgba(242,184,75,0.9)' : 'none',
 nv: { g: 'WHY', a: T('n0', 'ABOUT'), b: T('n1', 'THE BUILD'), c: T('n2', 'ARCHIVE'), d: T('n3', "WHAT'S NEXT"), e: T('n4', 'FAQ'), f: T('n5', 'GET NOTIFIED') },
-k: k.toFixed(4),
+k: k.toFixed(4), sw: (1440 + 2 * xw).toFixed(1) + 'px', xw: xw.toFixed(1) + 'px', xw2: (2 * xw).toFixed(1) + 'px', yh: yh.toFixed(1) + 'px',
 bootNum: (16 * (1 - Math.pow(1 - cl(bt / 1750), 2.4))).toFixed(3),
 hOp: O.hero.toFixed(3), hY: (-50 * ss(0.3, 1.0, sp)).toFixed(1) + 'px',
 hint: (ss(1800, 2400, bt) * (1 - ss(0.05, 0.3, sp))).toFixed(3),
@@ -5008,6 +4454,558 @@ d1Cls: sp > 23.0 ? 'k-on' : '', d3Cls: sp > 24.0 ? 'k-on' : '', ebFq: T('fq', 'F
 faqs
 });
 }
+}
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MOBILE LAYOUT — shown on screens ≤ 1023px, and portrait screens up to 1366px
+     Plain HTML outside the React template, so it scrolls the document natively and
+     costs no script per frame; the desktop scene (and its 3D board) is not shown.
+     ═══════════════════════════════════════════════════════════ -->
+<div class="mk-mobile" aria-label="Makeathon 2027 mobile site">
+
+  <!-- Mobile Nav -->
+  <nav class="mk-mnav" id="top-mobile">
+    <a href="#top-mobile" class="mk-mnav-logo">MAKEATHON<span>2027</span></a>
+    <div class="mk-mnav-links">
+      <a href="#m-about">ABOUT</a>
+      <a href="#m-build">BUILD</a>
+      <a href="#m-archive">ARCHIVE</a>
+      <a href="#m-next">NEXT</a>
+      <a href="#m-why">WHY</a>
+      <a href="#m-faq">FAQ</a>
+      <a href="#m-notify" class="mk-mnav-cta">GET NOTIFIED</a>
+    </div>
+    <button class="mk-mham" id="mk-ham" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Nav Drawer -->
+  <div class="mk-drawer" id="mk-drawer" aria-hidden="true">
+    <a href="#m-about">ABOUT</a>
+    <a href="#m-build">BUILD</a>
+    <a href="#m-archive">ARCHIVE</a>
+    <a href="#m-next">NEXT</a>
+    <a href="#m-why">WHY</a>
+    <a href="#m-faq">FAQ</a>
+    <a href="#m-notify" class="mk-draw-cta">GET NOTIFIED →</a>
+  </div>
+
+  <!-- Ticker -->
+  <div class="mk-mticker" aria-hidden="true">
+    <span class="mk-led"></span>
+    <div class="mk-mticker-text">
+      <span class="mk-mticker-scroll">
+        19–20 JAN 2027 · ANNA AUDITORIUM, VIT VELLORE
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+        36-HOUR HARDWARE + SOFTWARE HACKATHON · PRIZE POOL ₹1,00,000
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+        PARTNER ENQUIRIES · OPEN
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+        50+ TEAMS · 250+ PARTICIPANTS · 30+ INDUSTRY JUDGES
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+        19–20 JAN 2027 · ANNA AUDITORIUM, VIT VELLORE
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+        36-HOUR HARDWARE + SOFTWARE HACKATHON · PRIZE POOL ₹1,00,000
+        <span style="display:inline-block;width:5px;height:5px;margin:0 20px;background:#F2B84B;transform:rotate(45deg);vertical-align:middle"></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="mk-mhero" id="m-hero">
+    <div class="mk-mhero-grid" aria-hidden="true"></div>
+    <div style="position:relative">
+      <div class="mk-mhero-title">
+        <span class="k-logo mk-mhero-logo" role="img" aria-label="Makeathon logo"></span>
+        <div class="mk-mhero-dim" aria-hidden="true"><span>2027</span></div>
+        <h1>MAKEATHON</h1>
+      </div>
+      <dl class="mk-mhero-meta">
+        <div>
+          <dt>FORMAT</dt>
+          <dd>HARDWARE HACKATHON</dd>
+        </div>
+        <div>
+          <dt>HOSTED BY</dt>
+          <dd>SELECT · VIT VELLORE</dd>
+        </div>
+        <div>
+          <dt>DATES</dt>
+          <dd class="mk-gold">
+            <span style="width:6px;height:6px;border-radius:50%;background:#F2B84B;animation:k-pulse 2s ease-in-out infinite"></span>
+            19–20 JAN 2027
+          </dd>
+        </div>
+        <div>
+          <dt>VENUE</dt>
+          <dd>ANNA AUDITORIUM, VIT VELLORE</dd>
+        </div>
+        <div>
+          <dt>PRIZE POOL</dt>
+          <dd style="color:#F2B84B">₹1,00,000</dd>
+        </div>
+      </dl>
+      <div class="mk-mhero-cta">
+        <a href="#m-notify" class="mk-btn-primary">GET NOTIFIED →</a>
+        <a href="#m-faq" class="mk-btn-outline">FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <div class="mk-mstats" aria-label="Makeathon 2026 statistics">
+    <div class="mk-mstat">
+      <div class="mk-mstat-num">50<span style="color:#F2B84B">+</span></div>
+      <div class="mk-mstat-label">TEAMS</div>
+    </div>
+    <div class="mk-mstat">
+      <div class="mk-mstat-num">250<span style="color:#F2B84B">+</span></div>
+      <div class="mk-mstat-label">PARTICIPANTS</div>
+    </div>
+    <div class="mk-mstat">
+      <div class="mk-mstat-num">30<span style="color:#F2B84B">+</span></div>
+      <div class="mk-mstat-label">INDUSTRY JUDGES</div>
+    </div>
+    <div class="mk-mstat">
+      <div class="mk-mstat-num">30<span style="color:#F2B84B">+</span></div>
+      <div class="mk-mstat-label">COLLEGES</div>
+    </div>
+    <div class="mk-mstat">
+      <div class="mk-mstat-num">36<span style="color:#F2B84B">h</span></div>
+      <div class="mk-mstat-label">HOURS</div>
+    </div>
+  </div>
+
+  <!-- About section -->
+  <section class="mk-msec" id="m-about" style="padding-bottom:0;border-bottom:none">
+    <div class="mk-msec-label">ABOUT · MAKEATHON 2027</div>
+    <div class="mk-mabout-words">
+      REAL HARDWARE.<br>REAL CODE.<br><span>JUDGED</span> ON WHAT WORKS.
+    </div>
+    <p>Makeathon is the flagship hardware hackathon of the School of Electrical Engineering at VIT Vellore. Electrical and computer science, building the same machine.</p>
+
+    <!-- Photo slideshow -->
+    <div class="mk-mphoto" aria-label="Photos from Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/a215f016ee0ca8ff86fce52a85060814.jpg" alt="The opening session on stage at Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/e353632797b6ad056b0f80c28a9ced17.jpg" alt="Teams working in the hall at Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/470679fce9e9e52c9468a0e41492b71a.jpg" alt="Participants gathered around a hardware build at Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/5118bed34c5cc9feac0a429ca3e45910.jpg" alt="A team presenting its prototype at Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/3c21e747e96b3baffdfce8bc286948d1.jpg" alt="A team demonstrating robot car prototypes at Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/9be6e49e0345d2f2065191cff021ccd4.jpg" alt="The Makeathon 2026 winners on stage">
+      <div class="mk-mphoto-corner-tl" aria-hidden="true"></div>
+      <div class="mk-mphoto-corner-br" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- Build section -->
+  <section class="mk-msec" id="m-build">
+    <div class="mk-msec-label">BUILD · PHASE 2</div>
+    <h2>EVERY BUILD<br>STARTS IN<br>PIECES.</h2>
+    <p>Hardware, firmware, software — three disciplines, one machine. Makeathon judges the assembled system, not the sum of its parts.</p>
+
+    <!-- Code snippet teaser -->
+    <div class="mk-mcode">
+      <div class="mk-mcode-tabs">
+        <div class="mk-mcode-tab-active">MAKEATHON.INO</div>
+        <div class="mk-mcode-tab-dim">MKT27.H</div>
+      </div>
+      <div class="mk-mcode-body">
+        <div class="mk-mcode-line"><span class="mk-mcode-num">1</span><span style="color:rgba(237,241,239,.4)">#include</span><span style="color:#F2B84B"> &lt;MKT27.h&gt;</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">2</span><span></span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">3</span><span style="color:rgba(237,241,239,.4)">void </span><span style="color:#EDF1EF">setup</span><span style="color:rgba(237,241,239,.6)">()</span><span style="color:rgba(237,241,239,.4)"> {</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">4</span><span style="color:rgba(237,241,239,.6)">  board.</span><span style="color:#EDF1EF">init</span><span style="color:rgba(237,241,239,.6)">();</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">5</span><span style="color:rgba(237,241,239,.6)">  sensor.</span><span style="color:#EDF1EF">begin</span><span style="color:rgba(237,241,239,.6)">(</span><span style="color:#F2B84B">UART_115200</span><span style="color:rgba(237,241,239,.6)">);</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">6</span><span style="color:rgba(237,241,239,.4)">}</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">7</span><span></span></div>
+        <div class="mk-mcode-line" style="background:rgba(242,184,75,.08)"><span class="mk-mcode-num" style="color:#F2B84B">8</span><span style="color:rgba(237,241,239,.4)">void </span><span style="color:#EDF1EF">loop</span><span style="color:rgba(237,241,239,.6)">()</span><span style="color:rgba(237,241,239,.4)"> {</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">9</span><span style="color:rgba(237,241,239,.6)">  float </span><span style="color:#EDF1EF">v </span><span style="color:rgba(237,241,239,.4)">= </span><span style="color:rgba(237,241,239,.6)">sensor.</span><span style="color:#EDF1EF">read</span><span style="color:rgba(237,241,239,.6)">();</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">10</span><span style="color:rgba(237,241,239,.6)">  board.</span><span style="color:#EDF1EF">transmit</span><span style="color:rgba(237,241,239,.6)">(v);</span></div>
+        <div class="mk-mcode-line"><span class="mk-mcode-num">11</span><span style="color:rgba(237,241,239,.4)">}</span></div>
+      </div>
+      <div class="mk-mcode-status">
+        <div class="mk-mcode-dot"></div>
+        <span>IT WORKS.</span>
+        <span style="margin-left:auto">MKT-27 DEV · USB-C</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Archive section -->
+  <section class="mk-msec" id="m-archive">
+    <div class="mk-msec-label">ARCHIVE · MAKEATHON 2026</div>
+    <h2>LAST TIME,<br>ON THE BENCH.</h2>
+    <p>350 people. 60 teams. 20 colleges. 36 hours. What they built is in the record.</p>
+  </section>
+
+  <!-- Next edition section -->
+  <section class="mk-msec" id="m-next">
+    <div class="mk-msec-label">NEXT EDITION</div>
+    <h2>THE NEXT<br>EDITION IS<br>BEING<br>ENGINEERED.</h2>
+    <p>Dates, venue, tracks and prizes are confirmed. Problem statements are being finalised with our industry partners and will be released here.</p>
+
+    <div class="mk-mdetails">
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">EDITION</span>
+        <span class="mk-mdetail-val">2027</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">ORGANISER</span>
+        <span class="mk-mdetail-val">SELECT, VIT Vellore</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">VENUE</span>
+        <span class="mk-mdetail-val">Anna Auditorium</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">TRACKS</span>
+        <span class="mk-mdetail-val">5 + OPEN INNOVATION</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">PROBLEM STATEMENTS</span>
+        <span class="mk-mdetail-val"><span class="mk-redact"></span></span>
+        <span class="mk-badge mk-badge-gold">TO BE ANNOUNCED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">DATES</span>
+        <span class="mk-mdetail-val" style="color:#F2B84B">19–20 JAN 2027</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">PRIZE POOL</span>
+        <span class="mk-mdetail-val">₹1,00,000</span>
+        <span class="mk-badge">CONFIRMED</span>
+      </div>
+      <div class="mk-mdetail-row">
+        <span class="mk-mdetail-key">PARTNERS</span>
+        <span class="mk-mdetail-val"><span class="mk-redact"></span></span>
+        <span class="mk-badge mk-badge-gold">ENQUIRIES OPEN</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Makeathon section -->
+  <section class="mk-msec" id="m-why">
+    <div class="mk-msec-label">WHY MAKEATHON</div>
+    <h2>WHY<br>MAKEATHON?</h2>
+    <div class="mk-mcards">
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">01</div>
+        <div class="mk-mcard-title">STRUCTURED BRIEFINGS</div>
+        <div class="mk-mcard-desc">Well-defined challenge statements directly from industry.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">02</div>
+        <div class="mk-mcard-title">TEAM IDEATION</div>
+        <div class="mk-mcard-desc">Cross-disciplinary teams brainstorm, evaluate and refine concepts.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">03</div>
+        <div class="mk-mcard-title">END-TO-END PROTOTYPES</div>
+        <div class="mk-mcard-desc">Hardware + software, functional within the 36-hour sprint.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">04</div>
+        <div class="mk-mcard-title">EXPERT MENTORSHIP</div>
+        <div class="mk-mcard-desc">Industry professionals give continuous feedback.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">05</div>
+        <div class="mk-mcard-title">JURY EVALUATION</div>
+        <div class="mk-mcard-desc">30+ judges assess innovation, depth, and impact.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">06</div>
+        <div class="mk-mcard-title">HIGH-IMPACT SHOWCASE</div>
+        <div class="mk-mcard-desc">Exceptional solutions are recognised and highlighted.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">07</div>
+        <div class="mk-mcard-title">PATENT FILING</div>
+        <div class="mk-mcard-desc">Novel ideas may get support from VIT, subject to eligibility.</div>
+      </div>
+      <div class="mk-mcard">
+        <div class="mk-mcard-num">08</div>
+        <div class="mk-mcard-title">BUSINESS INCUBATION</div>
+        <div class="mk-mcard-desc">Promising ideas may opt for incubation support.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hosts section -->
+  <section class="mk-msec" id="m-hosts">
+    <div class="mk-msec-label">HOSTS · MAKEATHON 2027</div>
+    <h2>VIT × SELECT.</h2>
+    <div class="mk-mhosts-grid">
+      <div class="mk-mhost">
+        <div class="mk-mhost-name">ABOUT VIT</div>
+        <p>Vellore Institute of Technology is a leading institution recognised for excellence in education, research and innovation, with a diverse student community, advanced research facilities and strong international collaborations.</p>
+      </div>
+      <div class="mk-mhost">
+        <div class="mk-mhost-name">ABOUT SELECT</div>
+        <p>The School of Electrical Engineering at VIT excels in education, research and innovation. Its B.Tech. programmes are accredited by ABET, hold six-year NBA accreditation, and all programmes are accredited by the IET, U.K.</p>
+      </div>
+    </div>
+    <div class="mk-mranks">
+      <div class="mk-mrank">
+        <div class="mk-mrank-num">87</div>
+        <div class="mk-mrank-label">WORLD RANK · EEE · QS 2026</div>
+      </div>
+      <div class="mk-mrank">
+        <div class="mk-mrank-num">6</div>
+        <div class="mk-mrank-label">INDIA RANK · EEE · QS 2026</div>
+      </div>
+      <div class="mk-mrank">
+        <div class="mk-mrank-num">14</div>
+        <div class="mk-mrank-label">NIRF 2025 · UNIVERSITIES</div>
+      </div>
+      <div class="mk-mrank" style="border-right:none">
+        <div class="mk-mrank-num">A++</div>
+        <div class="mk-mrank-label">NAAC ACCREDITATION</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ section -->
+  <section class="mk-msec" id="m-faq">
+    <div class="mk-msec-label">FAQ</div>
+    <h2>QUESTIONS,<br>ANSWERED.</h2>
+    <div class="mk-mfaq" id="mk-mfaq-list">
+      <div class="mk-mfaq-item">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a0">
+          <span class="mk-mfaq-num">01</span>
+          <span class="mk-mfaq-q">What is Makeathon?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a0" class="mk-mfaq-a">The SELECT Makeathon is a flagship annual innovation program: a 36-hour challenge where students, designers and technology enthusiasts build real-world prototypes for problem statements from industry partners, across hardware and software.</p>
+      </div>
+      <div class="mk-mfaq-item">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a1">
+          <span class="mk-mfaq-num">02</span>
+          <span class="mk-mfaq-q">When and where is Makeathon 2027?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a1" class="mk-mfaq-a">19 to 20 January 2027 at Anna Auditorium, VIT Vellore, Tamil Nadu 632014.</p>
+      </div>
+      <div class="mk-mfaq-item">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a2">
+          <span class="mk-mfaq-num">03</span>
+          <span class="mk-mfaq-q">Who can take part?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a2" class="mk-mfaq-a">Teams of 3 to 5 members: undergraduate students, research scholars and working professionals.</p>
+      </div>
+      <div class="mk-mfaq-item">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a3">
+          <span class="mk-mfaq-num">04</span>
+          <span class="mk-mfaq-q">What does it cost?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a3" class="mk-mfaq-a">Free for VIT students. External participants pay ₹500 per person.</p>
+      </div>
+      <div class="mk-mfaq-item">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a4">
+          <span class="mk-mfaq-num">05</span>
+          <span class="mk-mfaq-q">What are the tracks?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a4" class="mk-mfaq-a">FaultWatch, Vitalis, Cosmolith, Live Wire, CogniForge and Open Innovation. Problem statements from industry partners will be released before the event.</p>
+      </div>
+      <div class="mk-mfaq-item">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a5">
+          <span class="mk-mfaq-num">06</span>
+          <span class="mk-mfaq-q">What can we win?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a5" class="mk-mfaq-a">A total prize pool of ₹1,00,000, awarded to teams. Every participating team receives digital certificates, and teams keep full ownership of their projects.</p>
+      </div>
+      <div class="mk-mfaq-item mk-mfaq-last">
+        <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a6">
+          <span class="mk-mfaq-num">07</span>
+          <span class="mk-mfaq-q">How can my organisation partner with Makeathon?</span>
+          <span class="mk-mfaq-pm"></span>
+        </button>
+        <p id="mk-mfaq-a6" class="mk-mfaq-a">Write to enquiry@makeathon.in. We will share the partnership deck and the ways to get involved, from contributing problem statements to judging.</p>
+      </div>
+    </div>
+
+    <!-- Contact (below FAQ) -->
+    <div style="margin-top:48px">
+      <div class="mk-msec-label" id="m-contact">GET IN TOUCH</div>
+      <h2 style="font-size:clamp(32px,10vw,48px)">CONTACT US.</h2>
+      <div class="mk-mcontact">
+        <div class="mk-mcontact-row">
+          <div class="mk-mcontact-key">STUDENT CONVENER</div>
+          <div class="mk-mcontact-val">Prakul K Hebbur · 9844120276</div>
+        </div>
+        <div class="mk-mcontact-row">
+          <div class="mk-mcontact-key">STUDENT CONVENER</div>
+          <div class="mk-mcontact-val">Riddhi Tambi</div>
+        </div>
+        <div class="mk-mcontact-row">
+          <div class="mk-mcontact-key">FACULTY CONVENER</div>
+          <div class="mk-mcontact-val">Dr. K Satish Kumar · Dr. Marimuthu R</div>
+        </div>
+        <div class="mk-mcontact-row">
+          <div class="mk-mcontact-key">EMAIL</div>
+          <div class="mk-mcontact-val"><a href="mailto:enquiry@makeathon.in">enquiry@makeathon.in</a></div>
+        </div>
+        <div class="mk-mcontact-row">
+          <div class="mk-mcontact-key">ADDRESS</div>
+          <div class="mk-mcontact-val">School of Electrical Engineering, VIT Vellore, Tamil Nadu 632014</div>
+        </div>
+      </div>
+      <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership" class="mk-btn-primary" style="margin-top:20px;width:100%;box-sizing:border-box">PARTNER WITH US →</a>
+    </div>
+  </section>
+
+  <!-- Notify / Sign-up section -->
+  <div class="mk-mnotify" id="m-notify">
+    <div class="mk-mnotify-bg" aria-hidden="true"></div>
+    <div style="position:relative">
+      <div class="mk-msec-label">SIGN UP</div>
+      <h2><span>HEAR IT</span><span>FIRST.</span></h2>
+      <p>Get an email the moment registrations open and problem statements for Makeathon 2027 are released.</p>
+
+      <div id="mk-m-form-wrap">
+        <div class="mk-mfield">
+          <input
+            class="mk-minput"
+            id="mk-m-email"
+            type="email"
+            inputmode="email"
+            autocomplete="email"
+            placeholder="you@college.edu"
+            aria-label="Email address"
+          >
+          <button type="button" class="mk-msubmit" id="mk-m-submit">
+            NOTIFY ME →
+          </button>
+        </div>
+        <div class="mk-merr" id="mk-m-err" aria-live="polite"></div>
+      </div>
+
+      <div class="mk-msuccess" id="mk-m-success" aria-live="polite">
+        <div class="mk-msuccess-title">YOU'RE ON THE LIST</div>
+        <div class="mk-msuccess-body">We will write to you as soon as registrations open for Makeathon 2027.</div>
+      </div>
+
+      <div class="mk-mlinks">
+        <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership">PARTNER WITH US →</a>
+        <a href="./makeathon-2027-brochure.pdf" download class="mk-mlink-dim">DOWNLOAD BROCHURE</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mk-mfooter">
+    <div class="mk-mfooter-bg" aria-hidden="true"></div>
+    <div style="position:relative">
+      <div class="mk-mfooter-logo" aria-hidden="true">MAKEATHON <span>2027</span></div>
+      <div class="mk-mfooter-cta">
+        <a href="#m-notify" class="mk-btn-primary">GET NOTIFIED →</a>
+        <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership" class="mk-btn-outline">PARTNER WITH US →</a>
+      </div>
+      <div class="mk-mfooter-bottom">
+        <div class="mk-mfooter-status">
+          <div class="mk-mfooter-dot"></div>
+          <span>ALL SYSTEMS OPERATIONAL</span>
+        </div>
+        <div class="mk-mfooter-org">SCHOOL OF ELECTRICAL ENGINEERING · VIT VELLORE</div>
+        <a href="#top-mobile" class="mk-mfooter-top">BACK TO TOP ↑</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- Mobile interactive JS (standalone, no React needed) -->
+<script>
+// Menu, FAQ and form are handled by delegation from the document.
+function mkSetDrawer(open) {
+  var ham = document.getElementById('mk-ham');
+  var drawer = document.getElementById('mk-drawer');
+  if (!ham || !drawer) return;
+  ham.classList.toggle('is-open', open);
+  drawer.classList.toggle('is-open', open);
+  ham.setAttribute('aria-expanded', open ? 'true' : 'false');
+  drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+}
+document.addEventListener('click', function(event) {
+  var target = event.target;
+  if (!target || !target.closest) return;
+  if (target.closest('#mk-ham')) {
+    var drawer = document.getElementById('mk-drawer');
+    mkSetDrawer(!(drawer && drawer.classList.contains('is-open')));
+  } else if (target.closest('#mk-drawer a')) {
+    mkSetDrawer(false);
+  } else if (target.closest('#mk-m-submit')) {
+    mkMobileSubmit();
+  }
+});
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') mkSetDrawer(false);
+  if (event.key === 'Enter' && event.target && event.target.id === 'mk-m-email') {
+    event.preventDefault();
+    mkMobileSubmit();
+  }
+});
+
+// Delegated FAQ handling survives the mobile shell being mounted or replaced.
+document.addEventListener('click', function(event) {
+  var button = event.target.closest && event.target.closest('.mk-mfaq-btn');
+  if (!button) return;
+  var list = button.closest('.mk-mfaq');
+  if (!list) return;
+
+  var buttonRow = button.closest('.mk-mfaq-item');
+  var answer = buttonRow && buttonRow.querySelector('.mk-mfaq-a');
+  var opening = button.getAttribute('aria-expanded') !== 'true';
+  list.querySelectorAll('.mk-mfaq-btn').forEach(function(item) {
+    item.setAttribute('aria-expanded', 'false');
+    var itemRow = item.closest('.mk-mfaq-item');
+    var panel = itemRow && itemRow.querySelector('.mk-mfaq-a');
+    if (panel) panel.classList.remove('is-open');
+  });
+  if (opening && answer) {
+    button.setAttribute('aria-expanded', 'true');
+    answer.classList.add('is-open');
+  }
+});
+
+// Email signup
+function mkMobileSubmit() {
+  var inp = document.getElementById('mk-m-email');
+  var err = document.getElementById('mk-m-err');
+  var success = document.getElementById('mk-m-success');
+  var formWrap = document.getElementById('mk-m-form-wrap');
+  var submit = document.getElementById('mk-m-submit');
+  if (!inp) return;
+  var email = inp.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    err.textContent = 'PLEASE ENTER A VALID EMAIL ADDRESS';
+    inp.classList.add('is-err');
+    return;
+  }
+  err.textContent = '';
+  inp.classList.remove('is-err');
+  if (submit) submit.disabled = true;
+  fetch('/api/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+  }).then(function(r) {
+    if (!r.ok) throw new Error('subscribe ' + r.status);
+    if (formWrap) formWrap.style.display = 'none';
+    if (success) success.classList.add('is-sent');
+  }).catch(function() {
+    err.textContent = 'SIGN-UP COULD NOT BE COMPLETED. PLEASE TRY AGAIN.';
+    if (submit) submit.disabled = false;
+  });
 }
 </script>
 </body>
