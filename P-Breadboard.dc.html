@@ -972,7 +972,7 @@ x-dc{display:none!important}
 
 @media (max-width: 767px) {
   .mk-mhero { padding: 40px 22px 34px; }
-  .mk-mhero h1 { width: 100%; font-size: min(88px, 21vw, calc(25vw - 11px)); letter-spacing: .01em; white-space: nowrap; text-shadow: 0 10px 34px rgba(242,184,75,.1); }
+  .mk-mhero h1 { width: 100%; font-size: min(88px, 19.5vw); letter-spacing: .01em; white-space: nowrap; text-shadow: 0 10px 34px rgba(242,184,75,.1); }
   .mk-mhero-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; margin-top: 24px; }
   .mk-mhero-meta > div { min-width: 0; padding-top: 9px; border-top: 1px solid rgba(237,241,239,.16); }
   .mk-mhero-meta > div:nth-child(4) { grid-column: 1 / -1; }
@@ -1005,7 +1005,7 @@ x-dc{display:none!important}
   .mk-mstat { grid-column: span 2; min-width: 0; padding: 16px 10px 16px 14px; }
   .mk-mstat:first-child, .mk-mstat:nth-child(4) { padding-left: 20px; border-left: none; }
   .mk-mstat:nth-child(n+4) { grid-column: span 3; border-top: 1px solid rgba(237,241,239,0.2); }
-  .mk-mstat-label { line-height: 1.35; }
+  .mk-mstat-label { font-size: clamp(8px, 2.4vw, 10px); letter-spacing: .08em; line-height: 1.35; }
   .mk-mranks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mk-mrank { border-right: none; }
   .mk-mrank:nth-child(odd) { border-right: 1px solid rgba(237,241,239,0.2); }
@@ -1714,7 +1714,7 @@ button:hover{filter:brightness(1.08)}
 
 <div class="{{bdCls}}" style="position: absolute; left: 96px; top: 190px; width: 640px; opacity: {{bdOp}}; transform: translateY({{bdY}}); pointer-events: none">
 <h2 id="build" style="margin: 0px; font-weight: 600; font-size: 74px; line-height: 0.96; letter-spacing: 0.02em"><span class="k-ln"><span>EVERY BUILD</span></span><span class="k-ln"><span style="transition-delay: 0.08s">STARTS IN PIECES.</span></span></h2>
-<p style="margin: 16px 0px 0px; max-width: 560px; font-size: 24px; line-height: 1.4; color: #C1CBC6">Electrical and computer science, building the same machine.</p>
+<p style="margin: 16px 0px 0px; max-width: 560px; font-size: 24px; line-height: 1.4; color: #C1CBC6">Electrical and computer science students build the same machine.</p>
 <div style="margin-top: 34px; opacity: {{scOp}}; transform: translateY({{scY}})">
 <div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{stepLbl}}</div>
 <div style="font-weight: 600; font-size: 64px; line-height: 1; letter-spacing: 0.04em; margin-top: 10px">{{stepName}}</div>
@@ -1788,7 +1788,7 @@ button:hover{filter:brightness(1.08)}
 <div class="{{suCls}}" style="position: absolute; left: calc(760px + {{xw2}}); top: 186px; width: 600px; opacity: {{suOp}}; transform: translateY({{suY}}); pointer-events: {{suPe}}">
 <div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebSu}}</div>
 <h2 id="notify" style="margin: 12px 0px 0px; font-weight: 600; font-size: 132px; line-height: 0.92; letter-spacing: 0.02em"><span class="k-ln"><span>HEAR IT</span></span><span class="k-ln"><span style="transition-delay: 0.09s">FIRST.</span></span></h2>
-<p style="margin: 22px 0px 0px; max-width: 540px; font-size: 24px; line-height: 1.42; color: #C1CBC6">Get an email the moment registrations open and problem statements for Makeathon 2027 are released.</p>
+<p style="margin: 22px 0px 0px; max-width: 540px; font-size: 24px; line-height: 1.42; color: #C1CBC6">We'll email you when registrations open and when the Makeathon 2027 problem statements are released.</p>
 <sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
 <label for="k-email" class="k-mono" style="display: block; margin-top: 28px; font-size: 13px; letter-spacing: 0.16em; color: #9BACA4">EMAIL ADDRESS</label>
 <div class="k-field {{shk}}" style="display: flex; margin-top: 8px; width: 584px">
@@ -4555,7 +4555,7 @@ faqs
   </section>
 
   <!-- Stats bar -->
-  <div class="mk-mstats" aria-label="Makeathon 2026 statistics">
+  <div class="mk-mstats" aria-label="Makeathon 2027 statistics">
     <div class="mk-mstat">
       <div class="mk-mstat-num">50<span style="color:#F2B84B">+</span></div>
       <div class="mk-mstat-label">TEAMS</div>
@@ -4584,7 +4584,7 @@ faqs
     <div class="mk-mabout-words">
       REAL HARDWARE.<br>REAL CODE.<br><span>JUDGED</span> ON WHAT WORKS.
     </div>
-    <p>Makeathon is the flagship hardware hackathon of the School of Electrical Engineering at VIT Vellore. Electrical and computer science, building the same machine.</p>
+    <p>Makeathon is the flagship hardware hackathon of the School of Electrical Engineering at VIT Vellore. Electrical and computer science students build the same machine.</p>
 
     <!-- Photo slideshow -->
     <div class="mk-mphoto" aria-label="Photos from Makeathon 2026">
@@ -4636,7 +4636,7 @@ faqs
   <section class="mk-msec" id="m-archive">
     <div class="mk-msec-label">ARCHIVE · MAKEATHON 2026</div>
     <h2>LAST TIME,<br>ON THE BENCH.</h2>
-    <p>350 people. 60 teams. 20 colleges. 36 hours. What they built is in the record.</p>
+    <p>350 participants, 60 teams and 20 colleges came together for 36 hours. See highlights from Makeathon 2026.</p>
   </section>
 
   <!-- Next edition section -->
@@ -4748,7 +4748,7 @@ faqs
       </div>
       <div class="mk-mhost">
         <div class="mk-mhost-name">ABOUT SELECT</div>
-        <p>The School of Electrical Engineering at VIT excels in education, research and innovation. Its B.Tech. programmes are accredited by ABET, hold six-year NBA accreditation, and all programmes are accredited by the IET, U.K.</p>
+        <p>The School of Electrical Engineering at VIT excels in education, research and innovation. Its B.Tech. programmes are accredited by ABET and hold six-year NBA accreditation; all programmes are also accredited by the IET (U.K.).</p>
       </div>
     </div>
     <div class="mk-mranks">
@@ -4870,7 +4870,7 @@ faqs
     <div style="position:relative">
       <div class="mk-msec-label">SIGN UP</div>
       <h2><span>HEAR IT</span><span>FIRST.</span></h2>
-      <p>Get an email the moment registrations open and problem statements for Makeathon 2027 are released.</p>
+      <p>We'll email you when registrations open and when the Makeathon 2027 problem statements are released.</p>
 
       <div id="mk-m-form-wrap">
         <div class="mk-mfield">
@@ -5010,4 +5010,3 @@ function mkMobileSubmit() {
 </script>
 </body>
 </html>
-
