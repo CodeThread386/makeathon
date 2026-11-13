@@ -33,8 +33,9 @@ export const EVENT = {
   educationLevels: ['Diploma', 'Undergraduate', 'Postgraduate', 'PhD', 'Other'],
   // Eligibility: students must be undergraduate or postgraduate; PhD scholars register as researchers.
   studentLevels: ['Undergraduate', 'Postgraduate'],
-  // Set to false to freeze edits once the window closes.
-  registrationOpen: true,
+  // false until registration starts: /register shows "starting soon" and profile, team and track
+  // changes are refused. Set to true to go live (and set to false again to freeze edits when it closes).
+  registrationOpen: false,
   componentsOpen: true,
   submissionsOpen: true,
 };
