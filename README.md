@@ -34,8 +34,9 @@ rather than copy wholesale.
   scroll-lock handling, smooth FAQ panels, the captioned 2026 reel and `prefers-reduced-motion`
   handling. Remove that block to see the layout without it.
 - **The phone hero** (HERO block, after the refinement layer) is one composition shown two ways: the
-  logo and title as a centred lockup (the title is sized to its width by script), the board in a stage
-  with a floor grid, sonar rings and a readout, then dates, prize pool, venue and the buttons.
+  logo and title as a centred lockup (the title is sized to its width by script), the board in a quiet
+  stage with a soft glow and slow sonar rings, then two facts and one button. It is kept sparse on
+  purpose: add to it only if something earns its place.
   - A phone with a GPU and no reduced-motion preference shows the **live 3D board** (`html.mk-ph3d`):
     the page's hero is cloned over the scene by `qPhBuild`, and the board follows the stage slot
     (`qSlotY`), so it never meets the title or the facts.
