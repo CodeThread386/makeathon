@@ -31,6 +31,20 @@ const SECURITY_HEADERS = {
   'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self' mailto:",
 };
 
+// an unknown address gets the branded 404 page (a real 404 status, as the deployed site gives)
+async function notFound(req, res) {
+  res.statusCode = 404;
+  res.setHeader('Cache-Control', 'no-store');
+  try {
+    const page = await readFile(join(ROOT, '404.html'));
+    res.setHeader('Content-Type', TYPES['.html']);
+    res.end(req.method === 'HEAD' ? undefined : page);
+  } catch {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.end('Not found');
+  }
+}
+
 createServer(async (req, res) => {
   for (const [name, value] of Object.entries(SECURITY_HEADERS)) res.setHeader(name, value);
   if (process.env.NODE_ENV === 'production') {
@@ -52,14 +66,13 @@ createServer(async (req, res) => {
 
   const file = normalize(Object.hasOwn(PAGES, path) ? PAGES[path] : path);
   // normalize() gives backslashes on Windows, and the check is written for forward slashes
-  if (file.includes('..') || PRIVATE.test(file.replace(/\\/g, '/'))) { res.statusCode = 404; return res.end('Not found'); }
+  if (file.includes('..') || PRIVATE.test(file.replace(/\\/g, '/'))) return notFound(req, res);
   try {
     const data = await readFile(join(ROOT, file));
     res.setHeader('Content-Type', TYPES[extname(file).toLowerCase()] || 'application/octet-stream');
     res.setHeader('Cache-Control', 'public, max-age=300');
     res.end(req.method === 'HEAD' ? undefined : data);
   } catch {
-    res.statusCode = 404;
-    res.end('Not found');
+    return notFound(req, res);
   }
 }).listen(PORT, () => console.log(`http://localhost:${PORT}`));
