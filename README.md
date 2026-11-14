@@ -19,7 +19,28 @@ rather than copy wholesale.
   the admin dashboard (see "Registration and admin" below).
 - `privacy.html`, `terms.html` — the privacy policy and terms of service, served
   at `/privacy` and `/terms` and linked from the site's footer and the Google
-  consent screen. `brand/` holds the consent-screen logo.
+  consent screen. `brand/` holds the consent-screen logo, the 1200×630 link-preview image
+  (`og-image.png`, used by the Open Graph and Twitter tags in the page head) and the app icons
+  (`apple-touch-icon.png`, `icon-192.png`, `icon-512.png`); all four are drawn from `favicon.svg`.
+- `404.html` — the branded "not found" page. `server.js` serves it with a 404 status for unknown
+  addresses, and Vercel uses a root `404.html` the same way.
+
+## Look and feel
+
+- The page's narrow layout (phones, tablets, portrait screens) is plain HTML below the `</x-dc>`
+  template; its styles sit in the first `<style>` block of `P-Breadboard.dc.html`. The block headed
+  **REFINEMENT LAYER** (right after it) holds the polish on top: frosted nav and skip button, 0.5px
+  hairlines on 2x/3x screens (`--mk-hair`), balanced headings, press feedback, a menu with focus and
+  scroll-lock handling, smooth FAQ panels, the captioned 2026 reel and `prefers-reduced-motion`
+  handling. Remove that block to see the layout without it.
+- Rules the layout keeps: tap targets of at least 44px, no label under 10px on a phone, no hover
+  state left lit after a tap (`@media (hover: none)`), and no extra 3D or heavy canvas work in the
+  narrow layout beyond the hero board that a phone with a GPU already gets.
+- A visitor whose system asks for reduced motion starts with the 3D scene's **Motion** switch off;
+  the narrow layout stops its loops and rests the reel on its first photo.
+- The six archive photos in `assets/` are about 1000px wide, so they look soft on 2x and 4K screens.
+  Replace them with the originals (keep the file names, or update the six `<img>` tags in each
+  layout) for a sharper result.
 
 ## Uploaded files
 

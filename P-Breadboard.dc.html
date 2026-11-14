@@ -5,7 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Makeathon 2027</title>
 <meta name="description" content="Makeathon 2027 — the flagship 36-hour hardware hackathon by SELECT, VIT Vellore. 19–20 Jan 2027 · Anna Auditorium · ₹1,00,000 prize pool.">
+<meta name="theme-color" content="#17261F">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://www.makeathon.in/">
 <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="./brand/icon-192.png">
+<link rel="apple-touch-icon" href="./brand/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Makeathon 2027">
+<meta property="og:title" content="Makeathon 2027 · 36-hour hardware hackathon">
+<meta property="og:description" content="19–20 Jan 2027 · Anna Auditorium, VIT Vellore · ₹1,00,000 prize pool. Hosted by SELECT, School of Electrical Engineering.">
+<meta property="og:url" content="https://www.makeathon.in/">
+<meta property="og:image" content="https://www.makeathon.in/brand/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Makeathon 2027, a 36-hour hardware hackathon on 19–20 January 2027 at VIT Vellore">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="./fonts/barlow-condensed-600-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="./fonts/barlow-condensed-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="./fonts/dm-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -148,42 +163,7 @@ x-dc{display:none!important}
   text-align: center;
   border-bottom: none !important;
 }
-.mk-drawer .mk-draw-reg {
-  margin-top: 20px;
-  display: block;
-  padding: 15px 20px;
-  border: 1px solid rgba(242,184,75,0.85) !important;
-  color: #F2B84B;
-  font-weight: 600;
-  font-size: 18px;
-  letter-spacing: 0.14em;
-  text-align: center;
-}
-.mk-drawer .mk-draw-reg:hover { background: rgba(242,184,75,0.1); }
-.mk-drawer .mk-draw-reg + .mk-draw-cta { margin-top: 10px; }
 
-/* Phone bar: a compact register button beside the menu (tablets show the full link row) */
-.mk-mreg {
-  margin-left: auto;
-  margin-right: 8px;
-  padding: 9px 12px;
-  border: 1px solid rgba(242,184,75,0.85);
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: #F2B84B;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background-color .25s ease, color .25s ease;
-}
-.mk-mreg:hover, .mk-mreg:active { background-color: #F2B84B; color: #17261F; }
-.mk-mreg, .mk-mnav .mk-mham { flex-shrink: 0; }
-@media (max-width: 389px) {
-  .mk-mnav-logo { font-size: 20px; letter-spacing: 0.13em; }
-  .mk-mreg { padding: 8px 10px; letter-spacing: 0.1em; }
-}
-/* the narrowest phones keep REGISTER in the menu only */
-@media (max-width: 339px) { .mk-mreg { display: none; } }
 
 /* Mobile ticker */
 .mk-mticker {
@@ -1081,9 +1061,7 @@ x-dc{display:none!important}
   .mk-mnav-links .mk-mnav-cta { padding: 10px 12px; background: #F2B84B; color: #17261F; }
   .mk-mnav-links .mk-mnav-cta:hover { color: #17261F; filter: brightness(1.06); }
   .mk-mnav-links a { white-space: nowrap; }
-  .mk-mnav-links .mk-mnav-reg { padding: 9px 12px; border: 1px solid rgba(242,184,75,0.85); color: #F2B84B; }
-  .mk-mnav-links .mk-mnav-reg:hover { background-color: #F2B84B; color: #17261F; }
-  .mk-mham, .mk-drawer, .mk-mreg { display: none; }
+  .mk-mham, .mk-drawer { display: none; }
   .mk-mhero, .mk-msec, .mk-mnotify, #m-contact { scroll-margin-top: 68px; }
 
   .mk-mhero { padding-top: 72px; padding-bottom: 64px; }
@@ -1147,12 +1125,11 @@ x-dc{display:none!important}
   .mk-mhero-logo { width: 76px; height: 74px; margin-bottom: 22px; }
 }
 
-/* Small tablets: six links and two buttons share the bar, so it tightens and the button reads REGISTER. */
+/* Small tablets: six links and a button share the bar, so it tightens. */
 @media (min-width: 768px) and (max-width: 939px) {
   .mk-mnav-links { gap: 11px; letter-spacing: .1em; }
-  .mk-mnav-links .mk-mnav-cta, .mk-mnav-links .mk-mnav-reg { padding-left: 10px; padding-right: 10px; }
+  .mk-mnav-links .mk-mnav-cta { padding-left: 10px; padding-right: 10px; }
   .mk-mnav-logo { letter-spacing: .12em; }
-  .mk-reg-now { display: none; }
 }
 
 /* ── FINISH ──
@@ -1200,6 +1177,248 @@ x-dc{display:none!important}
       animation-range: cover 0px cover 180px;
     }
   }
+}
+</style>
+<style>
+/* ============================================================
+   REFINEMENT LAYER — Makeathon 2027
+   Typography, depth, touch feedback and motion on top of the layouts above.
+   Nothing here changes the structure or the 3D story; remove this block to see the layout without it.
+   ============================================================ */
+
+/* A hairline is one device pixel: 0.5px on 2x and 3x screens, where 1px renders as a heavy two-pixel rule. */
+:root { --mk-hair: 1px; }
+@media (min-resolution: 2dppx), (-webkit-min-device-pixel-ratio: 2) { :root { --mk-hair: 0.5px; } }
+
+@media (prefers-reduced-motion: no-preference) { html:not(.mk-ph3d) { scroll-behavior: smooth; } }
+html.mk-menu, html.mk-menu body { overflow: hidden; }
+html.mk-menu .k-root { overflow: hidden !important; }
+html.mk-menu .k-flow { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* ── Both layouts ── */
+.k-root p { text-wrap: pretty; }
+/* the skip pill sits over moving content, so it frosts what passes under it */
+.k-flow {
+  background-color: rgba(23,38,31,.62);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow: 0 10px 30px -14px rgba(0,0,0,.65), inset 0 1px 0 rgba(237,241,239,.07);
+}
+/* the stage ignores the pointer, so these cards opt back in for their hover (hidden chapters cannot be hit) */
+.k-cd2 { pointer-events: auto; transition: border-color .3s ease, background-color .3s ease, box-shadow .35s ease, opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+.k-cd2:hover { background-color: rgba(30,48,39,.78); box-shadow: 0 22px 44px -26px rgba(242,184,75,.38), inset 0 1px 0 rgba(242,184,75,.22); }
+.k-btn { box-shadow: inset 0 1px 0 rgba(255,255,255,.28); }
+
+/* ── Narrow layouts (phones, tablets, portrait screens) ── */
+.mk-mobile {
+  text-rendering: optimizeLegibility; font-kerning: normal;
+  -webkit-tap-highlight-color: transparent;
+}
+.mk-mobile a, .mk-mobile button { -webkit-tap-highlight-color: transparent; }
+.mk-mobile h1, .mk-mobile h2, .mk-mabout-words, .mk-mfooter-logo, .mk-mfooter-org { text-wrap: balance; }
+.mk-msec p, .mk-mnotify p, .mk-mcard-desc, .mk-mhost p, .mk-mfaq-a p { text-wrap: pretty; }
+.mk-mstat-num, .mk-mrank-num { font-variant-numeric: lining-nums tabular-nums; }
+
+/* hairlines */
+.mk-mnav, .mk-mticker, .mk-mhero, .mk-msec, .mk-mnotify, .mk-mstats, .mk-mstat, .mk-mdetails, .mk-mdetail-row,
+.mk-mcode, .mk-mcode-tabs, .mk-mcode-status, .mk-mcard, .mk-mhost, .mk-mranks, .mk-mrank, .mk-mfaq-item,
+.mk-mcontact-row, .mk-mfooter-bottom, .mk-mphoto, .mk-mhero-meta > div, .mk-mhero-dim::before { border-width: var(--mk-hair); }
+.mk-mhero-dim::before { height: var(--mk-hair); }
+
+/* frosted bars, so moving content never ghosts through them */
+.mk-mnav, .mk-mticker {
+  background-color: rgba(23,38,31,.78);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mk-mnav, .mk-mticker, .k-flow { background-color: rgba(23,38,31,.97); }
+}
+.mk-mnav { border-bottom-color: rgba(237,241,239,.14); }
+.mk-mnav-logo { transition: opacity .2s ease; }
+.mk-mnav-logo:active { opacity: .6; }
+.mk-prog { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; pointer-events: none; }
+.mk-prog i {
+  display: block; height: 100%; transform: scaleX(0); transform-origin: 0 50%; will-change: transform;
+  background: linear-gradient(90deg, rgba(242,184,75,.25), #F2B84B);
+  box-shadow: 0 0 10px rgba(242,184,75,.55);
+}
+
+/* the menu: a frosted sheet, its links arriving one after another */
+.mk-drawer {
+  background-color: rgba(17,29,23,.9);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4); backdrop-filter: blur(24px) saturate(1.4);
+  padding: 20px 24px calc(28px + env(safe-area-inset-bottom));
+  overscroll-behavior: contain; counter-reset: mkd; gap: 0;
+}
+.mk-drawer > * { opacity: 0; transform: translateY(14px); transition: opacity .45s ease, transform .6s cubic-bezier(.2,.7,.2,1), color .25s ease, background-color .2s ease; }
+.mk-drawer.is-open > * { opacity: 1; transform: none; }
+.mk-drawer.is-open > :nth-child(1) { transition-delay: .10s; } .mk-drawer.is-open > :nth-child(2) { transition-delay: .15s; }
+.mk-drawer.is-open > :nth-child(3) { transition-delay: .20s; } .mk-drawer.is-open > :nth-child(4) { transition-delay: .25s; }
+.mk-drawer.is-open > :nth-child(5) { transition-delay: .30s; } .mk-drawer.is-open > :nth-child(6) { transition-delay: .35s; }
+.mk-drawer.is-open > :nth-child(7) { transition-delay: .42s; } .mk-drawer.is-open > :nth-child(8) { transition-delay: .50s; }
+.mk-drawer a:not(.mk-draw-cta) {
+  counter-increment: mkd; display: flex; align-items: baseline; gap: 18px; padding: 17px 4px;
+  border-bottom: var(--mk-hair) solid rgba(237,241,239,.14);
+}
+.mk-drawer a:not(.mk-draw-cta)::before {
+  content: counter(mkd, decimal-leading-zero); min-width: 22px;
+  font: 400 12px 'DM Mono', monospace; letter-spacing: .16em; color: #F2B84B;
+}
+.mk-drawer a:not(.mk-draw-cta):active { background-color: rgba(242,184,75,.08); color: #F2B84B; }
+.mk-drawer .mk-draw-cta { margin-top: 24px; min-height: 56px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 14px 32px -16px rgba(242,184,75,.7); }
+.mk-drawer .mk-draw-cta:active { filter: brightness(.94); }
+.mk-draw-meta {
+  margin-top: auto; padding-top: 28px; display: flex; align-items: center; gap: 10px;
+  font: 400 11px/1.4 'DM Mono', monospace; letter-spacing: .16em; color: #9BACA4;
+}
+.mk-draw-meta .mk-led { width: 6px; height: 6px; border-radius: 50%; background: #F2B84B; flex-shrink: 0; animation: k-pulse 2s ease-in-out infinite; }
+
+/* the ticker: held by a finger */
+.mk-mticker:active .mk-mticker-scroll { animation-play-state: paused; }
+
+/* depth: soft light behind the hero and the closing sections, and rules that fade out at the ends */
+.mk-mhero {
+  background-color: #17261F;
+  background-image: radial-gradient(120% 62% at 100% 0%, rgba(242,184,75,.10), transparent 62%), radial-gradient(90% 55% at 0% 100%, rgba(47,154,82,.12), transparent 66%);
+}
+.mk-mnotify {
+  background-color: #17261F;
+  background-image: radial-gradient(100% 60% at 50% 100%, rgba(242,184,75,.11), transparent 70%);
+}
+.mk-mfooter { background-image: radial-gradient(100% 50% at 50% 0%, rgba(47,154,82,.09), transparent 70%); }
+.mk-msec {
+  border-bottom: 0;
+  background-image: linear-gradient(90deg, transparent, rgba(237,241,239,.16) 18%, rgba(237,241,239,.16) 82%, transparent);
+  background-size: 100% var(--mk-hair); background-position: 0 100%; background-repeat: no-repeat;
+}
+.mk-mdetails, .mk-mcode {
+  background-image: linear-gradient(180deg, rgba(237,241,239,.04), rgba(237,241,239,0) 46%);
+  box-shadow: inset 0 1px 0 rgba(237,241,239,.06), 0 28px 50px -34px rgba(0,0,0,.7);
+}
+.mk-mstats { background-image: linear-gradient(180deg, rgba(237,241,239,.035), transparent); }
+
+/* buttons: one height, a touch of light, and a press you can feel */
+.mk-btn-primary { padding-top: 16px; padding-bottom: 16px; line-height: 20px; }
+.mk-btn-outline { padding-top: 15px; padding-bottom: 15px; line-height: 20px; }
+.mk-btn-primary { box-shadow: inset 0 1px 0 rgba(255,255,255,.32), 0 12px 28px -16px rgba(242,184,75,.75); }
+.mk-btn-outline { transition: background .3s ease, color .3s ease, transform .15s ease; }
+.mk-btn-outline:active { transform: scale(.97); }
+.mk-mfooter-top:active, .mk-mlinks a:active, .mk-mfooter-legal a:active { opacity: .6; }
+.mk-mfaq-btn { transition: background-color .25s ease; }
+.mk-mfaq-btn:active { background-color: rgba(237,241,239,.05); }
+.mk-mfaq-btn:focus-visible { outline-offset: -3px; }
+.mk-mfaq-q { transition: color .3s ease; }
+.mk-mfaq-btn[aria-expanded="true"] .mk-mfaq-q { color: #F2B84B; }
+.mk-mcard { transition: border-color .3s ease, background-color .3s ease; }
+.mk-mcard:active { border-color: rgba(242,184,75,.7); background-color: rgba(242,184,75,.05); }
+/* a touch screen has no hover: nothing stays lit after a tap */
+@media (hover: none) {
+  .mk-btn-outline:hover { color: #F2B84B; }
+  .mk-btn-outline:hover::before { transform: scaleX(0); }
+  .mk-btn-primary:hover::before, .mk-msubmit:hover::before { left: -80%; }
+  .mk-mcard:hover { border-color: rgba(237,241,239,.18); }
+  .mk-mlinks a:hover::after { transform: scaleX(0); }
+  .mk-mfooter-legal a:hover { color: #C1CBC6; }
+  .mk-drawer a:not(.mk-draw-cta):hover { color: #EDF1EF; }
+}
+/* tap targets of at least 44px */
+.mk-mfooter-bottom { gap: 2px; }
+.mk-mfooter-legal a, .mk-mfooter-top { display: inline-flex; align-items: center; min-height: 44px; }
+.mk-mfooter-legal { gap: 4px; margin-left: -8px; }
+.mk-mfooter-legal a { padding: 0 8px; }
+.mk-mnav-logo { padding: 9px 0; }
+.mk-mcontact-val a { display: inline-block; padding: 11px 0; margin: -11px 0; }
+.mk-mlinks a { padding: 14px 0; margin: -14px 0; }
+.mk-mlinks a::after { bottom: 10px; }
+.mk-mfooter-org { margin: 6px 0 4px; line-height: 1.5; }
+
+/* small print stays readable */
+@media (max-width: 767px) {
+  .mk-badge { font-size: 10px; letter-spacing: .08em; }
+  .mk-mdetail-key, .mk-mrank-label, .mk-mstat-label, .mk-mhero-meta dt { font-size: 11px; }
+}
+
+/* the FAQ: panels that open and close smoothly */
+.mk-mfaq-a {
+  display: grid; grid-template-rows: 0fr; padding: 0; margin: 0; max-width: none; visibility: hidden; animation: none;
+  transition: grid-template-rows .5s cubic-bezier(.2,.7,.2,1), visibility 0s linear .5s;
+}
+.mk-mfaq-a.is-open { display: grid; grid-template-rows: 1fr; visibility: visible; animation: none; transition-delay: 0s; }
+.mk-mfaq-a > div { min-height: 0; overflow: hidden; }
+.mk-mfaq-a p {
+  margin: 0; padding: 0 28px 18px 40px; font-size: 16px; line-height: 1.5; color: #C1CBC6;
+  opacity: 0; transform: translateY(-6px); transition: opacity .35s ease, transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.mk-mfaq-a.is-open p { opacity: 1; transform: none; transition-delay: .08s; }
+@media (min-width: 768px) and (max-width: 1023px), (min-width: 768px) and (max-width: 1366px) and (max-aspect-ratio: 4/5) {
+  .mk-mfaq-a p { font-size: 18px; max-width: 700px; }
+}
+
+/* the 2026 reel: a slow cross-fade with a gentle push-in, captioned like the desktop story */
+.mk-mreel { margin: 30px 0 0; }
+.mk-mreel .mk-mphoto { margin: 0; background-color: #1B2C24; aspect-ratio: 3 / 2; box-shadow: 0 30px 60px -36px rgba(0,0,0,.85); }
+.mk-mphoto img { opacity: 0; filter: saturate(.92) contrast(1.04); transform-origin: 50% 55%; will-change: opacity, transform; animation: mk-reel 18s linear infinite both; }
+.mk-mphoto img:nth-child(1) { animation-delay: -.6s; }
+.mk-mphoto img:nth-child(2) { animation-delay: 2.4s; }
+.mk-mphoto img:nth-child(3) { animation-delay: 5.4s; }
+.mk-mphoto img:nth-child(4) { animation-delay: 8.4s; }
+.mk-mphoto img:nth-child(5) { animation-delay: 11.4s; }
+.mk-mphoto img:nth-child(6) { animation-delay: 14.4s; }
+@keyframes mk-reel {
+  0% { opacity: 0; transform: scale(1); }
+  3.4% { opacity: 1; }
+  17.6% { opacity: 1; }
+  21% { opacity: 0; transform: scale(1.07); }
+  21.01%, 100% { opacity: 0; transform: scale(1); }
+}
+.mk-mreel-cap { position: relative; display: block; height: 62px; margin-top: 20px; }
+.mk-mreel-item {
+  position: absolute; left: 0; right: 0; top: 0; display: grid; grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: "n t" "n s"; column-gap: 16px; align-items: center; opacity: 0;
+  animation: mk-reelcap 18s linear infinite both;
+}
+.mk-mreel-item:nth-child(1) { animation-delay: -.6s; } .mk-mreel-item:nth-child(2) { animation-delay: 2.4s; }
+.mk-mreel-item:nth-child(3) { animation-delay: 5.4s; } .mk-mreel-item:nth-child(4) { animation-delay: 8.4s; }
+.mk-mreel-item:nth-child(5) { animation-delay: 11.4s; } .mk-mreel-item:nth-child(6) { animation-delay: 14.4s; }
+.mk-mreel-item b { grid-area: n; font: 600 56px/.82 'Barlow Condensed', sans-serif; letter-spacing: .02em; color: transparent; -webkit-text-stroke: 1.2px rgba(237,241,239,.8); }
+.mk-mreel-item strong { grid-area: t; align-self: end; font: 600 26px/1 'Barlow Condensed', sans-serif; letter-spacing: .04em; color: #EDF1EF; }
+.mk-mreel-item em { grid-area: s; align-self: start; margin-top: 7px; font: 400 11px/1.3 'DM Mono', monospace; font-style: normal; letter-spacing: .16em; color: #9BACA4; }
+/* each caption is gone before the next begins, so two never overlap */
+@keyframes mk-reelcap {
+  0% { opacity: 0; transform: translateY(6px); }
+  4% { opacity: 1; transform: none; }
+  14.2% { opacity: 1; transform: none; }
+  16.2% { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+.mk-mreel-ticks { display: flex; gap: 6px; margin-top: 6px; }
+.mk-mreel-ticks i { position: relative; flex: 1; height: 2px; overflow: hidden; background-color: rgba(237,241,239,.18); }
+.mk-mreel-ticks i::after { content: ""; position: absolute; inset: 0; background-color: #F2B84B; transform-origin: 0 50%; transform: scaleX(0); animation: mk-reeltick 18s linear infinite both; }
+.mk-mreel-ticks i:nth-child(1)::after { animation-delay: -.6s; } .mk-mreel-ticks i:nth-child(2)::after { animation-delay: 2.4s; }
+.mk-mreel-ticks i:nth-child(3)::after { animation-delay: 5.4s; } .mk-mreel-ticks i:nth-child(4)::after { animation-delay: 8.4s; }
+.mk-mreel-ticks i:nth-child(5)::after { animation-delay: 11.4s; } .mk-mreel-ticks i:nth-child(6)::after { animation-delay: 14.4s; }
+@keyframes mk-reeltick {
+  0% { transform: scaleX(0); opacity: 1; }
+  16.6% { transform: scaleX(1); opacity: 1; }
+  17.6% { transform: scaleX(1); opacity: 0; }
+  100% { transform: scaleX(0); opacity: 0; }
+}
+@media (min-width: 768px) and (max-width: 1023px), (min-width: 768px) and (max-width: 1366px) and (max-aspect-ratio: 4/5) {
+  .mk-mreel { margin-top: 40px; }
+  .mk-mreel .mk-mphoto { aspect-ratio: 16 / 9; }
+  .mk-mreel-cap { height: 84px; }
+  .mk-mreel-item b { font-size: 76px; }
+  .mk-mreel-item strong { font-size: 34px; }
+  .mk-mreel-item em { font-size: 12px; }
+}
+
+/* a calm page for anyone who asks for one: nothing loops, the reel rests on its first photo */
+@media (prefers-reduced-motion: reduce) {
+  .mk-mobile *, .mk-mobile *::before, .mk-mobile *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+  .mk-mobile .mk-mticker-scroll { animation: none !important; }
+  .mk-mobile .mk-mphoto img, .mk-mobile .mk-mreel-item, .mk-mobile .mk-mreel-ticks i::after { animation: none !important; }
+  .mk-mobile .mk-mphoto img:first-of-type, .mk-mobile .mk-mreel-item:first-child { opacity: 1; }
+  .mk-mobile .mk-mreel-ticks i:first-child::after { transform: scaleX(1); }
+  .mk-drawer > * { opacity: 1; transform: none; }
 }
 </style>
 <script src="./vendor/react.js" defer></script>
@@ -1565,7 +1784,6 @@ button:hover{filter:brightness(1.08)}
 .k-nl.is-on{color:#F2B84B}
 .k-ncta{display:block;white-space:nowrap;max-width:220px;padding:11px 18px;transition:max-width .8s cubic-bezier(.2,.7,.2,1),padding .8s cubic-bezier(.2,.7,.2,1),margin .8s cubic-bezier(.2,.7,.2,1),opacity .5s ease,box-shadow .4s ease}
 .k-ncta.is-hid{max-width:0;padding-left:0;padding-right:0;margin-left:-30px;opacity:0;pointer-events:none}
-.k-nav .k-nreg{height:auto;padding:10px 16px;font-size:inherit;letter-spacing:inherit;font-weight:500;white-space:nowrap}
 .k-meta dt{font-size:11px;letter-spacing:.2em;color:#9BACA4}
 .k-meta dd{margin:7px 0 0;font-size:13px;letter-spacing:.14em;color:#EDF1EF}
 .k-btn{position:relative;overflow:hidden;isolation:isolate;transition:box-shadow .4s ease,scale .18s ease}
@@ -1796,7 +2014,6 @@ html.mk-ph3d,html.mk-ph3d body{height:100%;overflow:hidden}
 <a href="#why" class="k-nl {{nOn.g}}" aria-current="{{nAc.g}}" onClick="{{goTracks}}" onMouseEnter="{{nh.g}}">{{nv.g}}</a>
 <a href="#faq" class="k-nl {{nOn.e}}" aria-current="{{nAc.e}}" onClick="{{goFaq}}" onMouseEnter="{{nh.e}}">{{nv.e}}</a>
 <a href="#notify" ref="{{qMagA}}" class="k-btn k-ncta {{ctaCls}}" tabindex="{{ctaTab}}" onClick="{{goNotify}}" onMouseEnter="{{nh.f}}" style="background-color: #F2B84B; color: #17261F; font-weight: 500">{{nv.f}}</a>
-<a href="/register" class="k-btnO k-nreg" onMouseEnter="{{nh.h}}">{{nv.h}} <span class="k-arr" aria-hidden="true">→</span></a>
 </nav>
 </header>
 
@@ -1812,7 +2029,7 @@ html.mk-ph3d,html.mk-ph3d body{height:100%;overflow:hidden}
 <div><dt>HOSTED BY</dt><dd>SELECT · VIT VELLORE</dd></div>
 <div><dt>DATES</dt><dd style="display: flex; align-items: center; gap: 8px; color: #F2B84B"><span class="k-led" style="width: 7px; height: 7px; border-radius: 50%; background-color: #F2B84B"></span>19–20 JAN 2027</dd></div>
 </dl>
-<a href="#notify" class="k-btnO k-mono" onClick="{{goNotify}}" tabindex="{{heroTab}}" style="pointer-events: {{hPe}}">OPENING SOON <span class="k-arr" aria-hidden="true">→</span></a>
+<a href="#notify" class="k-btnO k-mono" onClick="{{goNotify}}" tabindex="{{heroTab}}" style="pointer-events: {{hPe}}">STARTING SOON <span class="k-arr" aria-hidden="true">→</span></a>
 </div>
 </div>
 </div>
@@ -1901,9 +2118,9 @@ html.mk-ph3d,html.mk-ph3d body{height:100%;overflow:hidden}
 
 <div class="{{suCls}}" style="position: absolute; left: calc(796px + {{xw2}}); top: 186px; width: 600px; opacity: {{suOp}}; transform: translateY({{suY}}); pointer-events: {{suPe}}">
 <div class="k-mono k-eb" style="font-size: 14px; letter-spacing: 0.18em; color: #F2B84B">{{ebSu}}</div>
-<h2 id="notify" style="margin: 12px 0px 0px; font-weight: 600; font-size: 132px; line-height: 0.92; letter-spacing: 0.02em"><span class="k-ln"><span>OPENING</span></span><span class="k-ln"><span style="transition-delay: 0.09s; color: #F2B84B">SOON.</span></span></h2>
+<h2 id="notify" style="margin: 12px 0px 0px; font-weight: 600; font-size: 132px; line-height: 0.92; letter-spacing: 0.02em"><span class="k-ln"><span>STARTING</span></span><span class="k-ln"><span style="transition-delay: 0.09s; color: #F2B84B">SOON.</span></span></h2>
 <p style="margin: 22px 0px 0px; max-width: 540px; font-size: 24px; line-height: 1.42; color: #C1CBC6">Registrations for Makeathon 2027 are not open yet. The registration link and problem statements will be announced here soon.</p>
-<div style="display: flex; align-items: center; gap: 14px; margin-top: 28px; width: 584px; box-sizing: border-box; border: 1px solid #F2B84B; padding: 18px 20px"><span aria-hidden="true" style="flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background-color: #F2B84B; box-shadow: 0px 0px 10px rgba(242,184,75,0.9); animation: k-pulse 2s ease-in-out infinite"></span><span class="k-mono" style="font-size: 15px; letter-spacing: 0.16em; color: #F2B84B">REGISTRATIONS · OPENING SOON</span></div>
+<div style="display: flex; align-items: center; gap: 14px; margin-top: 28px; width: 584px; box-sizing: border-box; border: 1px solid #F2B84B; padding: 18px 20px"><span aria-hidden="true" style="flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background-color: #F2B84B; box-shadow: 0px 0px 10px rgba(242,184,75,0.9); animation: k-pulse 2s ease-in-out infinite"></span><span class="k-mono" style="font-size: 15px; letter-spacing: 0.16em; color: #F2B84B">REGISTRATIONS · STARTING SOON</span></div>
 <div class="k-mono" style="display: flex; gap: 30px; margin-top: 26px; font-size: 13px; letter-spacing: 0.16em">
 <a href="#contact" class="k-ul" onClick="{{goFaq}}" style="color: #F2B84B">PARTNER WITH US <span class="k-arr" aria-hidden="true">→</span></a>
 <a href="./makeathon-2027-brochure.pdf" download class="k-ul">DOWNLOAD BROCHURE</a>
@@ -1968,7 +2185,7 @@ html.mk-ph3d,html.mk-ph3d body{height:100%;overflow:hidden}
 <a href="#top" class="k-ul" onClick="{{goTop}}" style="color: #F2B84B">BACK TO TOP ↑</a>
 </div>
 <div class="k-mono" style="position: absolute; left: 0px; right: 0px; top: 560px; display: flex; justify-content: center; gap: 22px">
-<a href="#notify" class="k-btnO" onClick="{{goNotify}}">OPENING SOON <span class="k-arr" aria-hidden="true">→</span></a>
+<a href="#notify" class="k-btnO" onClick="{{goNotify}}">STARTING SOON <span class="k-arr" aria-hidden="true">→</span></a>
 <a href="#contact" class="k-btnO" onClick="{{goFaq}}" style="border-color: rgba(237,241,239,0.45); color: #EDF1EF">PARTNER WITH US <span class="k-arr" aria-hidden="true">→</span></a>
 </div>
 </div>
@@ -1977,7 +2194,7 @@ html.mk-ph3d,html.mk-ph3d body{height:100%;overflow:hidden}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
-state = { sp: 0, w: 1440, h: 900, bt: 0, scrT: 0, email: '', sent: false, err: '', open: 0, calm: false, sending: false, errN: 0, bench: '', cm: 0 };
+state = { sp: 0, w: 1440, h: 900, bt: 0, scrT: 0, email: '', sent: false, err: '', open: 0, calm: (() => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } })(), sending: false, errN: 0, bench: '', cm: 0 };
 qScrs = {};
 qPf = {};
 qMagEl = {};
@@ -2103,7 +2320,7 @@ qPhBuild() {
 const meta = [['FORMAT', 'HARDWARE HACKATHON'], ['HOSTED BY', 'SELECT · VIT VELLORE'], ['DATES', '19–20 JAN 2027'], ['PRIZE POOL', '₹1,00,000']].map((r) => '<div><dt>' + r[0] + '</dt><dd' + (r[0] === 'FORMAT' || r[0] === 'HOSTED BY' ? '' : ' style="color:#F2B84B"') + '>' + r[1] + '</dd></div>').join('');
 this.qPhEl.innerHTML =
 '<div class="k-pc-t"><div class="k-pc-yr">2027</div><h1 class="k-pc-hero">MAKEATHON</h1></div>' +
-'<div class="k-pc-b"><dl class="k-pc-meta">' + meta + '</dl><div class="k-pc-cta"><a href="#m-notify" class="mk-btn-primary">OPENING SOON →</a><a href="#m-faq" class="mk-btn-outline">FAQ</a></div><div class="k-pc-hint">DRAG TO TURN · TAP THE BUTTON · SCROLL ↓</div></div>';
+'<div class="k-pc-b"><dl class="k-pc-meta">' + meta + '</dl><div class="k-pc-cta"><a href="#m-notify" class="mk-btn-primary">STARTING SOON →</a><a href="#m-faq" class="mk-btn-outline">FAQ</a></div><div class="k-pc-hint">DRAG TO TURN · TAP THE BUTTON · SCROLL ↓</div></div>';
 }
 qBoot() {
 this.qT0 = performance.now() + 1e7; this.qB0 = 0;
@@ -2348,7 +2565,7 @@ qSubmit(email) {
 return fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
 .then((r) => { if (!r.ok) throw new Error('subscribe ' + r.status); });
 }
-qNav = { a: () => this.qScramble('n0'), b: () => this.qScramble('n1'), c: () => this.qScramble('n2'), d: () => this.qScramble('n3'), e: () => this.qScramble('n4'), f: () => this.qScramble('n5'), g: () => this.qScramble('n6'), h: () => this.qScramble('n7') };
+qNav = { a: () => this.qScramble('n0'), b: () => this.qScramble('n1'), c: () => this.qScramble('n2'), d: () => this.qScramble('n3'), e: () => this.qScramble('n4'), f: () => this.qScramble('n5'), g: () => this.qScramble('n6') };
 qInit() {
 this.qG3 = null; this.qG3Off = false; this.qQ = 2; this.qFT = 16.7; this.qFrameN = 0; this.qKey3 = ''; this.qLast3 = 0;
 this.qOrb = { a: 0, e: 0, va: 0, ve: 0 }; this.qPar = { a: 0, e: 0 }; this.qDrag = null;
@@ -4684,7 +4901,7 @@ hintTxt: 'DRAG TO TURN · POINT AT THE SENSOR ·',
 goTop: this.qGo(0), goAbout: this.qGo(this.qAt.about), goBuild: this.qGo(this.qAt.build), goArchive: this.qGo(this.qAt.archive), goNext: this.qGo(this.qAt.next), goNotify: this.qGo(this.qAt.notify), goFaq: this.qGo(this.qAt.faq), goTracks: this.qGo(this.qAt.why), goEnd: this.qGo(-1),
 wmR: ((1 - wmF) * 100).toFixed(2) + '%', wmX: (wmF * 1008).toFixed(1) + 'px', wmEo: wmF > 0.002 && wmF < 0.995 ? 1 : 0,
 syTxt: T('sy', synced ? 'IT WORKS · SEE YOU AT THE BENCH' : 'BOOTING'), syC: synced ? '#F2B84B' : '#9BACA4', syD: synced ? '#F2B84B' : '#9BACA4', syG: synced ? '0px 0px 10px rgba(242,184,75,0.9)' : 'none',
-nv: { g: T('n6', 'WHY'), a: T('n0', 'ABOUT'), b: T('n1', 'THE BUILD'), c: T('n2', 'ARCHIVE'), d: T('n3', "WHAT'S NEXT"), e: T('n4', 'FAQ'), f: T('n5', 'GET NOTIFIED'), h: T('n7', 'REGISTER NOW') },
+nv: { g: T('n6', 'WHY'), a: T('n0', 'ABOUT'), b: T('n1', 'THE BUILD'), c: T('n2', 'ARCHIVE'), d: T('n3', "WHAT'S NEXT"), e: T('n4', 'FAQ'), f: T('n5', 'STARTING SOON') },
 k: k.toFixed(4), sw: (1440 + 2 * xw).toFixed(1) + 'px', xw: xw.toFixed(1) + 'px', xw2: (2 * xw).toFixed(1) + 'px', yh: yh.toFixed(1) + 'px',
 bootNum: (16 * (1 - Math.pow(1 - cl(bt / 1750), 2.4))).toFixed(3),
 hOp: O.hero.toFixed(3), hY: (-50 * ss(0.3, 1.0, sp)).toFixed(1) + 'px',
@@ -4744,13 +4961,12 @@ faqs
       <a href="#m-next">NEXT</a>
       <a href="#m-why">WHY</a>
       <a href="#m-faq">FAQ</a>
-      <a href="#m-notify" class="mk-mnav-cta">GET NOTIFIED</a>
-      <a href="/register" class="mk-mnav-reg">REGISTER<span class="mk-reg-now"> NOW</span></a>
+      <a href="#m-notify" class="mk-mnav-cta">STARTING SOON</a>
     </div>
-    <a href="/register" class="mk-mreg">REGISTER</a>
-    <button class="mk-mham" id="mk-ham" aria-label="Toggle navigation" aria-expanded="false">
+    <button class="mk-mham" id="mk-ham" aria-label="Open navigation" aria-expanded="false" aria-controls="mk-drawer">
       <span></span><span></span><span></span>
     </button>
+    <div class="mk-prog" aria-hidden="true"><i></i></div>
   </nav>
 
   <!-- Mobile Nav Drawer -->
@@ -4761,8 +4977,8 @@ faqs
     <a href="#m-next">NEXT</a>
     <a href="#m-why">WHY</a>
     <a href="#m-faq">FAQ</a>
-    <a href="/register" class="mk-draw-reg">REGISTER NOW →</a>
-    <a href="#m-notify" class="mk-draw-cta">GET NOTIFIED →</a>
+    <a href="#m-notify" class="mk-draw-cta">STARTING SOON →</a>
+    <div class="mk-draw-meta" aria-hidden="true"><span class="mk-led"></span>19–20 JAN 2027 · ANNA AUDITORIUM, VIT VELLORE</div>
   </div>
 
   <!-- Ticker -->
@@ -4821,7 +5037,7 @@ faqs
         </div>
       </dl>
       <div class="mk-mhero-cta">
-        <a href="#m-notify" class="mk-btn-primary">OPENING SOON →</a>
+        <a href="#m-notify" class="mk-btn-primary">STARTING SOON →</a>
         <a href="#m-faq" class="mk-btn-outline">FAQ</a>
       </div>
     </div>
@@ -4852,24 +5068,13 @@ faqs
   </div>
 
   <!-- About section -->
-  <section class="mk-msec" id="m-about" style="padding-bottom:0;border-bottom:none">
+  <section class="mk-msec" id="m-about">
     <div class="mk-msec-label">ABOUT · MAKEATHON 2027</div>
     <div class="mk-mabout-words">
       REAL HARDWARE.<br>REAL CODE.<br><span>JUDGED</span> ON WHAT WORKS.
     </div>
     <p>Makeathon is the flagship hardware hackathon of the School of Electrical Engineering at VIT Vellore. Electrical and computer science, building the same machine.</p>
 
-    <!-- Photo slideshow -->
-    <div class="mk-mphoto" aria-label="Photos from Makeathon 2026">
-      <img loading="lazy" decoding="async" src="./assets/a215f016ee0ca8ff86fce52a85060814.jpg" alt="The opening session on stage at Makeathon 2026">
-      <img loading="lazy" decoding="async" src="./assets/e353632797b6ad056b0f80c28a9ced17.jpg" alt="Teams working in the hall at Makeathon 2026">
-      <img loading="lazy" decoding="async" src="./assets/470679fce9e9e52c9468a0e41492b71a.jpg" alt="Participants gathered around a hardware build at Makeathon 2026">
-      <img loading="lazy" decoding="async" src="./assets/5118bed34c5cc9feac0a429ca3e45910.jpg" alt="A team presenting its prototype at Makeathon 2026">
-      <img loading="lazy" decoding="async" src="./assets/3c21e747e96b3baffdfce8bc286948d1.jpg" alt="A team demonstrating robot car prototypes at Makeathon 2026">
-      <img loading="lazy" decoding="async" src="./assets/9be6e49e0345d2f2065191cff021ccd4.jpg" alt="The Makeathon 2026 winners on stage">
-      <div class="mk-mphoto-corner-tl" aria-hidden="true"></div>
-      <div class="mk-mphoto-corner-br" aria-hidden="true"></div>
-    </div>
   </section>
 
   <!-- Build section -->
@@ -4910,6 +5115,20 @@ faqs
     <div class="mk-msec-label">ARCHIVE · MAKEATHON 2026</div>
     <h2>LAST TIME,<br>ON THE BENCH.</h2>
     <p>350 people. 60 teams. 20 colleges. 36 hours. What they built is in the record.</p>
+    <figure class="mk-mreel">
+      <div class="mk-mphoto" role="group" aria-label="Photos from Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/a215f016ee0ca8ff86fce52a85060814.jpg" alt="The opening session on stage at Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/e353632797b6ad056b0f80c28a9ced17.jpg" alt="Teams working in the hall at Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/470679fce9e9e52c9468a0e41492b71a.jpg" alt="Participants gathered around a hardware build at Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/5118bed34c5cc9feac0a429ca3e45910.jpg" alt="A team presenting its prototype at Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/3c21e747e96b3baffdfce8bc286948d1.jpg" alt="A team demonstrating robot car prototypes at Makeathon 2026">
+      <img loading="lazy" decoding="async" src="./assets/9be6e49e0345d2f2065191cff021ccd4.jpg" alt="The Makeathon 2026 winners on stage">
+        <div class="mk-mphoto-corner-tl" aria-hidden="true"></div>
+        <div class="mk-mphoto-corner-br" aria-hidden="true"></div>
+      </div>
+      <figcaption class="mk-mreel-cap" aria-hidden="true"><span class="mk-mreel-item"><b>01</b><strong>THE OPENING</strong><em>DAY 1 · INAUGURATION</em></span><span class="mk-mreel-item"><b>02</b><strong>THE HALL</strong><em>ERA SEHZIYAN AUDITORIUM</em></span><span class="mk-mreel-item"><b>03</b><strong>THE BUILD</strong><em>PROTOTYPES IN PROGRESS</em></span><span class="mk-mreel-item"><b>04</b><strong>THE REVIEWS</strong><em>STAGED DESIGN REVIEWS</em></span><span class="mk-mreel-item"><b>05</b><strong>THE DEMOS</strong><em>WORKING PROTOTYPES</em></span><span class="mk-mreel-item"><b>06</b><strong>THE WINNERS</strong><em>DAY 2 · VALEDICTORY</em></span></figcaption>
+      <div class="mk-mreel-ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </figure>
   </section>
 
   <!-- Next edition section -->
@@ -5055,7 +5274,7 @@ faqs
           <span class="mk-mfaq-q">What is Makeathon?</span>
           <span class="mk-mfaq-pm"></span>
         </button>
-        <p id="mk-mfaq-a0" class="mk-mfaq-a">The SELECT Makeathon is a flagship annual innovation program: a 36-hour challenge where students, designers and technology enthusiasts build real-world prototypes for problem statements from industry partners, across hardware and software.</p>
+        <div id="mk-mfaq-a0" class="mk-mfaq-a"><div><p>The SELECT Makeathon is a flagship annual innovation program: a 36-hour challenge where students, designers and technology enthusiasts build real-world prototypes for problem statements from industry partners, across hardware and software.</p></div></div>
       </div>
       <div class="mk-mfaq-item">
         <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a1">
@@ -5063,7 +5282,7 @@ faqs
           <span class="mk-mfaq-q">When and where is Makeathon 2027?</span>
           <span class="mk-mfaq-pm"></span>
         </button>
-        <p id="mk-mfaq-a1" class="mk-mfaq-a">19 to 20 January 2027 at Anna Auditorium, VIT Vellore, Tamil Nadu 632014.</p>
+        <div id="mk-mfaq-a1" class="mk-mfaq-a"><div><p>19 to 20 January 2027 at Anna Auditorium, VIT Vellore, Tamil Nadu 632014.</p></div></div>
       </div>
       <div class="mk-mfaq-item">
         <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a2">
@@ -5071,7 +5290,7 @@ faqs
           <span class="mk-mfaq-q">Who can take part?</span>
           <span class="mk-mfaq-pm"></span>
         </button>
-        <p id="mk-mfaq-a2" class="mk-mfaq-a">Teams of 3 to 5 members: undergraduate and postgraduate students, research scholars and working professionals.</p>
+        <div id="mk-mfaq-a2" class="mk-mfaq-a"><div><p>Teams of 3 to 5 members: undergraduate and postgraduate students, research scholars and working professionals.</p></div></div>
       </div>
       <div class="mk-mfaq-item">
         <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a3">
@@ -5079,7 +5298,7 @@ faqs
           <span class="mk-mfaq-q">What does it cost?</span>
           <span class="mk-mfaq-pm"></span>
         </button>
-        <p id="mk-mfaq-a3" class="mk-mfaq-a">Free for VIT students. External participants pay ₹500 per person.</p>
+        <div id="mk-mfaq-a3" class="mk-mfaq-a"><div><p>Free for VIT students. External participants pay ₹500 per person.</p></div></div>
       </div>
       <div class="mk-mfaq-item">
         <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a4">
@@ -5087,7 +5306,7 @@ faqs
           <span class="mk-mfaq-q">What are the tracks?</span>
           <span class="mk-mfaq-pm"></span>
         </button>
-        <p id="mk-mfaq-a4" class="mk-mfaq-a">FaultWatch, Vitalis, Cosmolith, Live Wire, CogniForge and Open Innovation. Problem statements from industry partners will be released before the event.</p>
+        <div id="mk-mfaq-a4" class="mk-mfaq-a"><div><p>FaultWatch, Vitalis, Cosmolith, Live Wire, CogniForge and Open Innovation. Problem statements from industry partners will be released before the event.</p></div></div>
       </div>
       <div class="mk-mfaq-item">
         <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a5">
@@ -5095,7 +5314,7 @@ faqs
           <span class="mk-mfaq-q">What can we win?</span>
           <span class="mk-mfaq-pm"></span>
         </button>
-        <p id="mk-mfaq-a5" class="mk-mfaq-a">A total prize pool of ₹1,00,000, awarded to teams. Every participating team receives digital certificates, and teams keep full ownership of their projects.</p>
+        <div id="mk-mfaq-a5" class="mk-mfaq-a"><div><p>A total prize pool of ₹1,00,000, awarded to teams. Every participating team receives digital certificates, and teams keep full ownership of their projects.</p></div></div>
       </div>
       <div class="mk-mfaq-item mk-mfaq-last">
         <button type="button" class="mk-mfaq-btn" aria-expanded="false" aria-controls="mk-mfaq-a6">
@@ -5103,7 +5322,7 @@ faqs
           <span class="mk-mfaq-q">How can my organisation partner with Makeathon?</span>
           <span class="mk-mfaq-pm"></span>
         </button>
-        <p id="mk-mfaq-a6" class="mk-mfaq-a">Write to enquiry@makeathon.in. We will share the partnership deck and the ways to get involved, from contributing problem statements to judging.</p>
+        <div id="mk-mfaq-a6" class="mk-mfaq-a"><div><p>Write to enquiry@makeathon.in. We will share the partnership deck and the ways to get involved, from contributing problem statements to judging.</p></div></div>
       </div>
     </div>
 
@@ -5142,10 +5361,10 @@ faqs
     <div class="mk-mnotify-bg" aria-hidden="true"></div>
     <div style="position:relative">
       <div class="mk-msec-label">REGISTRATION</div>
-      <h2><span>OPENING</span><span class="mk-gold">SOON.</span></h2>
+      <h2><span>STARTING</span><span class="mk-gold">SOON.</span></h2>
       <p>Registrations for Makeathon 2027 are not open yet. The registration link and problem statements will be announced here soon.</p>
 
-      <div class="mk-msoon"><span aria-hidden="true"></span>REGISTRATIONS · OPENING SOON</div>
+      <div class="mk-msoon"><span aria-hidden="true"></span>REGISTRATIONS · STARTING SOON</div>
 
       <div class="mk-mlinks">
         <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership">PARTNER WITH US →</a>
@@ -5160,7 +5379,7 @@ faqs
     <div style="position:relative">
       <div class="mk-mfooter-logo" aria-hidden="true">MAKEATHON <span>2027</span></div>
       <div class="mk-mfooter-cta">
-        <a href="#m-notify" class="mk-btn-primary">OPENING SOON →</a>
+        <a href="#m-notify" class="mk-btn-primary">STARTING SOON →</a>
         <a href="mailto:enquiry@makeathon.in?subject=Makeathon%202027%20partnership" class="mk-btn-outline">PARTNER WITH US →</a>
       </div>
       <div class="mk-mfooter-bottom">
@@ -5179,21 +5398,42 @@ faqs
 <!-- Mobile interactive JS (standalone, no React needed) -->
 <script>
 // Menu, FAQ and form are handled by delegation from the document.
-function mkSetDrawer(open) {
+function mkSetDrawer(open, viaKeyboard) {
   var ham = document.getElementById('mk-ham');
   var drawer = document.getElementById('mk-drawer');
   if (!ham || !drawer) return;
+  if (open === drawer.classList.contains('is-open')) return;
   ham.classList.toggle('is-open', open);
   drawer.classList.toggle('is-open', open);
   ham.setAttribute('aria-expanded', open ? 'true' : 'false');
+  ham.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
   drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+  // the page behind stays put while the menu is open
+  document.documentElement.classList.toggle('mk-menu', open);
+  if (open) {
+    var first = drawer.querySelector('a');
+    if (first && viaKeyboard) setTimeout(function () { first.focus({ preventScroll: true }); }, 80);
+  } else if (drawer.contains(document.activeElement)) {
+    ham.focus({ preventScroll: true });
+  }
 }
+// Tab stays inside the open menu; a wide window (tablet nav) closes it
+document.addEventListener('keydown', function(event) {
+  if (event.key !== 'Tab') return;
+  var drawer = document.getElementById('mk-drawer');
+  if (!drawer || !drawer.classList.contains('is-open')) return;
+  var items = [document.getElementById('mk-ham')].concat([].slice.call(drawer.querySelectorAll('a')));
+  var i = items.indexOf(document.activeElement);
+  if (event.shiftKey && i <= 0) { event.preventDefault(); items[items.length - 1].focus(); }
+  else if (!event.shiftKey && (i === items.length - 1 || i < 0)) { event.preventDefault(); items[0].focus(); }
+});
+window.addEventListener('resize', function() { if (window.innerWidth >= 768) mkSetDrawer(false); }, { passive: true });
 document.addEventListener('click', function(event) {
   var target = event.target;
   if (!target || !target.closest) return;
   if (target.closest('#mk-ham')) {
     var drawer = document.getElementById('mk-drawer');
-    mkSetDrawer(!(drawer && drawer.classList.contains('is-open')));
+    mkSetDrawer(!(drawer && drawer.classList.contains('is-open')), event.detail === 0);
   } else if (target.closest('#mk-drawer a')) {
     mkSetDrawer(false);
   } else if (target.closest('#mk-m-submit')) {
@@ -5260,6 +5500,33 @@ function mkMobileSubmit() {
     if (submit) submit.disabled = false;
   });
 }
+
+// Reading progress: a gold hairline under the nav. The scroller is the window, or the story's own
+// scroller when the phone shows the 3D hero.
+(function () {
+  var narrow = window.matchMedia('(max-width: 1023px), (max-width: 1366px) and (max-aspect-ratio: 4/5)');
+  var bar = null, root = null, queued = false;
+  function paint() {
+    queued = false;
+    if (!narrow.matches) return;
+    if (!bar) bar = document.querySelector('.mk-prog i');
+    if (!bar) return;
+    var de = document.documentElement, st, max;
+    if (de.classList.contains('mk-ph3d')) {
+      root = root || document.querySelector('.k-root');
+      if (!root) return;
+      st = root.scrollTop; max = root.scrollHeight - root.clientHeight;
+    } else {
+      st = window.pageYOffset || de.scrollTop; max = de.scrollHeight - window.innerHeight;
+    }
+    var p = max > 0 ? Math.min(1, Math.max(0, st / max)) : 0;
+    bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+  }
+  function queue() { if (!queued) { queued = true; requestAnimationFrame(paint); } }
+  window.addEventListener('scroll', queue, { passive: true, capture: true });
+  window.addEventListener('resize', queue, { passive: true });
+  queue();
+})();
 </script>
 </body>
 </html>

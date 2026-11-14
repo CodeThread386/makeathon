@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Register · Makeathon 2027</title>
-<meta name="description" content="Register for Makeathon 2027: sign in with Google, form or join a team of 3 to 5, pick a track and submit your build.">
+<meta name="description" content="Registration for Makeathon 2027 is starting soon: sign in with Google, form or join a team of 3 to 5, pick a track and submit your build.">
 <meta name="theme-color" content="#17261F">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preload" href="/fonts/barlow-condensed-600-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -194,6 +194,17 @@ body.signin-view .fine{margin-top:clamp(10px,2vh,22px)}
   <main class="stage" id="main" tabindex="-1">
     <div class="loading" id="loading"><span class="spin" aria-hidden="true"></span>LOADING YOUR REGISTRATION</div>
     <div class="note bad" id="boot-error" hidden></div>
+
+    <!-- STARTING SOON: shown instead of the steps until registrationOpen is true -->
+    <section class="panel" id="p-soon" hidden aria-labelledby="h-soon">
+      <div class="signin">
+        <div class="eyebrow">Registration</div>
+        <h2 id="h-soon" tabindex="-1">Starting<br>soon.</h2>
+        <p class="lede">Registration for Makeathon 2027 has not started yet. The sign-up link and problem statements will be announced on the site.</p>
+        <div class="note warn" style="margin-top:28px"><span>Registrations · starting soon</span></div>
+        <p class="fine"><a href="/">Back to the site</a> · Questions? <a href="mailto:enquiry@makeathon.in">enquiry@makeathon.in</a></p>
+      </div>
+    </section>
 
     <!-- 01 VERIFY -->
     <section class="panel" id="p-verify" hidden aria-labelledby="h-verify">
@@ -475,7 +486,9 @@ function renderSteps() {
   who.textContent = S ? S.email : '';
 }
 
+let soon = false;   // registration has not started: no step is reachable
 function go(step, opts) {
+  if (soon) return;
   opts = opts || {};
   if (status()[step] === 'locked') { toast(LOCKED[step] || 'Create or join a team first', true); return; }
   current = step;
@@ -969,6 +982,17 @@ $('#steps').addEventListener('click', (e) => { const b = e.target.closest('.step
 $('#main').addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (b) go(b.dataset.go); });
 window.addEventListener('hashchange', () => { const k = location.hash.slice(1); if (STEPS.includes(k) && k !== current) go(k); });
 
+// Until registration starts, people without a registration see a notice instead of the sign-in.
+function showSoon() {
+  soon = true;
+  $('#loading').hidden = true;
+  STEPS.forEach((k) => { $('#p-' + k).hidden = true; });
+  $('#steps').hidden = true;
+  $('#p-soon').hidden = false;
+  document.body.classList.add('signin-view');
+  renderSteps();
+}
+
 async function boot() {
   try {
     S = await api('/api/register');
@@ -983,6 +1007,10 @@ async function boot() {
       return;
     }
   }
+  if (!providers) {
+    try { providers = await api('/api/google?status=1'); } catch (e) { providers = { enabled: false, email: false }; }
+  }
+  if (providers.registrationOpen === false && !(S && S.profile)) { showSoon(); return; }
   $('#loading').hidden = true;
   const want = location.hash.slice(1);
   go(STEPS.includes(want) && status()[want] !== 'locked' && want !== 'verify' ? want : firstStep(), { focus: false });

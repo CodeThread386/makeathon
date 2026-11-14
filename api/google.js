@@ -2,12 +2,13 @@ import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { rateLimit } from './_lib/db.js';
 import { appendCookie, clientAddress, getCookie, isProduction, redirect, route } from './_lib/http.js';
 import { startSession } from './_lib/session.js';
+import { EVENT } from './_lib/event.js';
 
 // "Continue with Google": the OAuth authorization-code flow with PKCE, run on the server.
 // The person's browser only ever navigates to Google and back, so no Google script runs
 // on our pages and the Content-Security-Policy stays as it is.
 //
-// GET /api/google?status=1               -> { enabled, email }
+// GET /api/google?status=1               -> { enabled, email, registrationOpen }
 // GET /api/google?next=register&join=… -> 302 to Google (next: register | admin)
 // GET /api/google?code=…&state=…        -> Google's callback: starts a session, 302 back
 
@@ -138,8 +139,9 @@ async function finish(req, res, q) {
 export default route('google', {
   async GET(req, res) {
     const q = new URL(req.url, 'http://localhost').searchParams;
-    // which sign-in methods the pages offer: Google, and emailed codes only once SMTP is set up
-    if (q.has('status')) return { enabled: enabled(), email: Boolean(process.env.SMTP_HOST) };
+    // which sign-in methods the pages offer: Google, and emailed codes only once SMTP is set up;
+    // registrationOpen lets /register show "starting soon" to people who are not signed in
+    if (q.has('status')) return { enabled: enabled(), email: Boolean(process.env.SMTP_HOST), registrationOpen: EVENT.registrationOpen };
     if (q.has('code') || q.has('error') || q.has('state')) return finish(req, res, q);
     return start(req, res, q);
   },

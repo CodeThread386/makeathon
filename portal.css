@@ -150,3 +150,12 @@ input[type=date].in::-webkit-calendar-picker-indicator{filter:invert(.8) sepia(1
 .fine a:hover{color:var(--amber);border-bottom-color:var(--amber)}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* refinement: balanced headings, no orphans in running text, a frosted bar, hairlines on dense screens, no tap flash */
+h1,h2,h3{text-wrap:balance}
+p,li,.lede{text-wrap:pretty}
+a,button{-webkit-tap-highlight-color:transparent}
+.bar{background-color:rgba(23,38,31,.78);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4)}
+@media (min-resolution:2dppx){.bar{border-bottom-width:.5px}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.logo:active{opacity:.6}
