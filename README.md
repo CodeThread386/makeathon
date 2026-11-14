@@ -33,9 +33,22 @@ rather than copy wholesale.
   hairlines on 2x/3x screens (`--mk-hair`), balanced headings, press feedback, a menu with focus and
   scroll-lock handling, smooth FAQ panels, the captioned 2026 reel and `prefers-reduced-motion`
   handling. Remove that block to see the layout without it.
+- **The phone hero** (HERO block, after the refinement layer) is one composition shown two ways: the
+  logo and title as a centred lockup (the title is sized to its width by script), the board in a stage
+  with a floor grid, sonar rings and a readout, then dates, prize pool, venue and the buttons.
+  - A phone with a GPU and no reduced-motion preference shows the **live 3D board** (`html.mk-ph3d`):
+    the page's hero is cloned over the scene by `qPhBuild`, and the board follows the stage slot
+    (`qSlotY`), so it never meets the title or the facts.
+  - Every other phone gets a **turntable cut from that same scene**: 14 poses in `hero/` drawn on a
+    canvas. Drag it (with inertia and a rubber band at the ends), tap it, use the arrow keys, or scroll
+    past it. It loads the middle pose first and the rest after the page has loaded, and stays a still
+    picture on a data-saver or 2G connection. A phone showing the live board downloads none of it.
+  - The poses are generated, not drawn: with `npm start` running, `node scripts/hero-frames/capture.mjs <dir>`
+    renders the live board at 25 angles and `python3 scripts/hero-frames/encode.py <dir> hero` writes the
+    WebP files (the scripts list what they need). Redo this whenever the board's look changes.
 - Rules the layout keeps: tap targets of at least 44px, no label under 10px on a phone, no hover
   state left lit after a tap (`@media (hover: none)`), and no extra 3D or heavy canvas work in the
-  narrow layout beyond the hero board that a phone with a GPU already gets.
+  narrow layout beyond the hero (the live board on a GPU phone, the turntable elsewhere).
 - A visitor whose system asks for reduced motion starts with the 3D scene's **Motion** switch off;
   the narrow layout stops its loops and rests the reel on its first photo.
 - The six archive photos in `assets/` are about 1000px wide, so they look soft on 2x and 4K screens.
